@@ -2,7 +2,7 @@
     "rewrites": [
         {
             "source": "/api/v1/:path*",
-            "destination": "https://back-27em.onrender.com//api/v1/:path*"
+            "destination": "https://back-27em.onrender.com/api/v1/:path*"
         }
     ],
     "headers": [
