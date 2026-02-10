@@ -1,0 +1,338 @@
+/* ============================================
+   COMING SOON — Full-screen animated teaser
+   ============================================ */
+
+/* ---------- Root container ---------- */
+.cs-root {
+  position: relative;
+  min-height: 100dvh;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #06060e;
+  color: #f0f0f5;
+  font-family: var(--font-sans, system-ui, sans-serif);
+}
+
+/* ---------- Floating particles ---------- */
+.particles-container {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.particle {
+  position: absolute;
+  bottom: -10px;
+  border-radius: 50%;
+  background: rgba(99, 102, 241, 0.35);
+  animation: floatUp linear infinite;
+  will-change: transform, opacity;
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(0) scale(1);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-110vh) scale(0.3);
+    opacity: 0;
+  }
+}
+
+/* ---------- Gradient orbs ---------- */
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  opacity: 0.45;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.orb-1 {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, #6366f1 0%, transparent 70%);
+  top: -10%;
+  left: -8%;
+  animation: orbMove1 18s ease-in-out infinite alternate;
+}
+
+.orb-2 {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, #f97316 0%, transparent 70%);
+  bottom: -10%;
+  right: -5%;
+  animation: orbMove2 22s ease-in-out infinite alternate;
+}
+
+.orb-3 {
+  width: 350px;
+  height: 350px;
+  background: radial-gradient(circle, #06b6d4 0%, transparent 70%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: orbMove3 16s ease-in-out infinite alternate;
+}
+
+@keyframes orbMove1 {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(60px, 40px) scale(1.15); }
+}
+@keyframes orbMove2 {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(-50px, -30px) scale(1.1); }
+}
+@keyframes orbMove3 {
+  0% { transform: translate(-50%, -50%) scale(1); }
+  100% { transform: translate(-40%, -55%) scale(1.2); }
+}
+
+/* ---------- Content wrapper ---------- */
+.cs-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 2rem;
+  padding: 2rem 1.5rem;
+  max-width: 800px;
+  width: 100%;
+}
+
+/* ---------- Fade-in animation ---------- */
+.fadeIn-up {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeInUp 0.8s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ---------- Logo ---------- */
+.cs-logo-wrap {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  padding: 1.25rem;
+  backdrop-filter: blur(12px);
+  animation-name: fadeInUp, logoPulse;
+  animation-duration: 0.8s, 3s;
+  animation-timing-function: ease-out, ease-in-out;
+  animation-fill-mode: forwards, none;
+  animation-iteration-count: 1, infinite;
+}
+
+.cs-logo {
+  filter: drop-shadow(0 0 30px rgba(99, 102, 241, 0.5));
+}
+
+@keyframes logoPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.25); }
+  50% { box-shadow: 0 0 0 14px rgba(99, 102, 241, 0); }
+}
+
+/* ---------- Title ---------- */
+.cs-title {
+  font-size: clamp(2rem, 6vw, 3.75rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  margin: 0;
+}
+
+.cs-title-gradient {
+  background: linear-gradient(135deg, #c7d2fe 0%, #6366f1 40%, #f97316 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.cs-subtitle {
+  margin-top: 1rem;
+  font-size: clamp(0.95rem, 2vw, 1.15rem);
+  line-height: 1.7;
+  color: rgba(240, 240, 245, 0.65);
+  max-width: 560px;
+}
+
+/* ---------- Countdown ---------- */
+.cs-countdown {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.countdown-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.countdown-card-inner {
+  width: clamp(64px, 14vw, 100px);
+  height: clamp(72px, 15vw, 110px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.countdown-card:hover .countdown-card-inner {
+  transform: translateY(-4px) scale(1.04);
+  box-shadow: 0 8px 30px rgba(99, 102, 241, 0.25);
+  border-color: rgba(99, 102, 241, 0.4);
+}
+
+.countdown-value {
+  font-size: clamp(1.75rem, 5vw, 2.75rem);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  background: linear-gradient(180deg, #fff 30%, rgba(255,255,255,0.6));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.countdown-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: rgba(240, 240, 245, 0.45);
+}
+
+.countdown-sep {
+  font-size: 2rem;
+  font-weight: 700;
+  color: rgba(99, 102, 241, 0.6);
+  padding-bottom: 1.5rem;
+  animation: sepBlink 1s steps(2, start) infinite;
+}
+
+@keyframes sepBlink {
+  50% { opacity: 0; }
+}
+
+/* ---------- Feature pills ---------- */
+.cs-features {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.feature-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 0.875rem;
+  color: rgba(240, 240, 245, 0.75);
+  transition: all 0.3s;
+}
+
+.feature-pill:hover {
+  background: rgba(99, 102, 241, 0.12);
+  border-color: rgba(99, 102, 241, 0.3);
+  transform: translateY(-2px);
+}
+
+.feature-icon {
+  font-size: 1.1rem;
+}
+
+/* ---------- CTA ---------- */
+.cs-cta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.cs-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem 2rem;
+  border-radius: 14px;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #fff;
+  background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+  text-decoration: none;
+  transition: all 0.3s;
+  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.cs-btn-primary::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.15) 50%, transparent 100%);
+  transform: translateX(-100%);
+  transition: transform 0.6s;
+}
+
+.cs-btn-primary:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 8px 32px rgba(99, 102, 241, 0.45);
+}
+
+.cs-btn-primary:hover::before {
+  transform: translateX(100%);
+}
+
+.cs-cta-hint {
+  font-size: 0.85rem;
+  color: rgba(240, 240, 245, 0.4);
+  max-width: 380px;
+}
+
+/* ---------- Footer ---------- */
+.cs-footer {
+  margin-top: 1rem;
+  font-size: 0.8rem;
+  color: rgba(240, 240, 245, 0.25);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 480px) {
+  .cs-countdown {
+    gap: 0.4rem;
+  }
+  .countdown-sep {
+    font-size: 1.5rem;
+    padding-bottom: 1rem;
+  }
+}

@@ -9,6 +9,15 @@ const HeroSection = () => {
             <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
                 {/* Left Content */}
                 <div className="flex flex-col gap-8">
+                    {/* Logo */}
+                    <div className="flex items-center">
+                        <img 
+                            src="/images/Logo 1111.svg" 
+                            alt="1111.tn Logo" 
+                            className="w-40 h-40 md:w-36 md:h-36"
+                        />
+                    </div>
+
                     <div className="space-y-6">
                         <span className="text-xs font-medium text-[#111827] tracking-tight">
                             Comparateur de prix intelligent
