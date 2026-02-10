@@ -133,12 +133,17 @@ async function getParaProducts(category: string, type: string) {
 
 async function getComparisonProducts(limit: number = 9) {
   try {
-    const categories = ["Alimentation", "Droguerie", "Hygiène", "Beauté"];
-    const randomCategory = categories[Math.floor(Math.random() * categories.length)];
+    // Valid categories for each source
+    const retailCategories = ["Refrigerateur", "Machine à Laver", "Lave Vaisselle", "Imprimante", "Pc Portable"];
+    const paraCategories = ["Maman et bébé", "Solaire", "Hygiène", "Visage"];
 
+    const randomRetailCategory = retailCategories[Math.floor(Math.random() * retailCategories.length)];
+    const randomParaCategory = paraCategories[Math.floor(Math.random() * paraCategories.length)];
+
+    // Fetch from both sources with their respective valid categories
     const [retailRes, paraRes] = await Promise.all([
-      fetch(`${API_URL}/products/random?category=${encodeURIComponent(randomCategory)}&limit=${limit}`, { cache: 'no-store' }),
-      fetch(`${API_URL}/para/random?category=${encodeURIComponent(randomCategory)}&limit=${limit}`, { cache: 'no-store' })
+      fetch(`${API_URL}/products/random?category=${encodeURIComponent(randomRetailCategory)}&limit=${limit}`, { cache: 'no-store' }),
+      fetch(`${API_URL}/para/random?category=${encodeURIComponent(randomParaCategory)}&limit=${limit}`, { cache: 'no-store' })
     ]);
 
     const retailData = retailRes.ok ? await retailRes.json() : [];
@@ -149,6 +154,7 @@ async function getComparisonProducts(limit: number = 9) {
       ...paraData.map((p: any) => ({ ...p, source: 'para' }))
     ];
 
+    // Identify by ID by default.
     return products.sort(() => Math.random() - 0.5).slice(0, 9);
   } catch (e) {
     console.error("Error fetching comparison products:", e);
