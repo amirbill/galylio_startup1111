@@ -132,7 +132,7 @@ export function ParaProductShowcase({
     }
 
     return (
-        <section className="w-full max-w-[1400px] mx-auto px-4 py-6">
+        <section className="w-full max-w-[1400px] mx-auto px-4 py-8">
             {/* Section Title */}
             <div className="mb-6">
                 <h2 className="text-2xl font-black text-foreground">{title}</h2>

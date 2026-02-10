@@ -84,11 +84,20 @@ export function BestShopSection() {
 
     return (
         <section className="w-full bg-gradient-to-b from-blue-50/50 to-white py-16 px-4">
-            <div className="max-w-3xl mx-auto">
-                {/* Title */}
-                <h2 className="text-2xl md:text-3xl font-black text-[#2563EB] mb-8 text-center">
-                    Le meilleur magasin pour vos courses
-                </h2>
+            <div className="max-w-7xl mx-auto">
+                {/* Header Container */}
+                <div className="flex flex-col md:flex-row items-center justify-between gap-8 mb-8">
+                    <h2 className="text-2xl md:text-4xl font-black text-[#2563EB] text-center md:text-left flex-1">
+                        Le meilleur magasin pour vos courses
+                    </h2>
+                    <div className="relative w-64 h-28 md:w-[400px] md:h-40 shrink-0">
+                        <img
+                            src="/images/Gemini_Generated_Image_ogh7ciogh7ciogh7 1.svg"
+                            alt="Shopping Experience"
+                            className="w-full h-full object-contain"
+                        />
+                    </div>
+                </div>
 
                 {/* Search Container */}
                 <div ref={containerRef} className="relative z-50">
@@ -101,8 +110,8 @@ export function BestShopSection() {
                                 onChange={(e) => setQuery(e.target.value)}
                                 placeholder={selectedShop ? `Rechercher chez ${SHOP_CONFIG[selectedShop]?.name || selectedShop}...` : "Rechercher un produit..."}
                                 className={`w-full h-14 pl-6 pr-14 rounded-full border-2 bg-white shadow-lg focus:outline-none focus:ring-4 transition-all text-slate-700 placeholder:text-slate-400 ${selectedShop
-                                        ? 'border-blue-300 shadow-blue-100/50 focus:border-blue-500 focus:ring-blue-100'
-                                        : 'border-blue-100 shadow-blue-100/50 focus:border-blue-300 focus:ring-blue-100'
+                                    ? 'border-blue-300 shadow-blue-100/50 focus:border-blue-500 focus:ring-blue-100'
+                                    : 'border-blue-100 shadow-blue-100/50 focus:border-blue-300 focus:ring-blue-100'
                                     }`}
                             />
                             <button
@@ -118,8 +127,8 @@ export function BestShopSection() {
                             <button
                                 onClick={() => setShowShopSelector(!showShopSelector)}
                                 className={`size-14 rounded-full border-2 flex items-center justify-center shadow-lg transition-all ${selectedShop
-                                        ? 'bg-blue-50 border-blue-200 text-[#2563EB] shadow-blue-100'
-                                        : 'bg-white border-blue-100 text-slate-400 hover:border-blue-200 hover:text-[#2563EB]'
+                                    ? 'bg-blue-50 border-blue-200 text-[#2563EB] shadow-blue-100'
+                                    : 'bg-white border-blue-100 text-slate-400 hover:border-blue-200 hover:text-[#2563EB]'
                                     }`}
                                 title="Filtrer par boutique"
                             >
@@ -152,8 +161,8 @@ export function BestShopSection() {
                                                 key={key}
                                                 onClick={() => { setSelectedShop(key); setShowShopSelector(false); }}
                                                 className={`p-2 rounded-xl border-2 text-center transition-all flex flex-col items-center gap-2 hover:bg-slate-50 ${selectedShop === key
-                                                        ? 'border-blue-500 bg-blue-50 ring-2 ring-blue-200 ring-offset-1'
-                                                        : 'border-slate-100 hover:border-blue-200'
+                                                    ? 'border-blue-500 bg-blue-50 ring-2 ring-blue-200 ring-offset-1'
+                                                    : 'border-slate-100 hover:border-blue-200'
                                                     }`}
                                             >
                                                 {config.image ? (

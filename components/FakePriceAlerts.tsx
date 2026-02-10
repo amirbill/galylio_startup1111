@@ -113,17 +113,26 @@ export function FakePriceAlerts() {
     return (
         <section className="w-full max-w-[1400px] mx-auto px-4 py-10">
             {/* Section Header */}
-            <div className="flex items-center gap-4 mb-8">
-                <div className="flex items-center justify-center size-14 rounded-2xl bg-gradient-to-br from-red-400 to-orange-600 text-white shadow-lg">
-                    <AlertTriangle className="size-7" />
+            <div className="flex flex-col md:flex-row items-center justify-between gap-8 mb-10">
+                <div className="flex items-center gap-4">
+                    <div className="flex items-center justify-center size-14 rounded-2xl bg-gradient-to-br from-red-400 to-orange-600 text-white shadow-lg">
+                        <AlertTriangle className="size-7" />
+                    </div>
+                    <div>
+                        <h2 className="text-2xl md:text-4xl font-black text-[#2563EB] tracking-tight">
+                            Attention aux Prix Mensongers!
+                        </h2>
+                        <p className="text-sm text-muted-foreground mt-1">
+                            Nous détectons les fausses promotions avec des prix d&apos;origine gonflés artificiellement
+                        </p>
+                    </div>
                 </div>
-                <div>
-                    <h2 className="text-2xl font-black text-[#2563EB]">
-                        Attention aux Prix Mensongers!
-                    </h2>
-                    <p className="text-sm text-muted-foreground mt-1">
-                        Nous détectons les fausses promotions avec des prix d&apos;origine gonflés artificiellement
-                    </p>
+                <div className="relative w-72 h-32 md:w-[450px] md:h-48 shrink-0">
+                    <img
+                        src="/images/Gemini_Generated_Image_om8hf4om8hf4om8h 1.svg"
+                        alt="Alert Logo"
+                        className="w-full h-full object-contain"
+                    />
                 </div>
             </div>
 

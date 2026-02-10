@@ -47,6 +47,8 @@ interface ProductShowcaseProps {
     bannerImage?: string
     /** Optional banner text */
     bannerText?: string
+    /** Whether to show the decorative "Tendances" and "e-commerce" headers */
+    showDecorativeHeaders?: boolean
 }
 
 // Category-specific banner images
@@ -65,7 +67,8 @@ export default function ProductShowcase({
     categories,
     bannerImage,
     bannerText = "Jusqu'à -40%",
-    initialProducts
+    initialProducts,
+    showDecorativeHeaders = false
 }: ProductShowcaseProps) {
     const [products, setProducts] = useState<Product[]>(initialProducts || [])
     const [loading, setLoading] = useState(!initialProducts)
@@ -125,8 +128,29 @@ export default function ProductShowcase({
     }
 
     return (
-        <section className="w-full max-w-[1400px] mx-auto px-4 py-6">
+        <section className="w-full max-w-[1400px] mx-auto px-4 py-8">
+            {/* Decorative Headers */}
+            {showDecorativeHeaders && (
+                <div className="flex justify-between items-center mb-10 px-4">
+                    <div className="relative w-72 h-32 md:w-96 md:h-40">
+                        <img
+                            src="/images/Gemini_Generated_Image_uzbygwuzbygwuzby 1.svg"
+                            alt="Tendances"
+                            className="w-full h-full object-contain"
+                        />
+                    </div>
+                    <div className="relative w-72 h-32 md:w-96 md:h-40">
+                        <img
+                            src="/images/Gemini_Generated_Image_vju61pvju61pvju6 1.svg"
+                            alt="e-commerce"
+                            className="w-full h-full object-contain"
+                        />
+                    </div>
+                </div>
+            )}
+
             <div className="flex flex-col lg:flex-row gap-6">
+
                 {/* Left Side Banner */}
                 <div className="lg:w-[280px] shrink-0 hidden lg:block">
                     <div className="h-full w-full relative group overflow-hidden rounded-[2.5rem] bg-[#f8f6f3]">

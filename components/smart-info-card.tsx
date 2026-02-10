@@ -12,7 +12,7 @@ export function SmartInfoCard({
     videoSrc
 }: SmartInfoCardProps) {
     return (
-        <article className={`relative overflow-hidden sm:rounded-[2rem] col-span-1 min-h-[200px] sm:min-h-[240px] md:min-h-[350px] flex flex-col bg-zinc-950 border-zinc-900 border rounded-2xl p-5 w-full shadow-xl transition-all duration-500 hover:scale-[1.02] group ${className}`}>
+        <article className={`relative overflow-hidden sm:rounded-[2rem] col-span-1 min-h-[200px] sm:min-h-[240px] md:min-h-[350px] flex flex-col bg-zinc-950 border-zinc-900 border rounded-2xl p-5 w-full transition-all duration-500 hover:scale-[1.02] group ${className}`}>
             {/* Video Background */}
             {videoSrc && (
                 <video
@@ -22,7 +22,7 @@ export function SmartInfoCard({
                     playsInline
                     preload="auto"
                     poster="https://hoirqrkdgbmvpwutwuwj-all.supabase.co/storage/v1/object/public/assets/assets/d30527df-7416-4ead-affa-cf9a2d9e3729_800w.jpg"
-                    className="absolute inset-0 w-full h-full object-cover opacity-60 transition-opacity duration-700 group-hover:opacity-80"
+                    className="absolute inset-0 w-full h-full object-cover opacity-80 transition-opacity duration-700"
                 >
                     <source src={videoSrc} type="video/mp4" />
                 </video>

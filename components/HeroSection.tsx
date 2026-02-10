@@ -5,69 +5,49 @@ import { SearchBar } from './SearchBar';
 
 const HeroSection = () => {
     return (
-        <section className="relative overflow-hidden p-8 md:p-16 min-h-[500px] flex items-center group">
-            {/* Hand-drawn Star Decoration */}
-            <div className="absolute top-12 left-[55%] z-30">
-                <svg width="40" height="40" viewBox="0 0 40 40" fill="none" className="text-amber-400 drop-shadow-sm">
-                    <path d="M20 0L24 16L40 20L24 24L20 40L16 24L0 20L16 16L20 0Z" fill="currentColor" />
-                </svg>
-            </div>
-
+        <section className="relative overflow-hidden p-8 md:p-16 min-h-[600px] flex items-center bg-white">
             <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
                 {/* Left Content */}
-                <div className="flex flex-col gap-6">
-                    <div className="space-y-1">
-                        <span className="text-base font-bold text-[#111827] tracking-tight">
-                            Comparateur de Prix intelligent
+                <div className="flex flex-col gap-8">
+                    <div className="space-y-6">
+                        <span className="text-xs font-medium text-[#111827] tracking-tight">
+                            Comparateur de prix intelligent
                         </span>
-                        <h2 className="flex flex-col leading-[0.95] tracking-tighter">
-                            <span className="text-4xl md:text-5xl font-black text-[#111827]">
-                                Détecte les
-                            </span>
-                            <span className="text-4xl md:text-5xl font-black text-[#111827]">
-                                les fausses promotions
-                            </span>
-                        </h2>
-                        <h2 className="flex flex-col leading-[0.9] tracking-tighter mt-1">
-                            <span className="text-5xl md:text-7xl font-black text-[#2563EB] italic uppercase">
-                                PAYEZ MOINS,
-                            </span>
-                            <span className="text-5xl md:text-7xl font-black text-[#2563EB] italic uppercase">
-                                SOURIEZ PLUS
-                            </span>
-                        </h2>
+
+                        <div className="space-y-2">
+                            <h2 className="text-lg md:text-xl font-bold text-[#111827] tracking-tight">
+                                Les prix, en toute transparence
+                            </h2>
+
+                            <div className="flex flex-col space-y-1">
+                                <span className="text-2xl md:text-4xl font-extrabold text-[#2563EB] tracking-tight">
+                                    MONITORING
+                                </span>
+                                <span className="text-2xl md:text-4xl font-extrabold text-[#2563EB] tracking-tight">
+                                    BENCHMARKING
+                                </span>
+                                <span className="text-2xl md:text-4xl font-extrabold text-[#2563EB] tracking-tight text-nowrap">
+                                    VEILLE CONCURRENTIELLE
+                                </span>
+                                <span className="text-2xl md:text-4xl font-extrabold text-[#2563EB] tracking-tight">
+                                    PRÉDICTION
+                                </span>
+                            </div>
+                        </div>
                     </div>
 
-                    <div className="relative max-w-md">
-                        <p className="text-base md:text-lg font-bold text-[#111827]/60 leading-snug">
-                            On compare les vrais prix. On dévoile les mensonges.<br />
+                    <div className="space-y-1">
+                        <p className="text-xs text-[#111827] font-medium leading-relaxed">
+                            On compare les vrais prix. On dévoile tout les mensonges.
+                        </p>
+                        <p className="text-xs text-[#111827] font-medium">
                             Gratuitement, pour toi.
                         </p>
-
-                        {/* Hand-drawn Swirl Scribble */}
-                        <div className="absolute -right-16 -bottom-4 hidden md:block">
-                            <svg width="80" height="60" viewBox="0 0 80 60" fill="none" className="text-[#111827] rotate-[-10deg]">
-                                <path d="M10 50C20 40 50 45 40 30C30 15 0 25 10 10C20 -5 60 5 70 20" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
-                                <path d="M70 20L75 15" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-                                <path d="M70 20L65 15" stroke="currentColor" strokeWidth="3" strokeLinecap="round" />
-                            </svg>
-                        </div>
                     </div>
 
-                    {/* Search Bar & Action Button */}
-                    <div className="flex flex-col gap-6 mt-4 w-full max-w-xl">
-                        {/* Search Bar */}
+                    {/* Keep Search Bar for functionality, placing it below the text */}
+                    <div className="flex flex-col gap-6 w-full max-w-xl">
                         <SearchBar variant="hero" searchBoth={true} placeholder="Rechercher un produit (électronique, parapharmacie...)" />
-
-                        {/* Découvrir Button - Always visible */}
-                        <div className="flex relative z-10">
-                            <Link href="/products" className="flex items-center gap-4 bg-white rounded-full py-2 pl-8 pr-2 shadow-lg shadow-purple-500/10 border border-slate-200 group/btn transition-all hover:shadow-xl hover:translate-y-[-2px] hover:border-purple-300">
-                                <span className="text-lg font-bold text-[#111827]">Découvrir</span>
-                                <div className="size-10 rounded-full bg-gradient-to-r from-[#8B5CF6] to-[#0D9488] flex items-center justify-center text-white transition-transform group-hover/btn:rotate-12">
-                                    <MoveUpRight className="size-5 stroke-[2.5px]" />
-                                </div>
-                            </Link>
-                        </div>
                     </div>
                 </div>
 
@@ -107,5 +87,6 @@ const HeroSection = () => {
         </section>
     );
 };
+
 
 export default HeroSection;

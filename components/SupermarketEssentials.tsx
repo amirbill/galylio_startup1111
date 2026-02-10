@@ -168,26 +168,20 @@ export function SupermarketEssentials() {
                     </div>
                 </div>
 
-                {/* Tunisian Couffin Image - Enhanced Design (Smaller) */}
-                <div className="absolute left-[54%] top-1/2 -translate-x-1/2 -translate-y-[65%] hidden xl:flex items-center justify-center pointer-events-none z-0">
+                {/* Tunisian Essentials Image - Enhanced Design */}
+                <div className="absolute left-[60%] top-[35%] -translate-x-1/2 -translate-y-1/2 hidden xl:flex items-center justify-center pointer-events-none z-0">
                     {/* Glowing Decorative Backgrounds */}
-                    <div className="absolute size-32 bg-orange-300/30 rounded-full blur-[40px] animate-pulse" />
-                    <div className="absolute size-24 bg-red-200/20 rounded-full blur-[30px]" />
+                    <div className="absolute size-40 bg-orange-300/20 rounded-full blur-[50px] animate-pulse" />
 
                     {/* Animated Image Wrapper */}
                     <div className="relative animate-float">
                         <Image
-                            src="/images/couffin.png"
-                            alt="Couffin Ettounsi"
-                            width={160}
-                            height={80}
-                            className="object-contain drop-shadow-[0_15px_15px_rgba(0,0,0,0.1)] drop-shadow-[0_5px_5px_rgba(249,115,22,0.15)]"
+                            src="/images/soumaaeja.svg"
+                            alt="Soumaaeja"
+                            width={240}
+                            height={120}
+                            className="object-contain drop-shadow-[0_15px_15px_rgba(0,0,0,0.08)]"
                         />
-
-                        {/* Floating Ingredient Emojis for extra flair */}
-                        <div className="absolute -top-4 -left-4 text-xl animate-float-delayed opacity-90 filter drop-shadow-sm">🍅</div>
-                        <div className="absolute -bottom-1 -right-8 text-xl animate-float opacity-90 filter drop-shadow-md">🌶️</div>
-                        <div className="absolute top-1 -right-10 text-lg animate-float-slow opacity-90 filter drop-shadow-md">🧄</div>
                     </div>
                 </div>
 

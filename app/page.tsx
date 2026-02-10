@@ -7,6 +7,7 @@ import { GroceryPriceSection } from '@/components/grocery-price-section';
 import { SmartInfoCard } from '@/components/smart-info-card';
 import { SupermarketEssentials } from '@/components/SupermarketEssentials';
 import { ParaProductShowcase } from '@/components/ParaProductShowcase';
+import { SupermarketComparison } from '@/components/SupermarketComparison';
 import { FakePriceAlerts } from '@/components/FakePriceAlerts';
 import { PriceIncreasePrediction } from '@/components/PriceIncreasePrediction';
 import { ShopPriceComparisonTable } from '@/components/ShopPriceComparisonTable';
@@ -128,6 +129,31 @@ async function getParaProducts(category: string, type: string) {
   }
 }
 
+async function getComparisonProducts(limit: number = 9) {
+  try {
+    const categories = ["Alimentation", "Droguerie", "Hygiène", "Beauté"];
+    const randomCategory = categories[Math.floor(Math.random() * categories.length)];
+
+    const [retailRes, paraRes] = await Promise.all([
+      fetch(`${API_URL}/products/random?category=${encodeURIComponent(randomCategory)}&limit=${limit}`, { cache: 'no-store' }),
+      fetch(`${API_URL}/para/random?category=${encodeURIComponent(randomCategory)}&limit=${limit}`, { cache: 'no-store' })
+    ]);
+
+    const retailData = retailRes.ok ? await retailRes.json() : [];
+    const paraData = paraRes.ok ? await paraRes.json() : [];
+
+    const products = [
+      ...retailData.map((p: any) => ({ ...p, source: 'retail' })),
+      ...paraData.map((p: any) => ({ ...p, source: 'para' }))
+    ];
+
+    return products.sort(() => Math.random() - 0.5).slice(0, 9);
+  } catch (e) {
+    console.error("Error fetching comparison products:", e);
+    return [];
+  }
+}
+
 export default async function Home() {
   // 1. Fetch Categories first (needed for analytics)
   const [productsCategories, paraCategories] = await Promise.all([
@@ -146,9 +172,9 @@ export default async function Home() {
     solaireProducts,
     hygieneProducts,
     visageProducts,
-    // Analytics for ALL categories
     productsAllAnalytics,
-    paraAllAnalytics
+    paraAllAnalytics,
+    comparisonProducts
   ] = await Promise.all([
     getPrices(),
     getProducts("Imprimante", "low_category"),
@@ -160,7 +186,8 @@ export default async function Home() {
     getParaProducts("Hygiène", "top"),
     getParaProducts("Visage", "low"),
     getAllAnalytics("products", productsCategories),
-    getAllAnalytics("para", paraCategories)
+    getAllAnalytics("para", paraCategories),
+    getComparisonProducts(9)
   ]);
 
   return (
@@ -172,10 +199,7 @@ export default async function Home() {
         <div className="max-w-7xl mx-auto w-full px-4">
           <HeroSection />
 
-          {/* Best Shop Section */}
-          <div className="my-12">
-            <BestShopSection />
-          </div>
+
 
           <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
             <SmartInfoCard
@@ -190,6 +214,11 @@ export default async function Home() {
           </div>
 
           <PriceCards initialData={pricesData} />
+
+          {/* Best Shop Section */}
+          <div className="my-12">
+            <BestShopSection />
+          </div>
 
           {/* Category Price Comparison Tables */}
           <div className="mt-12 space-y-8">
@@ -226,6 +255,7 @@ export default async function Home() {
             bannerImage="/images/imprimente.png"
             bannerText="Imprimantes"
             initialProducts={imprimanteProducts}
+            showDecorativeHeaders={true}
           />
           <ProductShowcase
             defaultCategory="Refrigerateur"
@@ -255,13 +285,22 @@ export default async function Home() {
 
 
           {/* Parapharmacie Section */}
-          <div className="max-w-7xl mx-auto w-full px-4 pt-12">
-            <h2 className="text-3xl md:text-5xl font-black text-[#0D9488] tracking-tight">
-              Parapharmacie: <span className="text-[#2563EB]">Comparez les Prix</span>
-            </h2>
-            <p className="text-gray-500 mt-2">
-              Trouvez les meilleurs prix parmi Parashop, Pharma Shop et Parafendri
-            </p>
+          <div className="max-w-7xl mx-auto w-full px-4 pt-12 flex flex-col md:flex-row items-center justify-between gap-8">
+            <div className="flex-1">
+              <h2 className="text-3xl md:text-5xl font-black text-[#0D9488] tracking-tight">
+                Parapharmacie: <span className="text-[#2563EB]">Comparez les Prix</span>
+              </h2>
+              <p className="text-gray-500 mt-2">
+                Trouvez les meilleurs prix parmi Parashop, Pharma Shop et Parafendri
+              </p>
+            </div>
+            <div className="relative w-72 h-32 md:w-[530px] md:h-64 shrink-0">
+              <img
+                src="/images/Gemini_Generated_Image_sca15ssca15ssca1 1.svg"
+                alt="Logo Parapharmacie"
+                className="w-full h-full object-contain"
+              />
+            </div>
           </div>
 
           <ParaProductShowcase
@@ -288,6 +327,8 @@ export default async function Home() {
             bannerText="Soins Visage"
             initialProducts={visageProducts}
           />
+
+          <SupermarketComparison products={comparisonProducts} />
 
           <div className="max-w-7xl mx-auto w-full px-4">
             <FakePriceAlerts />

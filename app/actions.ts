@@ -114,3 +114,31 @@ export async function calculateBestShopAction(items: { sku: string; source: stri
     }
 }
 
+export async function fetchComparisonProductsAction(limit: number = 5) {
+    try {
+        // Fetch from both retail and para random endpoints
+        // Using common categories to increase chance of interesting comparisons
+        const categories = ["Alimentation", "Droguerie", "Hygiène", "Beauté"];
+        const randomCategory = categories[Math.floor(Math.random() * categories.length)];
+
+        const [retailRes, paraRes] = await Promise.all([
+            fetch(`${API_URL}/products/random?category=${encodeURIComponent(randomCategory)}&limit=${limit}`, { cache: 'no-store' }),
+            fetch(`${API_URL}/para/random?category=${encodeURIComponent(randomCategory)}&limit=${limit}`, { cache: 'no-store' })
+        ]);
+
+        const retailData = retailRes.ok ? await retailRes.json() : [];
+        const paraData = paraRes.ok ? await paraRes.json() : [];
+
+        // Add source and normalize
+        const products = [
+            ...retailData.map((p: any) => ({ ...p, source: 'retail' })),
+            ...paraData.map((p: any) => ({ ...p, source: 'para' }))
+        ];
+
+        // Shuffle
+        return products.sort(() => Math.random() - 0.5).slice(0, 9);
+    } catch (error) {
+        console.error("[Server Action] Error fetching comparison products:", error);
+        return [];
+    }
+}
