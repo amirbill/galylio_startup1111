@@ -239,16 +239,16 @@ export default async function Home() {
               title="Prix moyen par chaque catégorie - E-commerce"
               accentColor="purple"
               initialCategories={productsCategories}
-              // Pass the FULL map of analytics
               allAnalyticsData={productsAllAnalytics}
+              pricesData={pricesData || []}
             />
             <ShopPriceComparisonTable
               type="para"
               title="Prix moyen par chaque catégorie - Parapharmacie"
               accentColor="teal"
               initialCategories={paraCategories}
-              // Pass the FULL map of analytics
               allAnalyticsData={paraAllAnalytics}
+              pricesData={pricesData || []}
             />
           </div>
 
