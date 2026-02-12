@@ -1,9 +1,7 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
-// ---- ACCESS CONTROL ----
-// Tech team secret: append ?access=<SECRET> to any URL to unlock the full site
-const TECH_ACCESS_SECRET = ''
+
 
 // Search engine bot detection
 const BOT_USER_AGENTS = [
@@ -29,21 +27,6 @@ export async function middleware(request: NextRequest) {
     // ============================================================
     if (isBot(userAgent)) {
         return NextResponse.next()
-    }
-
-    // ============================================================
-    // 1. TECH ACCESS: ?access=<secret> sets a cookie → full site access
-    // ============================================================
-    if (searchParams.get('access') === TECH_ACCESS_SECRET) {
-        const cleanUrl = new URL(pathname, request.url)
-        const res = NextResponse.redirect(cleanUrl)
-        res.cookies.set('tech_access', '1', {
-            httpOnly: true,
-            maxAge: 60 * 60 * 24 * 30, // 30 days
-            path: '/',
-            sameSite: 'lax',
-        })
-        return res
     }
 
     const hasTechAccess = request.cookies.get('tech_access')?.value === '1'
