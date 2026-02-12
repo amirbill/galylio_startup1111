@@ -1,8 +1,8 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
-
-
+// ---- ACCESS CONTROL ----
+// Tech team secret: append ?access=<SECRET> to any URL to unlock the full site
 // Search engine bot detection
 const BOT_USER_AGENTS = [
     'googlebot', 'bingbot', 'slurp', 'duckduckbot', 'baiduspider',
@@ -28,28 +28,7 @@ export async function middleware(request: NextRequest) {
     if (isBot(userAgent)) {
         return NextResponse.next()
     }
-
-    const hasTechAccess = request.cookies.get('tech_access')?.value === '1'
-
-    // ============================================================
-    // 2. TECH GUYS — full access to everything, no auth needed
-    // ============================================================
-    if (hasTechAccess) {
-        return NextResponse.next()
-    }
-
-    // ============================================================
-    // 3. PUBLIC USERS — can ONLY access /signup and /signin
-    // ============================================================
-    if (pathname === '/signup' || pathname.startsWith('/signup/') ||
-        pathname === '/signin' || pathname.startsWith('/signin/')) {
-        return NextResponse.next()
-    }
-
-    // Everything else → redirect to /signup
-    return NextResponse.redirect(new URL('/signup', request.url))
 }
-
 export const config = {
     matcher: [
         '/((?!api|_next/static|_next/image|favicon.ico|images|videos|sitemap.xml|robots.txt).*)',
