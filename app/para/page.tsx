@@ -1,5 +1,21 @@
+import type { Metadata } from "next"
 import { API_URL } from "@/lib/api"
 import { ParaProductListing } from "@/components/ParaProductListing"
+
+export const metadata: Metadata = {
+  title: "Parapharmacie — Comparer les Prix en Tunisie",
+  description:
+    "Comparez les prix de produits de parapharmacie en Tunisie : soins, cosmétiques, hygiène. Trouvez les meilleurs prix sur 1111.tn.",
+  alternates: {
+    canonical: "/para",
+  },
+  openGraph: {
+    title: "Parapharmacie — 1111.tn Comparateur de Prix",
+    description:
+      "Comparez les prix de produits de parapharmacie en Tunisie.",
+    url: "/para",
+  },
+}
 
 async function getParaProducts(searchParams: { [key: string]: string | string[] | undefined }) {
     try {

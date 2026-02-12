@@ -1,6 +1,22 @@
+import type { Metadata } from "next"
 import Header from "@/components/Header"
 import Footer from "@/components/Footer"
 import Link from "next/link"
+
+export const metadata: Metadata = {
+  title: "Solutions — Outils de Comparaison de Prix",
+  description:
+    "Découvrez les solutions de 1111.tn : comparaison de prix, détection de fausses promotions, alertes de prix, suivi de produits en Tunisie.",
+  alternates: {
+    canonical: "/solutions",
+  },
+  openGraph: {
+    title: "Solutions — 1111.tn",
+    description:
+      "Nos outils intelligents pour comparer les prix et détecter les fausses promotions en Tunisie.",
+    url: "/solutions",
+  },
+};
 import { 
     TrendingDown, 
     Search, 

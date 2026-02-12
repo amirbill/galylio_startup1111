@@ -1,5 +1,21 @@
+import type { Metadata } from "next"
 import { API_URL } from "@/lib/api"
 import { ProductListing } from "@/components/ProductListing"
+
+export const metadata: Metadata = {
+  title: "Tous les Produits — Comparer les Prix en Tunisie",
+  description:
+    "Comparez les prix de milliers de produits en Tunisie : PC portables, imprimantes, réfrigérateurs, machines à laver. Trouvez le meilleur prix sur 1111.tn.",
+  alternates: {
+    canonical: "/products",
+  },
+  openGraph: {
+    title: "Produits — 1111.tn Comparateur de Prix",
+    description:
+      "Comparez les prix de milliers de produits en Tunisie. Électroménager, informatique et plus.",
+    url: "/products",
+  },
+}
 
 async function getCategories() {
     try {

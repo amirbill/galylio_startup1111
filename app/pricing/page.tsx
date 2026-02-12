@@ -1,6 +1,22 @@
+import type { Metadata } from 'next';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import Link from 'next/link';
+
+export const metadata: Metadata = {
+  title: 'Tarifs — Plans et Abonnements',
+  description:
+    'Découvrez nos plans tarifaires sur 1111.tn. Gratuit, Pro, Business — choisissez le plan adapté à vos besoins de comparaison de prix en Tunisie.',
+  alternates: {
+    canonical: '/pricing',
+  },
+  openGraph: {
+    title: 'Tarifs — 1111.tn',
+    description:
+      'Plans et tarifs pour la comparaison de prix en Tunisie.',
+    url: '/pricing',
+  },
+};
 import { Check, X, Zap, Building2, Rocket, Crown, ArrowRight, Shield, Clock, Users, TrendingDown, Bell, BarChart3, Download, Headphones } from 'lucide-react';
 
 const plans = [
