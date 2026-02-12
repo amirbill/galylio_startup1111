@@ -3,7 +3,7 @@ import type { NextRequest } from 'next/server'
 
 // ---- ACCESS CONTROL ----
 // Tech team secret: append ?access=<SECRET> to any URL to unlock the full site
-const TECH_ACCESS_SECRET = 'tech1111tn'
+const TECH_ACCESS_SECRET = ''
 
 // Search engine bot detection
 const BOT_USER_AGENTS = [
