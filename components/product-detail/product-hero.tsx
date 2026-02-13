@@ -54,16 +54,22 @@ interface ProductHeroProps {
     accentColor?: "purple" | "teal"
 }
 
-const shopColors: Record<string, string> = {
-    Mytek: "bg-red-500",
-    Spacenet: "bg-blue-600",
-    Tunisianet: "bg-orange-500",
+const shopColorsMap: Record<string, string> = {
+    mytek: "bg-red-500",
+    spacenet: "bg-blue-600",
+    tunisianet: "bg-orange-500",
     parashop: "bg-teal-500",
-    Parashop: "bg-teal-500",
     "pharma-shop": "bg-emerald-500",
-    "Pharma Shop": "bg-emerald-500",
     parafendri: "bg-cyan-500",
-    Parafendri: "bg-cyan-500",
+    monoprix: "bg-red-600",
+    carrefour: "bg-blue-500",
+    geantdrive: "bg-green-600",
+    technopro: "bg-purple-500",
+    darty: "bg-yellow-600",
+}
+
+function getShopColor(shop: string): string {
+    return shopColorsMap[shop.toLowerCase()] || "bg-gray-400";
 }
 
 export function ProductHero({ product, accentColor = "purple" }: ProductHeroProps) {
@@ -154,7 +160,7 @@ export function ProductHero({ product, accentColor = "purple" }: ProductHeroProp
                                         }`}
                                     >
                                         <div className="flex items-center gap-3">
-                                            <span className={`w-2 h-2 rounded-full ${shopColors[sp.shop] || "bg-gray-400"}`} />
+                                            <span className={`w-2 h-2 rounded-full ${getShopColor(sp.shop)}`} />
                                             <span className="text-sm font-semibold text-foreground">
                                                 {sp.shop}
                                             </span>

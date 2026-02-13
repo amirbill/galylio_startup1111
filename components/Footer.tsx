@@ -118,6 +118,8 @@ export default function Footer() {
                                     <li><a href="https://mytek.tn" target="_blank" rel="noopener noreferrer" className="hover:text-red-600 transition-colors">Mytek</a></li>
                                     <li><a href="https://spacenet.tn" target="_blank" rel="noopener noreferrer" className="hover:text-red-600 transition-colors">Spacenet</a></li>
                                     <li><a href="https://tunisianet.com.tn" target="_blank" rel="noopener noreferrer" className="hover:text-red-600 transition-colors">Tunisianet</a></li>
+                                    <li><a href="https://technopro.tn" target="_blank" rel="noopener noreferrer" className="hover:text-red-600 transition-colors">TechnoPro</a></li>
+                                    <li><a href="https://darty.tn" target="_blank" rel="noopener noreferrer" className="hover:text-red-600 transition-colors">Darty</a></li>
                                     <li><a href="https://parashop.tn" target="_blank" rel="noopener noreferrer" className="hover:text-red-600 transition-colors">Parashop</a></li>
                                 </ul>
                             </div>

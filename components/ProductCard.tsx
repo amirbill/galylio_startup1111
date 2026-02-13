@@ -25,17 +25,23 @@ interface ProductCardProps {
     linkPrefix?: string
 }
 
-// Shop colors for visual distinction
-const shopColors: Record<string, string> = {
-    Mytek: "bg-red-500",
-    Spacenet: "bg-blue-600",
-    Tunisianet: "bg-orange-500",
-    Parashop: "bg-teal-500",
-    "Pharma Shop": "bg-emerald-500",
-    Parafendri: "bg-cyan-500",
-    Monoprix: "bg-red-600",
-    Carrefour: "bg-blue-500",
-    Geantdrive: "bg-green-600",
+// Shop colors for visual distinction (case-insensitive lookup)
+const shopColorsMap: Record<string, string> = {
+    mytek: "bg-red-500",
+    spacenet: "bg-blue-600",
+    tunisianet: "bg-orange-500",
+    parashop: "bg-teal-500",
+    "pharma-shop": "bg-emerald-500",
+    parafendri: "bg-cyan-500",
+    monoprix: "bg-red-600",
+    carrefour: "bg-blue-500",
+    geantdrive: "bg-green-600",
+    technopro: "bg-purple-500",
+    darty: "bg-yellow-600",
+}
+
+function getShopColor(shop: string): string {
+    return shopColorsMap[shop.toLowerCase()] || "bg-gray-400";
 }
 
 export function ProductCard({
@@ -122,7 +128,7 @@ export function ProductCard({
                                         }`}
                                 >
                                     <div className="flex items-center gap-1.5">
-                                        <span className={`w-1.5 h-1.5 rounded-full ${shopColors[sp.shop] || "bg-gray-400"}`} />
+                                        <span className={`w-1.5 h-1.5 rounded-full ${getShopColor(sp.shop)}`} />
                                         <span className="text-[10px] font-medium text-foreground">
                                             {sp.shop}
                                         </span>

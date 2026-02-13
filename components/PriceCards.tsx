@@ -17,6 +17,8 @@ const SHOP_IMAGES: { [key: string]: string } = {
     "pharmashop": "/images/pharmashop-removebg-preview.png",
     "spacenet": "/images/spacenet-removebg-preview.png",
     "pharma-shop": "/images/pharmashop-removebg-preview.png",
+    "technopro": "/images/technopro-logo.jpg",
+    "darty": "/images/Darty.png",
 };
 
 // Fallback data in case DB is empty
@@ -24,13 +26,15 @@ const DEFAULT_SHOPS = [
     { name: 'MyTek', logo: 'MyTEK', color: 'text-[#E30613]', price: '150 DT' },
     { name: 'Tunisianet', logo: 'Tunisianet', color: 'text-[#005DAA]', price: '150 DT' },
     { name: 'Spacenet', logo: 'Spacenet', color: 'text-[#E30613]', price: '150 DT' },
+    { name: 'TechnoPro', logo: 'TechnoPro', color: 'text-[#7C3AED]', price: '155 DT' },
+    { name: 'Darty', logo: 'Darty', color: 'text-[#CA8A04]', price: '158 DT' },
     { name: 'Parafendri', logo: 'Parafendri', color: 'text-green-600', price: '45 DT' },
     { name: 'Parashop', logo: 'Parashop', color: 'text-green-600', price: '42 DT' },
     { name: 'Pharma-shop', logo: 'Pharma-shop', color: 'text-green-600', price: '48 DT' },
 ];
 
 // Define categories to filter which shop goes where
-const ECOMMERCE_SHOPS = ["mytek", "tunisianet", "spacenet"];
+const ECOMMERCE_SHOPS = ["mytek", "tunisianet", "spacenet", "technopro", "darty"];
 const PARAPHARMACY_SHOPS = ["parafendri", "parashop", "pharmashop", "pharma-shop"];
 
 // Helper to render a rank badge

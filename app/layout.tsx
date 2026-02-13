@@ -39,6 +39,8 @@ export const metadata: Metadata = {
     "mytek prix",
     "tunisianet prix",
     "spacenet prix",
+    "technopro prix",
+    "darty prix",
   ],
   authors: [{ name: "1111.tn" }],
   creator: "1111.tn",

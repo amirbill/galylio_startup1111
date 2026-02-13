@@ -44,7 +44,7 @@ const features = [
     {
         icon: <TrendingDown className="size-6" />,
         title: "Comparaison de Prix",
-        description: "Comparez les prix en temps réel entre Spacenet, Mytek, Tunisianet, Parashop, Pharma-Shop et bien d'autres.",
+        description: "Comparez les prix en temps réel entre Spacenet, Mytek, Tunisianet, TechnoPro, Darty, Parashop, Pharma-Shop et bien d'autres.",
         color: "from-green-500 to-emerald-500"
     },
     {
@@ -83,7 +83,7 @@ const stats = [
 const categories = [
     {
         name: "Électronique & High-Tech",
-        shops: ["Spacenet", "Mytek", "Tunisianet"],
+        shops: ["Spacenet", "Mytek", "Tunisianet", "TechnoPro", "Darty"],
         items: ["PC Portables", "Smartphones", "Téléviseurs", "Électroménager"],
         color: "bg-purple-500"
     },

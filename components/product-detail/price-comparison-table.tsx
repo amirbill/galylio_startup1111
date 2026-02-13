@@ -30,16 +30,19 @@ interface PriceComparisonTableProps {
     accentColor?: "purple" | "teal"
 }
 
-const shopColors: Record<string, string> = {
-    Mytek: "#DC2626",
-    Spacenet: "#2563EB",
-    Tunisianet: "#F97316",
+const shopColorsMap: Record<string, string> = {
+    mytek: "#DC2626",
+    spacenet: "#2563EB",
+    tunisianet: "#F97316",
     parashop: "#14B8A6",
-    Parashop: "#14B8A6",
     "pharma-shop": "#10B981",
-    "Pharma Shop": "#10B981",
     parafendri: "#06B6D4",
-    Parafendri: "#06B6D4",
+    technopro: "#7C3AED",
+    darty: "#CA8A04",
+}
+
+function getShopColor(shop: string): string {
+    return shopColorsMap[shop.toLowerCase()] || "#6B7280";
 }
 
 export function PriceComparisonTable({ product, accentColor = "purple" }: PriceComparisonTableProps) {
@@ -87,11 +90,11 @@ export function PriceComparisonTable({ product, accentColor = "purple" }: PriceC
                                     <div className="flex items-center gap-2">
                                         <span
                                             className="w-2 h-2 rounded-full"
-                                            style={{ backgroundColor: shopColors[item.shop] || "#6B7280" }}
+                                            style={{ backgroundColor: getShopColor(item.shop) }}
                                         />
                                         <span
                                             className="text-sm font-bold"
-                                            style={{ color: shopColors[item.shop] || "#374151" }}
+                                            style={{ color: getShopColor(item.shop) }}
                                         >
                                             {item.shop}
                                         </span>
