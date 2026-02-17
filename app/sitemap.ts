@@ -59,9 +59,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // ── Dynamic product pages ─────────────────────────────────────
   let productPages: MetadataRoute.Sitemap = []
   try {
+    const controller = new AbortController()
+    const timeoutId = setTimeout(() => controller.abort(), 15000) // 15 second timeout
+    
     const res = await fetch(`${API_URL}/products/sitemap`, {
+      signal: controller.signal,
       next: { revalidate: 3600 }, // revalidate every hour
     })
+    clearTimeout(timeoutId)
+    
     if (res.ok) {
       const products: { id: string; updated_at?: string }[] = await res.json()
       productPages = products.map((product) => ({
@@ -78,9 +84,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // ── Dynamic para-pharmacy pages ───────────────────────────────
   let paraPages: MetadataRoute.Sitemap = []
   try {
+    const controller = new AbortController()
+    const timeoutId = setTimeout(() => controller.abort(), 15000) // 15 second timeout
+    
     const res = await fetch(`${API_URL}/para/sitemap`, {
+      signal: controller.signal,
       next: { revalidate: 3600 },
     })
+    clearTimeout(timeoutId)
+    
     if (res.ok) {
       const paraProducts: { id: string; updated_at?: string }[] = await res.json()
       paraPages = paraProducts.map((product) => ({
