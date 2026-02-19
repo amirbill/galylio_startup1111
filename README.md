@@ -1,36 +1,141 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Frontend Application
+
+This is a [Next.js](https://nextjs.org) e-commerce price comparison application built with TypeScript, React, and Tailwind CSS.
+
+## Features
+
+- 🛍️ Product search and comparison
+- 📊 Price tracking and analytics
+- 🔐 Google OAuth authentication
+- 💬 AI-powered chatbot
+- 📱 Responsive design
+- 🎨 Modern UI with Tailwind CSS
+
+## Tech Stack
+
+- **Framework**: Next.js 16
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS
+- **UI Components**: Radix UI, Lucide React
+- **Charts**: Recharts
+- **Forms**: React Hook Form + Zod
+- **Authentication**: Google OAuth
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
+
+- Node.js 18+ (20 recommended)
+- npm or yarn
+
+### Installation
+
+1. Install dependencies:
+```bash
+npm install
+```
+
+2. Create environment file (copy from example):
+```bash
+cp .env.example .env.local
+```
+
+3. Configure environment variables in `.env.local`:
+```env
+NEXT_PUBLIC_API_URL=https://back-27em.onrender.com/api/v1/
+NEXT_PUBLIC_GOOGLE_CLIENT_ID=your_google_client_id
+```
+
+### Development
+
+Run the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to view the application.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Build
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Create a production build:
+
+```bash
+npm run build
+```
+
+Start the production server:
+
+```bash
+npm start
+```
+
+## Deployment
+
+### Netlify (Recommended)
+
+This project is configured for deployment on Netlify.
+
+**Quick Deploy:**
+
+1. Run the deployment readiness check:
+```powershell
+.\check-deployment.ps1
+```
+
+2. Follow the [Deployment Checklist](./DEPLOYMENT_CHECKLIST.md)
+
+3. See detailed instructions in [Netlify Deployment Guide](./NETLIFY_DEPLOYMENT.md)
+
+**Key Files:**
+- `netlify.toml` - Netlify configuration
+- `.env.example` - Environment variables template
+- `NETLIFY_DEPLOYMENT.md` - Detailed deployment guide
+- `DEPLOYMENT_CHECKLIST.md` - Step-by-step checklist
+
+### Other Platforms
+
+This Next.js app can also be deployed on:
+- Vercel
+- AWS Amplify
+- Digital Ocean
+- Railway
+
+## Project Structure
+
+```
+front/
+├── app/                    # Next.js app directory
+│   ├── (auth)/            # Authentication pages
+│   ├── dashboard/         # Dashboard pages
+│   ├── para/              # Parapharmacy section
+│   ├── products/          # Product pages
+│   └── ...
+├── components/            # React components
+│   ├── ui/               # UI components
+│   └── ...
+├── contexts/             # React contexts
+├── lib/                  # Utility functions
+├── services/             # API services
+└── public/              # Static assets
+```
 
 ## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+- [Next.js Documentation](https://nextjs.org/docs)
+- [Tailwind CSS](https://tailwindcss.com/docs)
+- [Radix UI](https://www.radix-ui.com/)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Environment Variables
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+See `.env.example` for all available environment variables:
 
-## Deploy on Vercel
+- `NEXT_PUBLIC_API_URL` - Backend API URL
+- `NEXT_PUBLIC_GOOGLE_CLIENT_ID` - Google OAuth Client ID
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Support
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+For deployment issues, check:
+- [Deployment Checklist](./DEPLOYMENT_CHECKLIST.md)
+- [Netlify Guide](./NETLIFY_DEPLOYMENT.md)
+- [Next.js Deployment Docs](https://nextjs.org/docs/deployment)
