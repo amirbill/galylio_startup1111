@@ -1,65 +1,24 @@
-# Netlify Configuration for Next.js
-
 [build]
-  # Build command for Next.js
   command = "npm run build"
-  
-  # Directory that contains the deploy-ready HTML files and assets
   publish = ".next"
-  
-  # Base directory for the build
-  base = "front"
 
 [build.environment]
-  # Node.js version
-  NODE_VERSION = "20"
-  
-  # Next.js specific settings
-  NEXT_PRIVATE_TARGET = "server"
+  NEXT_PUBLIC_API_URL = "https://back-27em.onrender.com/api/v1/"
+  NEXT_PUBLIC_GOOGLE_CLIENT_ID = "166147533764-que54mo53gh1u5vgdfshloem97oluhnf.apps.googleusercontent.com"
+  SECRETS_SCAN_OMIT_KEYS = "NEXT_PUBLIC_API_URL,NEXT_PUBLIC_GOOGLE_CLIENT_ID"
 
-# Next.js Runtime Plugin
 [[plugins]]
   package = "@netlify/plugin-nextjs"
 
-# Redirects and Rewrites
 [[redirects]]
-  # API proxy to backend
   from = "/api/v1/*"
   to = "https://back-27em.onrender.com/api/v1/:splat"
   status = 200
   force = true
 
-[[redirects]]
-  # Fallback for Next.js routing
-  from = "/*"
-  to = "/index.html"
-  status = 200
-
-# Headers for security and performance
 [[headers]]
   for = "/*"
   [headers.values]
     X-Frame-Options = "DENY"
-    X-XSS-Protection = "1; mode=block"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
-
-[[headers]]
-  for = "/images/*"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
-[[headers]]
-  for = "/_next/static/*"
-  [headers.values]
-    Cache-Control = "public, max-age=31536000, immutable"
-
-# Environment-specific configuration (optional)
-[context.production]
-  command = "npm run build"
-
-[context.deploy-preview]
-  command = "npm run build"
-
-[context.branch-deploy]
-  command = "npm run build"
