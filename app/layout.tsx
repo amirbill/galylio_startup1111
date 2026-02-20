@@ -100,10 +100,11 @@ export default async function RootLayout({
   const user = await getUserFromServer();
 
   return (
-    <html lang="fr" dir="ltr">
+    <html lang="fr" dir="ltr" suppressHydrationWarning>
       <head>
         <link rel="canonical" href={BASE_URL} />
         <script
+          suppressHydrationWarning
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify({
