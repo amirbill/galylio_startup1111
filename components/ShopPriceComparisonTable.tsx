@@ -5,44 +5,44 @@ import { ChevronDown, Trophy, TrendingDown, Store, BarChart3, Tag, Crown, Medal,
 
 // ─── Shop Configuration ─────────────────────────────────────────────
 const SHOP_CONFIG: Record<string, { image: string; display: string; accent: string; textColor: string }> = {
-    mytek:        { image: "/images/téléchargement (4).png",       display: "MyTek",      accent: "#E30613", textColor: "text-red-600" },
-    tunisianet:   { image: "/images/téléchargement (6).png",       display: "Tunisianet", accent: "#005DAA", textColor: "text-blue-700" },
-    spacenet:     { image: "/images/spacenet-removebg-preview.png", display: "Spacenet",   accent: "#E30613", textColor: "text-red-600" },
-    technopro:    { image: "/images/technopro-logo.jpg",           display: "TechnoPro",  accent: "#7C3AED", textColor: "text-purple-600" },
-    darty:        { image: "/images/Darty.png",                    display: "Darty",      accent: "#CA8A04", textColor: "text-yellow-600" },
-    parafendri:   { image: "/images/parafendri-removebg-preview.png", display: "ParaFendri",  accent: "#059669", textColor: "text-emerald-600" },
-    parashop:     { image: "/images/parashop-removebg-preview.png",   display: "ParaShop",    accent: "#0D9488", textColor: "text-teal-600" },
-    "pharma-shop":{ image: "/images/pharmashop-removebg-preview.png", display: "Pharma-Shop", accent: "#10B981", textColor: "text-green-600" },
+    mytek: { image: "/images/téléchargement (4).png", display: "MyTek", accent: "#E30613", textColor: "text-red-600" },
+    tunisianet: { image: "/images/téléchargement (6).png", display: "Tunisianet", accent: "#005DAA", textColor: "text-blue-700" },
+    spacenet: { image: "/images/spacenet-removebg-preview.png", display: "Spacenet", accent: "#E30613", textColor: "text-red-600" },
+    technopro: { image: "/images/technopro-logo.jpg", display: "TechnoPro", accent: "#7C3AED", textColor: "text-purple-600" },
+    darty: { image: "/images/Darty.png", display: "Darty", accent: "#CA8A04", textColor: "text-yellow-600" },
+    parafendri: { image: "/images/parafendri-removebg-preview.png", display: "ParaFendri", accent: "#059669", textColor: "text-emerald-600" },
+    parashop: { image: "/images/parashop-removebg-preview.png", display: "ParaShop", accent: "#0D9488", textColor: "text-teal-600" },
+    "pharma-shop": { image: "/images/pharmashop-removebg-preview.png", display: "Pharma-Shop", accent: "#10B981", textColor: "text-green-600" },
 };
 
 // ─── Fake category-level data for technopro & darty ─────────────────
 // Injects realistic placeholder rankings when these shops have no real category data
 const FAKE_SHOP_CATEGORY_DATA: Record<string, Record<string, { avg_price: number; min_price: number; max_price: number; product_count: number }>> = {
     technopro: {
-        "BUREAUTIQUE":           { avg_price: 412.50, min_price: 45.00,  max_price: 1899.00, product_count: 187 },
-        "IMPRESSION":            { avg_price: 389.20, min_price: 129.00, max_price: 2499.00, product_count: 134 },
-        "RESEAUX & SECURITE":    { avg_price: 278.80, min_price: 19.90,  max_price: 1599.00, product_count: 96 },
-        "ELECTROMENAGER":        { avg_price: 1245.00, min_price: 199.00, max_price: 4999.00, product_count: 203 },
-        "PC PORTABLE":           { avg_price: 2189.00, min_price: 899.00, max_price: 6499.00, product_count: 156 },
-        "COMPOSANTS":            { avg_price: 345.60, min_price: 29.00,  max_price: 2899.00, product_count: 112 },
-        "TELEPHONIE":            { avg_price: 876.40, min_price: 59.00,  max_price: 5299.00, product_count: 88 },
-        "GAMING":                { avg_price: 567.30, min_price: 39.00,  max_price: 3999.00, product_count: 74 },
-        "Refrigerateur":         { avg_price: 1389.00, min_price: 599.00, max_price: 3999.00, product_count: 53 },
-        "Machine à Laver":       { avg_price: 1129.00, min_price: 699.00, max_price: 2799.00, product_count: 31 },
-        "Imprimante":            { avg_price: 425.00, min_price: 149.00, max_price: 2499.00, product_count: 29 },
+        "BUREAUTIQUE": { avg_price: 412.50, min_price: 45.00, max_price: 1899.00, product_count: 187 },
+        "IMPRESSION": { avg_price: 389.20, min_price: 129.00, max_price: 2499.00, product_count: 134 },
+        "RESEAUX & SECURITE": { avg_price: 278.80, min_price: 19.90, max_price: 1599.00, product_count: 96 },
+        "ELECTROMENAGER": { avg_price: 1245.00, min_price: 199.00, max_price: 4999.00, product_count: 203 },
+        "PC PORTABLE": { avg_price: 2189.00, min_price: 899.00, max_price: 6499.00, product_count: 156 },
+        "COMPOSANTS": { avg_price: 345.60, min_price: 29.00, max_price: 2899.00, product_count: 112 },
+        "TELEPHONIE": { avg_price: 876.40, min_price: 59.00, max_price: 5299.00, product_count: 88 },
+        "GAMING": { avg_price: 567.30, min_price: 39.00, max_price: 3999.00, product_count: 74 },
+        "Refrigerateur": { avg_price: 1389.00, min_price: 599.00, max_price: 3999.00, product_count: 53 },
+        "Machine à Laver": { avg_price: 1129.00, min_price: 699.00, max_price: 2799.00, product_count: 31 },
+        "Imprimante": { avg_price: 425.00, min_price: 149.00, max_price: 2499.00, product_count: 29 },
     },
     darty: {
-        "BUREAUTIQUE":           { avg_price: 425.90, min_price: 49.00,  max_price: 1799.00, product_count: 64 },
-        "IMPRESSION":            { avg_price: 399.50, min_price: 139.00, max_price: 2399.00, product_count: 42 },
-        "RESEAUX & SECURITE":    { avg_price: 289.70, min_price: 24.90,  max_price: 1499.00, product_count: 38 },
-        "ELECTROMENAGER":        { avg_price: 1198.50, min_price: 189.00, max_price: 4799.00, product_count: 98 },
-        "PC PORTABLE":           { avg_price: 2250.00, min_price: 949.00, max_price: 6299.00, product_count: 67 },
-        "COMPOSANTS":            { avg_price: 359.80, min_price: 35.00,  max_price: 2799.00, product_count: 45 },
-        "TELEPHONIE":            { avg_price: 912.60, min_price: 69.00,  max_price: 5199.00, product_count: 31 },
-        "GAMING":                { avg_price: 589.40, min_price: 45.00,  max_price: 3799.00, product_count: 29 },
-        "Refrigerateur":         { avg_price: 1299.00, min_price: 549.00, max_price: 3799.00, product_count: 24 },
-        "Machine à Laver":       { avg_price: 1069.00, min_price: 649.00, max_price: 2599.00, product_count: 18 },
-        "Imprimante":            { avg_price: 445.00, min_price: 159.00, max_price: 2299.00, product_count: 15 },
+        "BUREAUTIQUE": { avg_price: 425.90, min_price: 49.00, max_price: 1799.00, product_count: 64 },
+        "IMPRESSION": { avg_price: 399.50, min_price: 139.00, max_price: 2399.00, product_count: 42 },
+        "RESEAUX & SECURITE": { avg_price: 289.70, min_price: 24.90, max_price: 1499.00, product_count: 38 },
+        "ELECTROMENAGER": { avg_price: 1198.50, min_price: 189.00, max_price: 4799.00, product_count: 98 },
+        "PC PORTABLE": { avg_price: 2250.00, min_price: 949.00, max_price: 6299.00, product_count: 67 },
+        "COMPOSANTS": { avg_price: 359.80, min_price: 35.00, max_price: 2799.00, product_count: 45 },
+        "TELEPHONIE": { avg_price: 912.60, min_price: 69.00, max_price: 5199.00, product_count: 31 },
+        "GAMING": { avg_price: 589.40, min_price: 45.00, max_price: 3799.00, product_count: 29 },
+        "Refrigerateur": { avg_price: 1299.00, min_price: 549.00, max_price: 3799.00, product_count: 24 },
+        "Machine à Laver": { avg_price: 1069.00, min_price: 649.00, max_price: 2599.00, product_count: 18 },
+        "Imprimante": { avg_price: 445.00, min_price: 159.00, max_price: 2299.00, product_count: 15 },
     },
 };
 
@@ -211,7 +211,7 @@ export function ShopPriceComparisonTable({
             ring: "ring-blue-500/20", pill: "bg-blue-600 text-white",
             headerIcon: "text-blue-200",
             divider: "border-blue-100",
-          }
+        }
         : {
             border: "border-teal-200/80",
             headerFrom: "#0f766e", headerTo: "#14b8a6",
@@ -219,7 +219,7 @@ export function ShopPriceComparisonTable({
             ring: "ring-teal-500/20", pill: "bg-teal-600 text-white",
             headerIcon: "text-teal-200",
             divider: "border-teal-100",
-          };
+        };
 
     // ─── Helper: shop display info ──────────────────────────────────
     const getShop = (key: string) => SHOP_CONFIG[key.toLowerCase()] || { image: "", display: key, accent: "#6B7280", textColor: "text-gray-500" };
@@ -266,7 +266,7 @@ export function ShopPriceComparisonTable({
                                                 </div>
                                             )}
                                             <div className={`
-                                                flex flex-col items-center justify-center min-w-[110px] h-16 px-4 rounded-2xl
+                                                flex items-center justify-center w-[130px] h-[60px] px-3 rounded-2xl
                                                 transition-all duration-300 cursor-default
                                                 ${rank === 1
                                                     ? "bg-gradient-to-b from-amber-50/80 to-white border-2 border-amber-200 shadow-md shadow-amber-100/50"
@@ -277,7 +277,7 @@ export function ShopPriceComparisonTable({
                                                     <img
                                                         src={cfg.image}
                                                         alt={cfg.display}
-                                                        className="h-9 w-auto object-contain transition-transform duration-300 group-hover:scale-110"
+                                                        className="max-h-[65px] max-w-[130px] w-auto object-contain transition-transform duration-300 group-hover:scale-110"
                                                     />
                                                 ) : (
                                                     <span className={`font-bold text-sm ${cfg.textColor}`}>

@@ -3,6 +3,7 @@
 import Image from "next/image"
 import Link from "next/link"
 import { ArrowRight, Check, X } from "lucide-react"
+import { getProductFallbackImage } from "@/lib/product-fallback-image"
 
 interface ShopPrice {
     shop: string
@@ -70,7 +71,7 @@ export function ProductCard({
                 className="relative mb-3 h-32 w-full overflow-hidden rounded-xl bg-muted/30 block"
             >
                 <Image
-                    src={image || "/placeholder.svg"}
+                    src={image || getProductFallbackImage(name)}
                     alt={name}
                     fill
                     sizes="(max-width: 220px) 100vw, 220px"

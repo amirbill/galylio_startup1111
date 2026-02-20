@@ -2,6 +2,7 @@ import { ArrowRight } from "lucide-react"
 import { SHOP_CONFIG } from "@/lib/shops"
 import Link from "next/link"
 import Image from "next/image"
+import { getProductFallbackImage } from "@/lib/product-fallback-image"
 
 interface SupermarketComparisonProps {
     products: any[]
@@ -34,7 +35,7 @@ export function SupermarketComparison({ products: initialProducts }: Supermarket
                             <div className="w-1/3 bg-white rounded-3xl p-4 flex items-center justify-center relative overflow-hidden shrink-0">
                                 <div className="relative aspect-square w-full">
                                     <Image
-                                        src={product.image || "/placeholder.svg"}
+                                        src={product.image || getProductFallbackImage(product.name, product.category)}
                                         alt={product.name}
                                         fill
                                         className="object-contain"

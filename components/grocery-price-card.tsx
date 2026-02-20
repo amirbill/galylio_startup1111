@@ -4,6 +4,7 @@ import React from "react"
 
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { getProductFallbackImage } from "@/lib/product-fallback-image";
 
 interface StorePrice {
     store: "carrefour" | "mg" | "geant";
@@ -59,7 +60,7 @@ export function GroceryPriceCard({ name, image, prices }: GroceryPriceCardProps)
             {/* Product Image Container */}
             <div className="bg-white rounded-[1.5rem] aspect-square flex items-center justify-center mb-4 p-3 border border-gray-100 shadow-sm relative overflow-hidden">
                 <img
-                    src={image || "/placeholder.svg"}
+                    src={image || getProductFallbackImage(name)}
                     alt={name}
                     className="object-contain max-h-full max-w-full drop-shadow-md transition-transform group-hover:scale-110 duration-500"
                 />

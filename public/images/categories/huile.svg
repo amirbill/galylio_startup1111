@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 160" fill="none">
+  <!-- Bottle body -->
+  <rect x="30" y="55" width="60" height="90" rx="12" fill="#F5C518" opacity="0.85"/>
+  <!-- Bottle shine -->
+  <rect x="38" y="62" width="14" height="70" rx="7" fill="white" opacity="0.25"/>
+  <!-- Bottle neck -->
+  <rect x="44" y="30" width="32" height="28" rx="6" fill="#E8A800"/>
+  <!-- Bottle cap -->
+  <rect x="42" y="18" width="36" height="16" rx="6" fill="#C47A00"/>
+  <!-- Label background -->
+  <rect x="36" y="78" width="48" height="38" rx="6" fill="white" opacity="0.9"/>
+  <!-- Label text: HUILE -->
+  <text x="60" y="95" text-anchor="middle" font-family="Arial, sans-serif" font-size="9" font-weight="bold" fill="#C47A00">HUILE</text>
+  <text x="60" y="107" text-anchor="middle" font-family="Arial, sans-serif" font-size="7" fill="#888">VÉGÉTALE</text>
+  <!-- Oil drops decoration -->
+  <ellipse cx="85" cy="68" rx="5" ry="7" fill="#F5C518" opacity="0.6"/>
+  <ellipse cx="92" cy="76" rx="3" ry="4" fill="#F5C518" opacity="0.4"/>
+</svg>
