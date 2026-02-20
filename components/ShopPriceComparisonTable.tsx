@@ -230,15 +230,15 @@ export function ShopPriceComparisonTable({
 
                 {/* ═══ Header ═══ */}
                 <div
-                    className="px-6 py-4 flex items-center gap-3"
+                    className="px-4 sm:px-6 py-3 sm:py-4 flex items-center gap-3 rounded-t-2xl"
                     style={{ background: `linear-gradient(135deg, ${theme.headerFrom}, ${theme.headerTo})` }}
                 >
-                    <div className="w-9 h-9 rounded-xl bg-white/15 backdrop-blur-sm flex items-center justify-center">
-                        <BarChart3 className="size-5 text-white/90" />
+                    <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-white/15 backdrop-blur-sm flex items-center justify-center">
+                        <BarChart3 className="size-4 sm:size-5 text-white/90" />
                     </div>
                     <div>
-                        <h3 className="text-white font-bold text-[15px] tracking-wide leading-tight">{title}</h3>
-                        <p className="text-white/60 text-[11px] font-medium mt-0.5">
+                        <h3 className="text-white font-bold text-[13px] sm:text-[15px] tracking-wide leading-tight">{title}</h3>
+                        <p className="text-white/60 text-[10px] sm:text-[11px] font-medium mt-0.5">
                             {sortedShops.length} boutiques comparées
                         </p>
                     </div>
@@ -246,27 +246,27 @@ export function ShopPriceComparisonTable({
 
                 {/* ═══ Row 1 — Shop Logos ═══ */}
                 <div className={`border-b ${theme.divider}`}>
-                    <div className="overflow-x-auto">
-                        <div className="flex items-center min-w-max px-6 py-5">
-                            <div className="w-44 shrink-0 flex items-center gap-2">
-                                <Store className="size-4 text-slate-400" />
-                                <span className="text-[13px] font-semibold text-slate-600">Boutiques</span>
-                            </div>
-                            <div className="flex flex-1 justify-around items-center gap-4">
+                    <div className="px-4 sm:px-6 py-4 sm:py-5">
+                        <div className="flex items-center gap-2 mb-3 md:mb-0">
+                            <Store className="size-4 text-slate-400" />
+                            <span className="text-[12px] sm:text-[13px] font-semibold text-slate-600">Boutiques</span>
+                        </div>
+                        <div className="overflow-x-auto -mx-4 sm:-mx-6 px-4 sm:px-6 scrollbar-hide">
+                            <div className="flex items-center gap-3 sm:gap-4 md:justify-around min-w-max md:min-w-0 py-1">
                                 {sortedShops.map((shop, idx) => {
                                     const cfg = getShop(shop.name);
                                     const rank = idx + 1;
                                     return (
-                                        <div key={shop.name} className="relative group">
+                                        <div key={shop.name} className="relative group snap-center shrink-0 md:shrink">
                                             {rank === 1 && (
                                                 <div className="absolute -top-2.5 -right-2.5 z-10">
-                                                    <div className="w-6 h-6 rounded-full bg-gradient-to-br from-amber-400 to-yellow-500 flex items-center justify-center shadow-lg shadow-amber-300/50 ring-2 ring-white">
-                                                        <Crown className="size-3 text-white" />
+                                                    <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-gradient-to-br from-amber-400 to-yellow-500 flex items-center justify-center shadow-lg shadow-amber-300/50 ring-2 ring-white">
+                                                        <Crown className="size-2.5 sm:size-3 text-white" />
                                                     </div>
                                                 </div>
                                             )}
                                             <div className={`
-                                                flex items-center justify-center w-[130px] h-[60px] px-3 rounded-2xl
+                                                flex items-center justify-center w-[100px] h-[50px] sm:w-[130px] sm:h-[60px] px-2 sm:px-3 rounded-xl sm:rounded-2xl
                                                 transition-all duration-300 cursor-default
                                                 ${rank === 1
                                                     ? "bg-gradient-to-b from-amber-50/80 to-white border-2 border-amber-200 shadow-md shadow-amber-100/50"
@@ -277,10 +277,10 @@ export function ShopPriceComparisonTable({
                                                     <img
                                                         src={cfg.image}
                                                         alt={cfg.display}
-                                                        className="max-h-[65px] max-w-[130px] w-auto object-contain transition-transform duration-300 group-hover:scale-110"
+                                                        className="max-h-[45px] max-w-[90px] sm:max-h-[65px] sm:max-w-[130px] w-auto object-contain transition-transform duration-300 group-hover:scale-110"
                                                     />
                                                 ) : (
-                                                    <span className={`font-bold text-sm ${cfg.textColor}`}>
+                                                    <span className={`font-bold text-xs sm:text-sm ${cfg.textColor}`}>
                                                         {cfg.display}
                                                     </span>
                                                 )}
@@ -295,13 +295,13 @@ export function ShopPriceComparisonTable({
 
                 {/* ═══ Row 2 — Overall Average Prices ═══ */}
                 <div className={`border-b ${theme.divider}`}>
-                    <div className="overflow-x-auto">
-                        <div className="flex items-center min-w-max px-6 py-5">
-                            <div className="w-44 shrink-0 flex items-center gap-2">
-                                <Tag className="size-4 text-slate-400" />
-                                <span className="text-[13px] font-semibold text-slate-600">Prix moyen global</span>
-                            </div>
-                            <div className="flex flex-1 justify-around items-center gap-4">
+                    <div className="px-4 sm:px-6 py-4 sm:py-5">
+                        <div className="flex items-center gap-2 mb-3 md:mb-0">
+                            <Tag className="size-4 text-slate-400" />
+                            <span className="text-[12px] sm:text-[13px] font-semibold text-slate-600">Prix moyen global</span>
+                        </div>
+                        <div className="overflow-x-auto -mx-4 sm:-mx-6 px-4 sm:px-6 scrollbar-hide">
+                            <div className="flex items-center gap-3 sm:gap-4 md:justify-around min-w-max md:min-w-0 py-1">
                                 {sortedShops.map((shop, idx) => {
                                     const rank = idx + 1;
                                     const diff = cheapestOverall > 0
@@ -310,9 +310,9 @@ export function ShopPriceComparisonTable({
                                     const config = RANK_CONFIG[rank];
 
                                     return (
-                                        <div key={shop.name} className="flex flex-col items-center min-w-[110px]">
+                                        <div key={shop.name} className="flex flex-col items-center snap-center shrink-0 md:shrink min-w-[90px] sm:min-w-[110px]">
                                             <div className={`
-                                                relative flex flex-col items-center px-4 py-3 rounded-2xl min-w-[100px]
+                                                relative flex flex-col items-center px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl min-w-[85px] sm:min-w-[100px]
                                                 transition-all duration-300
                                                 ${config
                                                     ? `${config.cardBg} border ${config.border} shadow-md ${config.glow}`
@@ -321,18 +321,18 @@ export function ShopPriceComparisonTable({
                                             `}>
                                                 {rank === 1 && (
                                                     <div className="absolute -top-2 left-1/2 -translate-x-1/2">
-                                                        <span className={`inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full text-[9px] font-black uppercase tracking-wider ${theme.pill}`}>
-                                                            <TrendingDown className="size-2.5" />
+                                                        <span className={`inline-flex items-center gap-0.5 px-1.5 sm:px-2 py-0.5 rounded-full text-[8px] sm:text-[9px] font-black uppercase tracking-wider whitespace-nowrap ${theme.pill}`}>
+                                                            <TrendingDown className="size-2 sm:size-2.5" />
                                                             Moins cher
                                                         </span>
                                                     </div>
                                                 )}
-                                                <span className={`text-[17px] font-extrabold tracking-tight ${config ? config.textColor : "text-slate-700"}`}>
+                                                <span className={`text-[15px] sm:text-[17px] font-extrabold tracking-tight ${config ? config.textColor : "text-slate-700"}`}>
                                                     {shop.price.toFixed(2)}
                                                 </span>
-                                                <span className="text-[10px] text-slate-400 font-semibold mt-0.5">DT</span>
+                                                <span className="text-[9px] sm:text-[10px] text-slate-400 font-semibold mt-0.5">DT</span>
                                                 {rank > 1 && diff > 0 && (
-                                                    <span className={`mt-1.5 text-[10px] font-bold px-2 py-0.5 rounded-full
+                                                    <span className={`mt-1 sm:mt-1.5 text-[9px] sm:text-[10px] font-bold px-1.5 sm:px-2 py-0.5 rounded-full
                                                         ${diff > 2 ? "bg-red-50 text-red-500" : "bg-slate-100 text-slate-500"}
                                                     `}>
                                                         +{diff.toFixed(1)}%
@@ -349,17 +349,17 @@ export function ShopPriceComparisonTable({
 
                 {/* ═══ Row 3 — Category Price Comparison ═══ */}
                 <div className="overflow-visible">
-                    <div className="flex items-start min-w-max px-6 py-5 relative">
+                    <div className="px-4 sm:px-6 py-4 sm:py-5 relative">
                         {/* Category Selector */}
-                        <div className="w-44 shrink-0 pt-1" ref={dropdownRef}>
+                        <div className="md:w-44 md:shrink-0 pt-1 mb-4 md:mb-0 md:float-left" ref={dropdownRef}>
                             <div className="flex items-center gap-2 mb-3">
                                 <BarChart3 className="size-4 text-slate-400" />
-                                <span className="text-[13px] font-semibold text-slate-600">Par catégorie</span>
+                                <span className="text-[12px] sm:text-[13px] font-semibold text-slate-600">Par catégorie</span>
                             </div>
                             <button
                                 onClick={() => setDropdownOpen(!dropdownOpen)}
                                 className={`
-                                    flex items-center justify-between w-full gap-1.5 text-[12px] font-bold
+                                    flex items-center justify-between w-full md:w-auto gap-1.5 text-[12px] font-bold
                                     px-3.5 py-2.5 rounded-xl border-2 transition-all duration-200
                                     ${dropdownOpen
                                         ? `${theme.lightBg} ${theme.text} border-current shadow-md ring-4 ${theme.ring}`
@@ -367,13 +367,13 @@ export function ShopPriceComparisonTable({
                                     }
                                 `}
                             >
-                                <span className="truncate max-w-[100px]">{selectedCategory || "Catégorie"}</span>
+                                <span className="truncate max-w-[200px] sm:max-w-[100px]">{selectedCategory || "Catégorie"}</span>
                                 <ChevronDown className={`size-3.5 shrink-0 transition-transform duration-300 ${dropdownOpen ? "rotate-180" : ""}`} />
                             </button>
 
                             {/* Dropdown */}
                             {dropdownOpen && (
-                                <div className="absolute left-6 top-full mt-1 w-60 bg-white rounded-2xl shadow-2xl border border-slate-200 py-1.5 z-50 max-h-[280px] overflow-y-auto
+                                <div className="absolute left-4 sm:left-6 right-4 sm:right-auto sm:w-60 top-full mt-1 bg-white rounded-2xl shadow-2xl border border-slate-200 py-1.5 z-50 max-h-[280px] overflow-y-auto
                                     ring-1 ring-black/5 animate-in slide-in-from-top-2 duration-200">
                                     <div className={`px-4 py-2 ${theme.lightBg} mx-1.5 rounded-xl mb-1`}>
                                         <span className={`text-[10px] font-bold uppercase tracking-wider ${theme.text}`}>
@@ -408,90 +408,92 @@ export function ShopPriceComparisonTable({
                         </div>
 
                         {/* Category prices grid */}
-                        <div className="flex flex-1 justify-around items-start gap-4 pt-1">
-                            {(() => {
-                                if (enrichedCategoryShops.length === 0) {
-                                    return (
-                                        <div className="flex-1 flex items-center justify-center py-6">
-                                            <div className="text-center">
-                                                <BarChart3 className="size-8 text-slate-300 mx-auto mb-2" />
-                                                <p className="text-sm text-slate-400 font-medium">
-                                                    Sélectionnez une catégorie
-                                                </p>
-                                            </div>
-                                        </div>
-                                    );
-                                }
-
-                                const cheapestCatPrice = enrichedCategoryShops[0]?.avg_price || 0;
-
-                                // Map: for each overall sorted shop, find its category price
-                                return sortedShops.map((overallShop) => {
-                                    const catShop = enrichedCategoryShops.find(
-                                        s => s.shop.toLowerCase() === overallShop.name.toLowerCase()
-                                    );
-
-                                    if (!catShop) {
+                        <div className="overflow-x-auto -mx-4 sm:-mx-6 px-4 sm:px-6 scrollbar-hide md:overflow-visible md:mx-0 md:px-0">
+                            <div className="flex items-start gap-3 sm:gap-4 md:justify-around min-w-max md:min-w-0 py-1 pt-2">
+                                {(() => {
+                                    if (enrichedCategoryShops.length === 0) {
                                         return (
-                                            <div key={overallShop.name} className="flex flex-col items-center min-w-[110px]">
-                                                <div className="flex flex-col items-center px-4 py-4 rounded-2xl bg-slate-50/50 border border-dashed border-slate-200 min-w-[100px]">
-                                                    <span className="text-sm text-slate-300 font-medium">—</span>
-                                                    <span className="text-[9px] text-slate-300 mt-1">N/A</span>
+                                            <div className="flex-1 flex items-center justify-center py-6">
+                                                <div className="text-center">
+                                                    <BarChart3 className="size-8 text-slate-300 mx-auto mb-2" />
+                                                    <p className="text-sm text-slate-400 font-medium">
+                                                        Sélectionnez une catégorie
+                                                    </p>
                                                 </div>
                                             </div>
                                         );
                                     }
 
-                                    const catRank = enrichedCategoryShops.indexOf(catShop) + 1;
-                                    const diff = cheapestCatPrice > 0
-                                        ? ((catShop.avg_price - cheapestCatPrice) / cheapestCatPrice * 100)
-                                        : 0;
-                                    const config = RANK_CONFIG[catRank];
+                                    const cheapestCatPrice = enrichedCategoryShops[0]?.avg_price || 0;
 
-                                    return (
-                                        <div key={overallShop.name} className="flex flex-col items-center min-w-[110px] relative">
-                                            {/* Medal badge */}
-                                            {catRank <= 3 && config && (
-                                                <div className={`
-                                                    absolute -top-3 left-1/2 -translate-x-1/2 z-10
-                                                    w-7 h-7 rounded-full bg-gradient-to-br ${config.gradient}
-                                                    flex items-center justify-center text-[13px]
-                                                    shadow-lg border-2 border-white
-                                                `}>
-                                                    {config.emoji}
+                                    // Map: for each overall sorted shop, find its category price
+                                    return sortedShops.map((overallShop) => {
+                                        const catShop = enrichedCategoryShops.find(
+                                            s => s.shop.toLowerCase() === overallShop.name.toLowerCase()
+                                        );
+
+                                        if (!catShop) {
+                                            return (
+                                                <div key={overallShop.name} className="flex flex-col items-center snap-center shrink-0 md:shrink min-w-[90px] sm:min-w-[110px]">
+                                                    <div className="flex flex-col items-center px-3 sm:px-4 py-3 sm:py-4 rounded-xl sm:rounded-2xl bg-slate-50/50 border border-dashed border-slate-200 min-w-[85px] sm:min-w-[100px]">
+                                                        <span className="text-sm text-slate-300 font-medium">—</span>
+                                                        <span className="text-[9px] text-slate-300 mt-1">N/A</span>
+                                                    </div>
                                                 </div>
-                                            )}
-                                            <div className={`
-                                                flex flex-col items-center px-4 py-3 rounded-2xl min-w-[100px]
-                                                transition-all duration-300 hover:shadow-lg
-                                                ${config
-                                                    ? `${config.cardBg} border ${config.border} shadow-md ${config.glow}`
-                                                    : "bg-white border border-slate-200/80 hover:border-slate-300"
-                                                }
-                                            `}>
-                                                <span className={`text-[17px] font-extrabold tracking-tight ${config ? config.textColor : "text-slate-700"}`}>
-                                                    {catShop.avg_price.toFixed(2)}
-                                                </span>
-                                                <span className="text-[10px] text-slate-400 font-semibold mt-0.5">DT</span>
+                                            );
+                                        }
 
-                                                {/* Product count */}
-                                                <span className="text-[9px] text-slate-400 font-medium mt-1">
-                                                    {catShop.product_count} produits
-                                                </span>
+                                        const catRank = enrichedCategoryShops.indexOf(catShop) + 1;
+                                        const diff = cheapestCatPrice > 0
+                                            ? ((catShop.avg_price - cheapestCatPrice) / cheapestCatPrice * 100)
+                                            : 0;
+                                        const config = RANK_CONFIG[catRank];
 
-                                                {/* Percent badge */}
-                                                {catRank > 1 && diff > 0 && (
-                                                    <span className={`mt-1.5 text-[10px] font-bold px-2 py-0.5 rounded-full
-                                                        ${diff > 5 ? "bg-red-50 text-red-500" : diff > 2 ? "bg-orange-50 text-orange-500" : "bg-slate-100 text-slate-500"}
+                                        return (
+                                            <div key={overallShop.name} className="flex flex-col items-center snap-center shrink-0 md:shrink min-w-[90px] sm:min-w-[110px] relative">
+                                                {/* Medal badge */}
+                                                {catRank <= 3 && config && (
+                                                    <div className={`
+                                                        absolute -top-3 left-1/2 -translate-x-1/2 z-10
+                                                        w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-gradient-to-br ${config.gradient}
+                                                        flex items-center justify-center text-[11px] sm:text-[13px]
+                                                        shadow-lg border-2 border-white
                                                     `}>
-                                                        +{diff.toFixed(1)}%
-                                                    </span>
+                                                        {config.emoji}
+                                                    </div>
                                                 )}
+                                                <div className={`
+                                                    flex flex-col items-center px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl min-w-[85px] sm:min-w-[100px]
+                                                    transition-all duration-300 hover:shadow-lg
+                                                    ${config
+                                                        ? `${config.cardBg} border ${config.border} shadow-md ${config.glow}`
+                                                        : "bg-white border border-slate-200/80 hover:border-slate-300"
+                                                    }
+                                                `}>
+                                                    <span className={`text-[15px] sm:text-[17px] font-extrabold tracking-tight ${config ? config.textColor : "text-slate-700"}`}>
+                                                        {catShop.avg_price.toFixed(2)}
+                                                    </span>
+                                                    <span className="text-[9px] sm:text-[10px] text-slate-400 font-semibold mt-0.5">DT</span>
+
+                                                    {/* Product count */}
+                                                    <span className="text-[8px] sm:text-[9px] text-slate-400 font-medium mt-1">
+                                                        {catShop.product_count} produits
+                                                    </span>
+
+                                                    {/* Percent badge */}
+                                                    {catRank > 1 && diff > 0 && (
+                                                        <span className={`mt-1 sm:mt-1.5 text-[9px] sm:text-[10px] font-bold px-1.5 sm:px-2 py-0.5 rounded-full
+                                                            ${diff > 5 ? "bg-red-50 text-red-500" : diff > 2 ? "bg-orange-50 text-orange-500" : "bg-slate-100 text-slate-500"}
+                                                        `}>
+                                                            +{diff.toFixed(1)}%
+                                                        </span>
+                                                    )}
+                                                </div>
                                             </div>
-                                        </div>
-                                    );
-                                });
-                            })()}
+                                        );
+                                    });
+                                })()}
+                            </div>
                         </div>
                     </div>
                 </div>
