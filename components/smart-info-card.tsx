@@ -20,7 +20,7 @@ export function SmartInfoCard({
                     loop
                     muted
                     playsInline
-                    preload="auto"
+                    preload="none"
                     poster="https://hoirqrkdgbmvpwutwuwj-all.supabase.co/storage/v1/object/public/assets/assets/d30527df-7416-4ead-affa-cf9a2d9e3729_800w.jpg"
                     className="absolute inset-0 w-full h-full object-cover opacity-80 transition-opacity duration-700"
                 >

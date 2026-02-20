@@ -1,20 +1,23 @@
+import dynamic from 'next/dynamic';
+import { API_URL } from '@/lib/api';
+
+// Eager imports — above the fold
 import HeroSection from '@/components/HeroSection';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import PriceCards from '@/components/PriceCards';
-import ProductShowcase from '@/components/ProductShowcase';
-import { GroceryPriceSection } from '@/components/grocery-price-section';
 import { SmartInfoCard } from '@/components/smart-info-card';
-import { SupermarketEssentials } from '@/components/SupermarketEssentials';
-import { ParaProductShowcase } from '@/components/ParaProductShowcase';
-import { SupermarketComparison } from '@/components/SupermarketComparison';
-import { FakePriceAlerts } from '@/components/FakePriceAlerts';
-import { PriceIncreasePrediction } from '@/components/PriceIncreasePrediction';
-import { ShopPriceComparisonTable } from '@/components/ShopPriceComparisonTable';
-import { BestShopSection } from '@/components/BestShopSection';
-import { PriceVariationAlert } from '@/components/PriceVariationAlert';
-import { CouffinTounsiSection } from '@/components/CouffinTounsiSection';
-import { API_URL } from '@/lib/api';
+
+// Lazy imports — below the fold (code-split, loaded on demand)
+const ProductShowcase = dynamic(() => import('@/components/ProductShowcase'));
+const ParaProductShowcase = dynamic(() => import('@/components/ParaProductShowcase').then(m => ({ default: m.ParaProductShowcase })));
+const SupermarketEssentials = dynamic(() => import('@/components/SupermarketEssentials').then(m => ({ default: m.SupermarketEssentials })));
+const SupermarketComparison = dynamic(() => import('@/components/SupermarketComparison').then(m => ({ default: m.SupermarketComparison })));
+const FakePriceAlerts = dynamic(() => import('@/components/FakePriceAlerts').then(m => ({ default: m.FakePriceAlerts })));
+const ShopPriceComparisonTable = dynamic(() => import('@/components/ShopPriceComparisonTable').then(m => ({ default: m.ShopPriceComparisonTable })));
+const BestShopSection = dynamic(() => import('@/components/BestShopSection').then(m => ({ default: m.BestShopSection })));
+const PriceVariationAlert = dynamic(() => import('@/components/PriceVariationAlert').then(m => ({ default: m.PriceVariationAlert })));
+const CouffinTounsiSection = dynamic(() => import('@/components/CouffinTounsiSection').then(m => ({ default: m.CouffinTounsiSection })));
 
 // Category configurations for each showcase
 const imprimanteCategories = [
@@ -56,7 +59,7 @@ const laveVaisselleCategories = [
 // Server-side data fetching functions
 async function getPrices() {
   try {
-    const res = await fetch(`${API_URL}/analytics/prices`, { cache: 'no-store' });
+    const res = await fetch(`${API_URL}/analytics/prices`, { next: { revalidate: 300 } });
     if (!res.ok) return null;
     return await res.json();
   } catch (e) {
@@ -67,7 +70,7 @@ async function getPrices() {
 
 async function getCategories(type: "products" | "para") {
   try {
-    const res = await fetch(`${API_URL}/${type}/analytics/categories`, { cache: 'no-store' });
+    const res = await fetch(`${API_URL}/${type}/analytics/categories`, { next: { revalidate: 300 } });
     if (!res.ok) return [];
     return await res.json();
   } catch (e) {
@@ -79,7 +82,7 @@ async function getCategories(type: "products" | "para") {
 async function getCategoryAnalytics(type: "products" | "para", category: string) {
   if (!category) return null;
   try {
-    const res = await fetch(`${API_URL}/${type}/analytics/by-category?category=${encodeURIComponent(category)}`, { cache: 'no-store' });
+    const res = await fetch(`${API_URL}/${type}/analytics/by-category?category=${encodeURIComponent(category)}`, { next: { revalidate: 300 } });
     if (!res.ok) return null;
     return await res.json();
   } catch (e) {
@@ -110,7 +113,7 @@ async function getAllAnalytics(type: "products" | "para", categories: string[]) 
 async function getProducts(category: string, type: string) {
   try {
     const url = `${API_URL}/products/random?category=${encodeURIComponent(category)}&category_type=${type}&limit=10`;
-    const res = await fetch(url, { cache: 'no-store' });
+    const res = await fetch(url, { next: { revalidate: 300 } });
     if (!res.ok) return [];
     return await res.json();
   } catch (e) {
@@ -122,7 +125,7 @@ async function getProducts(category: string, type: string) {
 async function getParaProducts(category: string, type: string) {
   try {
     const url = `${API_URL}/para/random?category=${encodeURIComponent(category)}&category_type=${type}&limit=10`;
-    const res = await fetch(url, { cache: 'no-store' });
+    const res = await fetch(url, { next: { revalidate: 300 } });
     if (!res.ok) return [];
     return await res.json();
   } catch (e) {
@@ -142,8 +145,8 @@ async function getComparisonProducts(limit: number = 9) {
 
     // Fetch from both sources with their respective valid categories
     const [retailRes, paraRes] = await Promise.all([
-      fetch(`${API_URL}/products/random?category=${encodeURIComponent(randomRetailCategory)}&limit=${limit}`, { cache: 'no-store' }),
-      fetch(`${API_URL}/para/random?category=${encodeURIComponent(randomParaCategory)}&limit=${limit}`, { cache: 'no-store' })
+      fetch(`${API_URL}/products/random?category=${encodeURIComponent(randomRetailCategory)}&limit=${limit}`, { next: { revalidate: 300 } }),
+      fetch(`${API_URL}/para/random?category=${encodeURIComponent(randomParaCategory)}&limit=${limit}`, { next: { revalidate: 300 } })
     ]);
 
     const retailData = retailRes.ok ? await retailRes.json() : [];
