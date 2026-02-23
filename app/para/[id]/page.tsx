@@ -2,6 +2,7 @@ import type { Metadata } from "next"
 import { ProductHero } from "@/components/product-detail/product-hero"
 import { ProductSpecs } from "@/components/product-detail/product-specs"
 import { PriceComparisonTable } from "@/components/product-detail/price-comparison-table"
+import { RecommendedProducts } from "@/components/product-detail/recommended-products"
 import Footer from "@/components/Footer"
 import Header from "@/components/Header"
 import Link from "next/link"
@@ -138,6 +139,17 @@ export default async function ParaProductDetailPage({
                 <div className="mt-8">
                     <PriceComparisonTable product={product} accentColor="teal" />
                 </div>
+
+                {/* Recommended Products */}
+                {(product.category || product.topCategory) && (
+                    <RecommendedProducts
+                        category={product.category || product.topCategory || ""}
+                        currentProductId={product.id}
+                        currentPrice={product.bestPrice}
+                        type="para"
+                        categoryType={product.category ? "low_category" : "top_category"}
+                    />
+                )}
             </div>
             <Footer />
         </main>

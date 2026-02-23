@@ -2,6 +2,8 @@ import type { Metadata } from "next"
 import { ProductHero } from "@/components/product-detail/product-hero"
 import { ProductSpecs } from "@/components/product-detail/product-specs"
 import { PriceComparisonTable } from "@/components/product-detail/price-comparison-table"
+import { RecommendedProducts } from "@/components/product-detail/recommended-products"
+import { EnergyConsumption } from "@/components/product-detail/energy-consumption"
 import Footer from "@/components/Footer"
 import Header from "@/components/Header"
 import Link from "next/link"
@@ -133,10 +135,23 @@ export default async function ProductDetailPage({
                     <ProductSpecs product={product} />
                 </div>
 
+                {/* Energy Consumption */}
+                <EnergyConsumption productId={id} />
+
                 {/* Price Comparison Table */}
                 <div className="mt-8">
                     <PriceComparisonTable product={product} />
                 </div>
+
+                {/* Recommended Products */}
+                {product.category && (
+                    <RecommendedProducts
+                        category={product.category}
+                        currentProductId={product.id}
+                        currentPrice={product.bestPrice}
+                        type="products"
+                    />
+                )}
             </div>
             <Footer />
         </main>
