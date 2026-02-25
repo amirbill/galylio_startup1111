@@ -217,21 +217,22 @@ export default function SignUpPage() {
                         </div>}
                     </div>
 
-                    {/* Floating form card */}
-                    <div className="relative rounded-3xl bg-white/70 backdrop-blur-xl p-5 pt-12 mt-24 shadow-2xl shadow-blue-900/10 border border-white/50 hover:shadow-blue-900/15 transition-shadow duration-500">
-                        {/* Mascot sitting on top edge of form */}
-                        <div className="absolute -top-28 left-1/2 -translate-x-1/2 z-20">
-                            <div className="w-32 h-32 md:w-40 md:h-40">
-                                <Image
-                                    src="/images/1111sitting.png"
-                                    alt="Mascot"
-                                    width={208}
-                                    height={208}
-                                    className="object-contain drop-shadow-lg"
-                                    priority
-                                />
-                            </div>
+                    {/* Mascot above form */}
+                    <div className="relative z-10 flex justify-center mb-10">
+                        <div className="w-16 h-16 md:w-20 md:h-20">
+                            <Image
+                                src="/images/1.png"
+                                alt="Mascot"
+                                width={96}
+                                height={96}
+                                className="object-contain drop-shadow-lg"
+                                priority
+                            />
                         </div>
+                    </div>
+
+                    {/* Floating form card */}
+                    <div className="relative rounded-3xl bg-white/70 backdrop-blur-xl p-5 shadow-2xl shadow-blue-900/10 border border-white/50 hover:shadow-blue-900/15 transition-shadow duration-500">
                         {/* Header */}
                         <div className="mb-3 text-center">
                             <div className="lg:hidden flex justify-center mb-4">

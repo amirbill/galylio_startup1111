@@ -200,21 +200,22 @@ export default function SignInPage() {
                         </div>}
                     </div>
 
-                    {/* Floating form card */}
-                    <div className="relative rounded-3xl bg-white/70 backdrop-blur-xl p-8 pt-16 mt-36 shadow-2xl shadow-blue-900/10 border border-white/50 hover:shadow-blue-900/15 transition-shadow duration-500">
-                        {/* Mascot sitting on top edge of form */}
-                        <div className="absolute -top-40 left-1/2 -translate-x-1/2 z-20">
-                            <div className="w-40 h-40 md:w-52 md:h-52">
-                                <Image
-                                    src="/images/1111sitting.png"
-                                    alt="Mascot"
-                                    width={208}
-                                    height={208}
-                                    className="object-contain drop-shadow-lg"
-                                    priority
-                                />
-                            </div>
+                    {/* Mascot above form */}
+                    <div className="relative z-10 flex justify-center mb-10">
+                        <div className="w-20 h-20 md:w-24 md:h-24">
+                            <Image
+                                src="/images/1.png"
+                                alt="Mascot"
+                                width={112}
+                                height={112}
+                                className="object-contain drop-shadow-lg"
+                                priority
+                            />
                         </div>
+                    </div>
+
+                    {/* Floating form card */}
+                    <div className="relative rounded-3xl bg-white/70 backdrop-blur-xl p-8 shadow-2xl shadow-blue-900/10 border border-white/50 hover:shadow-blue-900/15 transition-shadow duration-500">
                         {/* Header */}
                         <div className="mb-8 text-center">
                             <div className="lg:hidden flex justify-center mb-4">
