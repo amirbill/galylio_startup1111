@@ -3,7 +3,7 @@
 import { useState } from "react"
 import Link from "next/link"
 import Image from "next/image"
-import { LogOut, User } from "lucide-react"
+import { LogOut, User, LayoutDashboard } from "lucide-react"
 import { useAuth } from "@/contexts/AuthContext"
 import {
     DropdownMenu,
@@ -86,6 +86,14 @@ export function UserMenu({ initialUser }: UserMenuProps) {
                         </div>
                     </div>
                     <DropdownMenuSeparator className="bg-slate-100 my-1" />
+                    {(user?.role === "admin" || user?.role === "superadmin") && (
+                        <DropdownMenuItem asChild>
+                            <Link href="/dashboard" className="flex w-full cursor-pointer items-center gap-3 px-3 py-2 rounded-xl text-slate-700 hover:bg-slate-50 transition-colors">
+                                <LayoutDashboard className="size-4" />
+                                <span className="text-sm font-medium">Dashboard</span>
+                            </Link>
+                        </DropdownMenuItem>
+                    )}
                     <DropdownMenuItem asChild>
                         <Link href="/profile" className="flex w-full cursor-pointer items-center gap-3 px-3 py-2 rounded-xl text-slate-700 hover:bg-slate-50 transition-colors">
                             <User className="size-4" />

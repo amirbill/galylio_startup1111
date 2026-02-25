@@ -6,6 +6,7 @@ import { SearchBar } from './SearchBar';
 const HeroSection = () => {
     return (
         <section className="relative overflow-hidden p-8 md:p-16 min-h-[600px] flex items-center bg-white">
+            
             <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
                 {/* Left Content */}
                 <div className="flex flex-col gap-8">
@@ -14,7 +15,7 @@ const HeroSection = () => {
                         <img 
                             src="/images/Logo 1111.svg" 
                             alt="1111.tn Logo" 
-                            className="w-40 h-40 md:w-36 md:h-36"
+                            className="w-40 h-40 md:w-36 md:h-36 animate-float hover:scale-110 transition-transform duration-500 cursor-pointer"
                         />
                     </div>
 
@@ -70,16 +71,6 @@ const HeroSection = () => {
                             className="w-full h-full object-cover"
                         />
                         <div className="absolute inset-0 bg-gradient-to-tr from-purple-600/20 to-transparent" />
-                    </div>
-
-                    {/* Central Large Oval Blob */}
-                    <div className="absolute top-1/2 left-0 -translate-y-1/2 w-48 md:w-60 h-[340px] md:h-[420px] rounded-[10rem] bg-[#FFD700] overflow-hidden border-[6px] border-white shadow-[0_20px_50px_rgba(255,189,18,0.25)] z-20 hover:scale-[1.02] transition-transform duration-500">
-                        <img
-                            src="/images/1_.png"
-                            alt="Visual 1"
-                            className="w-full h-full object-cover"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-b from-[#FFBD12]/40 to-transparent" />
                     </div>
 
                     {/* Bottom Right Arch Blob */}

@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState } from "react"
-import { Search, Settings, Bell, User, LogOut } from "lucide-react"
+import { Search, Settings, Bell, User, LogOut, ExternalLink } from "lucide-react"
 import Image from "next/image"
 import Link from "next/link"
 import { useAuth } from "@/contexts/AuthContext"
@@ -26,6 +26,17 @@ export function DashboardHeader({ title }: DashboardHeaderProps) {
             <h1 className="text-xl font-semibold text-foreground">{title}</h1>
 
             <div className="flex items-center gap-4">
+                {/* Go to client site */}
+                {(user?.role === "admin" || user?.role === "superadmin") && (
+                    <Link
+                        href="/"
+                        className="flex items-center gap-2 rounded-full border border-border bg-background px-4 h-9 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+                    >
+                        <ExternalLink className="size-4" />
+                        <span>Voir le site</span>
+                    </Link>
+                )}
+
                 {/* Search */}
                 <div className="relative">
                     <Search className="absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />

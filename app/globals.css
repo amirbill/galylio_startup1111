@@ -180,3 +180,37 @@
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
+
+/* Logo float animation */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Running logo animation */
+@keyframes run {
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(50%) rotateY(0deg);
+  }
+  50.1% {
+    transform: translateX(50%) rotateY(180deg);
+  }
+  100% {
+    transform: translateX(-100%) rotateY(180deg);
+  }
+}
+
+.animate-run {
+  animation: run 4s ease-in-out infinite;
+}

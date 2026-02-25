@@ -54,8 +54,13 @@ export default function SignInPage() {
     const [showPassword, setShowPassword] = useState(false)
     const [error, setError] = useState<string | null>(null)
     const [isLoading, setIsLoading] = useState(false)
+    const [mounted, setMounted] = useState(false)
     const { login } = useAuth()
     const countdown = useCountdown()
+
+    useEffect(() => {
+        setMounted(true)
+    }, [])
 
     const {
         register,
@@ -79,13 +84,18 @@ export default function SignInPage() {
 
     return (
         <div className="relative flex min-h-screen overflow-hidden">
-            {/* Animated gradient background */}
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-100 via-sky-50 to-cyan-100 animate-gradient-shift" />
-            <div className="absolute inset-0 overflow-hidden">
-                <div className="absolute -top-40 -left-40 w-[500px] h-[500px] bg-blue-200/40 rounded-full blur-3xl animate-float-slow" />
-                <div className="absolute top-1/2 -right-32 w-[400px] h-[400px] bg-cyan-200/30 rounded-full blur-3xl animate-float-slower" />
-                <div className="absolute -bottom-20 left-1/3 w-[350px] h-[350px] bg-sky-200/30 rounded-full blur-3xl animate-float-medium" />
-            </div>
+            {/* Video background */}
+            <video
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="absolute inset-0 w-full h-full object-cover z-0"
+            >
+                <source src="/videos/1111_vid.mp4" type="video/mp4" />
+            </video>
+            {/* Overlay for readability */}
+            <div className="absolute inset-0 bg-black/15 z-[1]" />
 
             {/* Left Side - Branding + Countdown */}
             <div className="relative hidden w-1/2 flex-col justify-between p-10 lg:flex z-10">
@@ -96,7 +106,7 @@ export default function SignInPage() {
                         alt="1111.tn"
                         width={140}
                         height={48}
-                        className="h-12 w-auto object-contain drop-shadow-lg"
+                        className="h-12 w-auto object-contain drop-shadow-lg animate-float hover:scale-110 transition-transform duration-500 cursor-pointer"
                         priority
                     />
                 </div>
@@ -119,7 +129,7 @@ export default function SignInPage() {
                     </div>
 
                     {/* Countdown */}
-                    <div className="animate-fade-in-up-delay text-center">
+                    <div className="animate-fade-in-up-delay text-center" suppressHydrationWarning>
                         <div className="flex items-center justify-center gap-2 mb-4">
                             <Rocket className="size-5 text-blue-600 animate-pulse" />
                             <span className="text-sm font-bold uppercase tracking-[0.2em] text-blue-600">
@@ -128,7 +138,7 @@ export default function SignInPage() {
                             <Rocket className="size-5 text-blue-600 animate-pulse" />
                         </div>
 
-                        <div className="flex items-center gap-3">
+                        {mounted && <div className="flex items-center gap-3">
                             {[
                                 { value: countdown.days, label: "Jours" },
                                 { value: countdown.hours, label: "Heures" },
@@ -150,7 +160,7 @@ export default function SignInPage() {
                                     </div>
                                 </React.Fragment>
                             ))}
-                        </div>
+                        </div>}
                     </div>
                 </div>
 
@@ -164,14 +174,14 @@ export default function SignInPage() {
             <div className="relative flex w-full items-center justify-center p-6 lg:w-1/2 z-10">
                 <div className="w-full max-w-md animate-fade-in-up">
                     {/* Mobile countdown */}
-                    <div className="mb-6 lg:hidden text-center">
+                    <div className="mb-6 lg:hidden text-center" suppressHydrationWarning>
                         <div className="flex items-center justify-center gap-2 mb-3">
                             <Rocket className="size-4 text-blue-600 animate-pulse" />
                             <span className="text-xs font-bold uppercase tracking-[0.15em] text-blue-600">
                                 Disponible bientôt
                             </span>
                         </div>
-                        <div className="flex items-center justify-center gap-2">
+                        {mounted && <div className="flex items-center justify-center gap-2">
                             {[
                                 { value: countdown.days, label: "J" },
                                 { value: countdown.hours, label: "H" },
@@ -187,11 +197,24 @@ export default function SignInPage() {
                                     </div>
                                 </React.Fragment>
                             ))}
-                        </div>
+                        </div>}
                     </div>
 
                     {/* Floating form card */}
-                    <div className="rounded-3xl bg-white/70 backdrop-blur-xl p-8 shadow-2xl shadow-blue-900/10 border border-white/50 hover:shadow-blue-900/15 transition-shadow duration-500">
+                    <div className="relative rounded-3xl bg-white/70 backdrop-blur-xl p-8 pt-16 mt-36 shadow-2xl shadow-blue-900/10 border border-white/50 hover:shadow-blue-900/15 transition-shadow duration-500">
+                        {/* Mascot sitting on top edge of form */}
+                        <div className="absolute -top-40 left-1/2 -translate-x-1/2 z-20">
+                            <div className="w-40 h-40 md:w-52 md:h-52">
+                                <Image
+                                    src="/images/1111sitting.png"
+                                    alt="Mascot"
+                                    width={208}
+                                    height={208}
+                                    className="object-contain drop-shadow-lg"
+                                    priority
+                                />
+                            </div>
+                        </div>
                         {/* Header */}
                         <div className="mb-8 text-center">
                             <div className="lg:hidden flex justify-center mb-4">
@@ -200,7 +223,7 @@ export default function SignInPage() {
                                     alt="1111.tn"
                                     width={100}
                                     height={36}
-                                    className="h-9 w-auto object-contain"
+                                    className="h-9 w-auto object-contain animate-float hover:scale-110 transition-transform duration-500 cursor-pointer"
                                 />
                             </div>
                             <h1 className="mb-1.5 text-2xl font-extrabold bg-gradient-to-r from-blue-700 to-cyan-600 bg-clip-text text-transparent">

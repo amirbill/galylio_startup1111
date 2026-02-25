@@ -189,7 +189,7 @@ export function SearchBar({
             <form onSubmit={handleSubmit}>
                 <div className={`relative ${isHero ? "group/search" : ""}`}>
                     {isHero && (
-                        <div className="absolute inset-0 bg-[#E5E7EB]/40 rounded-full shadow-[inset_0_2px_4px_rgba(0,0,0,0.06)]" />
+                        <div className="absolute inset-0 bg-white rounded-full shadow-lg border border-gray-200" />
                     )}
                     <div className={`relative flex items-center gap-3 ${isHero
                         ? "p-2 pl-6"
@@ -211,8 +211,8 @@ export function SearchBar({
                             }}
                             onKeyDown={handleKeyDown}
                             placeholder={placeholder}
-                            className={`flex-1 bg-transparent border-none outline-none text-sm font-medium placeholder:text-gray-400 ${isHero
-                                ? "text-gray-500 h-10"
+                            className={`flex-1 bg-transparent border-none outline-none text-sm font-medium placeholder:text-gray-500 ${isHero
+                                ? "text-gray-900 h-10"
                                 : "text-gray-700 h-8"
                                 }`}
                         />

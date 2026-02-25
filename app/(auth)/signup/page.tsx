@@ -62,8 +62,13 @@ export default function SignUpPage() {
     const [showConfirmPassword, setShowConfirmPassword] = useState(false)
     const [error, setError] = useState<string | null>(null)
     const [isLoading, setIsLoading] = useState(false)
+    const [mounted, setMounted] = useState(false)
     const { signup } = useAuth()
     const countdown = useCountdown()
+
+    useEffect(() => {
+        setMounted(true)
+    }, [])
 
     const {
         register,
@@ -95,14 +100,19 @@ export default function SignUpPage() {
     }
 
     return (
-        <div className="relative flex min-h-screen overflow-hidden">
-            {/* Animated gradient background */}
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-100 via-sky-50 to-cyan-100 animate-gradient-shift" />
-            <div className="absolute inset-0 overflow-hidden">
-                <div className="absolute -top-40 -left-40 w-[500px] h-[500px] bg-blue-200/40 rounded-full blur-3xl animate-float-slow" />
-                <div className="absolute top-1/2 -right-32 w-[400px] h-[400px] bg-cyan-200/30 rounded-full blur-3xl animate-float-slower" />
-                <div className="absolute -bottom-20 left-1/3 w-[350px] h-[350px] bg-sky-200/30 rounded-full blur-3xl animate-float-medium" />
-            </div>
+        <div className="relative flex h-screen overflow-hidden">
+            {/* Video background */}
+            <video
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="absolute inset-0 w-full h-full object-cover z-0"
+            >
+                <source src="/videos/1111_vid.mp4" type="video/mp4" />
+            </video>
+            {/* Overlay for readability */}
+            <div className="absolute inset-0 bg-black/15 z-[1]" />
 
             {/* Left Side - Branding + Countdown */}
             <div className="relative hidden w-1/2 flex-col justify-between p-10 lg:flex z-10">
@@ -113,7 +123,7 @@ export default function SignUpPage() {
                         alt="1111.tn"
                         width={140}
                         height={48}
-                        className="h-12 w-auto object-contain drop-shadow-lg"
+                        className="h-12 w-auto object-contain drop-shadow-lg animate-float hover:scale-110 transition-transform duration-500 cursor-pointer"
                         priority
                     />
                 </div>
@@ -136,7 +146,7 @@ export default function SignUpPage() {
                     </div>
 
                     {/* Countdown */}
-                    <div className="animate-fade-in-up-delay text-center">
+                    <div className="animate-fade-in-up-delay text-center" suppressHydrationWarning>
                         <div className="flex items-center justify-center gap-2 mb-4">
                             <Rocket className="size-5 text-blue-600 animate-pulse" />
                             <span className="text-sm font-bold uppercase tracking-[0.2em] text-blue-600">
@@ -145,7 +155,7 @@ export default function SignUpPage() {
                             <Rocket className="size-5 text-blue-600 animate-pulse" />
                         </div>
 
-                        <div className="flex items-center gap-3">
+                        {mounted && <div className="flex items-center gap-3">
                             {[
                                 { value: countdown.days, label: "Jours" },
                                 { value: countdown.hours, label: "Heures" },
@@ -167,7 +177,7 @@ export default function SignUpPage() {
                                     </div>
                                 </React.Fragment>
                             ))}
-                        </div>
+                        </div>}
                     </div>
                 </div>
 
@@ -178,17 +188,17 @@ export default function SignUpPage() {
             </div>
 
             {/* Right Side - Floating Sign Up Form */}
-            <div className="relative flex w-full items-center justify-center p-6 lg:w-1/2 z-10">
+            <div className="relative flex w-full items-start justify-center p-4 pt-2 lg:w-1/2 z-10 overflow-y-auto">
                 <div className="w-full max-w-md animate-fade-in-up">
                     {/* Mobile countdown */}
-                    <div className="mb-6 lg:hidden text-center">
+                    <div className="mb-3 lg:hidden text-center" suppressHydrationWarning>
                         <div className="flex items-center justify-center gap-2 mb-3">
                             <Rocket className="size-4 text-blue-600 animate-pulse" />
                             <span className="text-xs font-bold uppercase tracking-[0.15em] text-blue-600">
                                 Disponible bientôt
                             </span>
                         </div>
-                        <div className="flex items-center justify-center gap-2">
+                        {mounted && <div className="flex items-center justify-center gap-2">
                             {[
                                 { value: countdown.days, label: "J" },
                                 { value: countdown.hours, label: "H" },
@@ -204,20 +214,33 @@ export default function SignUpPage() {
                                     </div>
                                 </React.Fragment>
                             ))}
-                        </div>
+                        </div>}
                     </div>
 
                     {/* Floating form card */}
-                    <div className="rounded-3xl bg-white/70 backdrop-blur-xl p-8 shadow-2xl shadow-blue-900/10 border border-white/50 hover:shadow-blue-900/15 transition-shadow duration-500">
+                    <div className="relative rounded-3xl bg-white/70 backdrop-blur-xl p-5 pt-12 mt-24 shadow-2xl shadow-blue-900/10 border border-white/50 hover:shadow-blue-900/15 transition-shadow duration-500">
+                        {/* Mascot sitting on top edge of form */}
+                        <div className="absolute -top-28 left-1/2 -translate-x-1/2 z-20">
+                            <div className="w-32 h-32 md:w-40 md:h-40">
+                                <Image
+                                    src="/images/1111sitting.png"
+                                    alt="Mascot"
+                                    width={208}
+                                    height={208}
+                                    className="object-contain drop-shadow-lg"
+                                    priority
+                                />
+                            </div>
+                        </div>
                         {/* Header */}
-                        <div className="mb-6 text-center">
+                        <div className="mb-3 text-center">
                             <div className="lg:hidden flex justify-center mb-4">
                                 <Image
                                     src="/images/Logo 1111.svg"
                                     alt="1111.tn"
                                     width={100}
                                     height={36}
-                                    className="h-9 w-auto object-contain"
+                                    className="h-9 w-auto object-contain animate-float hover:scale-110 transition-transform duration-500 cursor-pointer"
                                 />
                             </div>
                             <h1 className="mb-1.5 text-2xl font-extrabold bg-gradient-to-r from-blue-700 to-cyan-600 bg-clip-text text-transparent">
@@ -235,9 +258,9 @@ export default function SignUpPage() {
                         )}
 
                         {/* Form */}
-                        <form onSubmit={handleSubmit(onSubmit)} className="space-y-3.5">
+                        <form onSubmit={handleSubmit(onSubmit)} className="space-y-2">
                             {/* Name */}
-                            <div className="space-y-1.5">
+                            <div className="space-y-1">
                                 <label htmlFor="name" className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
                                     Nom complet
                                 </label>
@@ -246,13 +269,13 @@ export default function SignUpPage() {
                                     type="text"
                                     {...register("name")}
                                     placeholder="Votre nom"
-                                    className="w-full rounded-xl border-2 border-slate-200/80 bg-white/60 backdrop-blur-sm px-4 py-3 text-sm outline-none transition-all duration-300 focus:border-blue-400 focus:ring-4 focus:ring-blue-100 focus:bg-white placeholder:text-slate-300"
+                                    className="w-full rounded-xl border-2 border-slate-200/80 bg-white/60 backdrop-blur-sm px-4 py-2 text-sm outline-none transition-all duration-300 focus:border-blue-400 focus:ring-4 focus:ring-blue-100 focus:bg-white placeholder:text-slate-300"
                                 />
                                 {errors.name && <span className="text-xs text-red-500 font-medium">{errors.name.message}</span>}
                             </div>
 
                             {/* Email */}
-                            <div className="space-y-1.5">
+                            <div className="space-y-1">
                                 <label htmlFor="email" className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
                                     Email
                                 </label>
@@ -261,13 +284,13 @@ export default function SignUpPage() {
                                     type="email"
                                     {...register("email")}
                                     placeholder="vous@exemple.com"
-                                    className="w-full rounded-xl border-2 border-slate-200/80 bg-white/60 backdrop-blur-sm px-4 py-3 text-sm outline-none transition-all duration-300 focus:border-blue-400 focus:ring-4 focus:ring-blue-100 focus:bg-white placeholder:text-slate-300"
+                                    className="w-full rounded-xl border-2 border-slate-200/80 bg-white/60 backdrop-blur-sm px-4 py-2 text-sm outline-none transition-all duration-300 focus:border-blue-400 focus:ring-4 focus:ring-blue-100 focus:bg-white placeholder:text-slate-300"
                                 />
                                 {errors.email && <span className="text-xs text-red-500 font-medium">{errors.email.message}</span>}
                             </div>
 
                             {/* Phone */}
-                            <div className="space-y-1.5">
+                            <div className="space-y-1">
                                 <label htmlFor="phone" className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
                                     Téléphone
                                 </label>
@@ -276,13 +299,13 @@ export default function SignUpPage() {
                                     type="tel"
                                     {...register("phone")}
                                     placeholder="+216 XX XXX XXX"
-                                    className="w-full rounded-xl border-2 border-slate-200/80 bg-white/60 backdrop-blur-sm px-4 py-3 text-sm outline-none transition-all duration-300 focus:border-blue-400 focus:ring-4 focus:ring-blue-100 focus:bg-white placeholder:text-slate-300"
+                                    className="w-full rounded-xl border-2 border-slate-200/80 bg-white/60 backdrop-blur-sm px-4 py-2 text-sm outline-none transition-all duration-300 focus:border-blue-400 focus:ring-4 focus:ring-blue-100 focus:bg-white placeholder:text-slate-300"
                                 />
                                 {errors.phone && <span className="text-xs text-red-500 font-medium">{errors.phone.message}</span>}
                             </div>
 
                             {/* Address */}
-                            <div className="space-y-1.5">
+                            <div className="space-y-1">
                                 <label htmlFor="address" className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
                                     Adresse
                                 </label>
@@ -291,13 +314,13 @@ export default function SignUpPage() {
                                     type="text"
                                     {...register("address")}
                                     placeholder="Votre adresse"
-                                    className="w-full rounded-xl border-2 border-slate-200/80 bg-white/60 backdrop-blur-sm px-4 py-3 text-sm outline-none transition-all duration-300 focus:border-blue-400 focus:ring-4 focus:ring-blue-100 focus:bg-white placeholder:text-slate-300"
+                                    className="w-full rounded-xl border-2 border-slate-200/80 bg-white/60 backdrop-blur-sm px-4 py-2 text-sm outline-none transition-all duration-300 focus:border-blue-400 focus:ring-4 focus:ring-blue-100 focus:bg-white placeholder:text-slate-300"
                                 />
                                 {errors.address && <span className="text-xs text-red-500 font-medium">{errors.address.message}</span>}
                             </div>
 
                             {/* Password */}
-                            <div className="space-y-1.5">
+                            <div className="space-y-1">
                                 <label htmlFor="password" className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
                                     Mot de passe
                                 </label>
@@ -307,7 +330,7 @@ export default function SignUpPage() {
                                         type={showPassword ? "text" : "password"}
                                         {...register("password")}
                                         placeholder="Créer un mot de passe"
-                                        className="w-full rounded-xl border-2 border-slate-200/80 bg-white/60 backdrop-blur-sm px-4 py-3 pr-12 text-sm outline-none transition-all duration-300 focus:border-blue-400 focus:ring-4 focus:ring-blue-100 focus:bg-white placeholder:text-slate-300"
+                                        className="w-full rounded-xl border-2 border-slate-200/80 bg-white/60 backdrop-blur-sm px-4 py-2 pr-12 text-sm outline-none transition-all duration-300 focus:border-blue-400 focus:ring-4 focus:ring-blue-100 focus:bg-white placeholder:text-slate-300"
                                     />
                                     <button
                                         type="button"
@@ -321,7 +344,7 @@ export default function SignUpPage() {
                             </div>
 
                             {/* Confirm Password */}
-                            <div className="space-y-1.5">
+                            <div className="space-y-1">
                                 <label htmlFor="confirmPassword" className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
                                     Confirmer le mot de passe
                                 </label>
@@ -331,7 +354,7 @@ export default function SignUpPage() {
                                         type={showConfirmPassword ? "text" : "password"}
                                         {...register("confirmPassword")}
                                         placeholder="Confirmer votre mot de passe"
-                                        className="w-full rounded-xl border-2 border-slate-200/80 bg-white/60 backdrop-blur-sm px-4 py-3 pr-12 text-sm outline-none transition-all duration-300 focus:border-blue-400 focus:ring-4 focus:ring-blue-100 focus:bg-white placeholder:text-slate-300"
+                                        className="w-full rounded-xl border-2 border-slate-200/80 bg-white/60 backdrop-blur-sm px-4 py-2 pr-12 text-sm outline-none transition-all duration-300 focus:border-blue-400 focus:ring-4 focus:ring-blue-100 focus:bg-white placeholder:text-slate-300"
                                     />
                                     <button
                                         type="button"
@@ -348,7 +371,7 @@ export default function SignUpPage() {
                             <button
                                 type="submit"
                                 disabled={isLoading}
-                                className="w-full rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 py-3.5 text-sm font-bold text-white shadow-lg shadow-blue-500/25 transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/30 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:hover:scale-100"
+                                className="w-full rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 py-2.5 text-sm font-bold text-white shadow-lg shadow-blue-500/25 transition-all duration-300 hover:shadow-xl hover:shadow-blue-500/30 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:hover:scale-100"
                             >
                                 {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin inline" /> : null}
                                 {isLoading ? "Inscription en cours..." : "S'inscrire"}
@@ -356,7 +379,7 @@ export default function SignUpPage() {
                         </form>
 
                         {/* Divider */}
-                        <div className="my-5 flex items-center gap-4">
+                        <div className="my-3 flex items-center gap-4">
                             <div className="h-px flex-1 bg-gradient-to-r from-transparent via-slate-300 to-transparent" />
                             <span className="text-xs font-medium text-slate-400">ou</span>
                             <div className="h-px flex-1 bg-gradient-to-r from-transparent via-slate-300 to-transparent" />
@@ -366,7 +389,7 @@ export default function SignUpPage() {
                         <GoogleAuthButton />
 
                         {/* Sign In Link */}
-                        <p className="mt-5 text-center text-sm text-slate-500">
+                        <p className="mt-3 text-center text-sm text-slate-500">
                             Vous avez déjà un compte?{" "}
                             <Link href="/signin" className="font-bold text-blue-600 hover:text-blue-700 transition-colors">
                                 Connectez-vous.

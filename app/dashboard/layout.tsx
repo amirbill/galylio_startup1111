@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import React from "react"
 import { DashboardSidebar } from "@/components/dashboard/sidebar"
+import { DashboardGuard } from "@/components/dashboard/dashboard-guard"
 
 export const metadata: Metadata = {
     title: "Tableau de Bord",
@@ -14,11 +15,13 @@ export default function DashboardLayout({
     children: React.ReactNode
 }) {
     return (
-        <div className="min-h-screen bg-background">
-            <DashboardSidebar />
-            <div className="pl-56">
-                {children}
+        <DashboardGuard>
+            <div className="min-h-screen bg-background">
+                <DashboardSidebar />
+                <div className="pl-56">
+                    {children}
+                </div>
             </div>
-        </div>
+        </DashboardGuard>
     )
 }

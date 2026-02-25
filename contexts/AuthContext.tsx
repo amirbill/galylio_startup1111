@@ -45,7 +45,7 @@ export const AuthProvider = ({ children, initialUser }: { children: React.ReactN
         if (response.success && response.user) {
             setUser(response.user);
             const role = response.user.role;
-            if (role === 'admin') {
+            if (role === 'admin' || role === 'superadmin') {
                 router.push('/dashboard');
             } else {
                 router.push('/');

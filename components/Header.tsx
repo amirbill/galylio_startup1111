@@ -3,7 +3,7 @@
 import React, { useState, MouseEvent } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { TrendingDown, Pill, Search, ShoppingBag, Menu, X, Sparkles, CreditCard, LogOut, User, ShoppingCart } from 'lucide-react';
+import { TrendingDown, Pill, Search, ShoppingBag, Menu, X, Sparkles, CreditCard, LogOut, User, ShoppingCart, LayoutDashboard } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { useBag } from '@/contexts/BagContext';
 import {
@@ -211,6 +211,16 @@ export default function Header({ initialUser }: HeaderProps) {
                                             </span>
                                         </div>
                                     </div>
+                                    {(user?.role === "admin" || user?.role === "superadmin") && (
+                                        <Link
+                                            href="/dashboard"
+                                            onClick={() => setMobileMenuOpen(false)}
+                                            className="flex items-center gap-3 p-3 rounded-xl bg-purple-50 text-purple-700 font-medium"
+                                        >
+                                            <LayoutDashboard className="size-4" />
+                                            <span className="text-sm">Dashboard</span>
+                                        </Link>
+                                    )}
                                     <Link
                                         href="/profile"
                                         onClick={() => setMobileMenuOpen(false)}
