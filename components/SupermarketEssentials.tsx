@@ -202,7 +202,7 @@ export function SupermarketEssentials() {
             </div>
 
             {/* Products Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-3">
                 {essentialProducts.map((product) => {
                     const bestPrice = getBestPrice(product.prices)
                     const sortedPrices = [...product.prices].sort((a, b) => a.price - b.price)

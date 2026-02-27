@@ -24,7 +24,7 @@ export function CouffinTounsiSection() {
                     <div className="flex items-center gap-4 flex-1">
                         <div className="h-10 w-2 bg-[#2563EB] rounded-full"></div>
                         <div className="flex flex-col">
-                            <h2 className="text-[#2563EB] font-black text-3xl sm:text-4xl text-left tracking-tight">
+                            <h2 className="text-[#2563EB] font-black text-2xl sm:text-3xl md:text-4xl text-left tracking-tight">
                                 Prix moyen <span className="text-[#8B5CF6]">couffin Tounsi</span><span className="text-[#8B5CF6] ml-2">مُعَدَّلَ الأسعار</span>
                             </h2>
                             <p className="text-gray-500 text-sm md:text-base font-medium mt-1">
@@ -32,7 +32,7 @@ export function CouffinTounsiSection() {
                             </p>
                         </div>
                     </div>
-                    <div className="relative w-72 h-32 md:w-[350px] md:h-32 shrink-0">
+                    <div className="relative w-48 h-24 md:w-[350px] md:h-32 shrink-0 hidden sm:block">
                         <img
                             src="/images/Gemini_Generated_Image_cgcjk1cgcjk1cgcj 1.svg"
                             alt="Price Analysis"

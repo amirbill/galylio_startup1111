@@ -245,7 +245,7 @@ export function ShopPriceComparisonTable({
                 </div>
 
                 {/* ═══ Table Layout — Vertical Columns per Shop ═══ */}
-                <div className="overflow-visible">
+                <div className="overflow-x-auto">
                     <table className="w-full border-collapse" style={{ tableLayout: 'fixed' }}>
                         <colgroup>
                             <col className="w-[140px] sm:w-[170px]" />

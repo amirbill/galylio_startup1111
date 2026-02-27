@@ -7,6 +7,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import PriceCards from '@/components/PriceCards';
 import { SmartInfoCard } from '@/components/smart-info-card';
+import { SideBanner } from '@/components/SideBanner';
 
 // Lazy imports — below the fold (code-split, loaded on demand)
 const ProductShowcase = dynamic(() => import('@/components/ProductShowcase'));
@@ -204,156 +205,169 @@ export default async function Home() {
   const predictiveProduct = imprimanteProducts?.[0];
 
   return (
-    <div className="flex flex-col min-h-screen bg-white font-[family-name:var(--font-geist-sans)]">
+    <div className="flex flex-col min-h-screen bg-white font-[family-name:var(--font-geist-sans)] overflow-x-hidden">
       <Header />
       <main className="flex-grow flex flex-col gap-8">
-
-
-        <div className="max-w-7xl mx-auto w-full px-4">
-          <HeroSection />
-
-
-
-          <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
-            <SmartInfoCard
-              videoSrc="/videos/vid1 .mp4"
-            />
-            <SmartInfoCard
-              videoSrc="/videos/vid2.mp4"
-            />
-            <SmartInfoCard
-              videoSrc="/videos/7579561-uhd_2160_4096_25fps.mp4"
-            />
+        {/* Hero section with side banners */}
+        <div className="w-full max-w-[1600px] mx-auto flex flex-row gap-8 px-4 md:px-8 lg:px-12 xl:px-16">
+          <div className="hidden md:block w-36 xl:w-48 2xl:w-56 flex-shrink-0">
+            <SideBanner side="left" />
           </div>
+          <div className="flex-1 min-w-0">
+            <div className="max-w-7xl mx-auto w-full px-0">
+              <div id="hero">
+                <HeroSection />
+              </div>
 
-          <PriceCards initialData={pricesData} />
+              <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+                <SmartInfoCard
+                  videoSrc="/videos/vid1 .mp4"
+                />
+                <SmartInfoCard
+                  videoSrc="/videos/vid2.mp4"
+                />
+                <SmartInfoCard
+                  videoSrc="/videos/7579561-uhd_2160_4096_25fps.mp4"
+                />
+              </div>
 
-          <CouffinTounsiSection />
+              <div id="prix-moyens"><PriceCards initialData={pricesData} /></div>
 
-          {/* Best Shop Section */}
-          <div className="my-12">
-            <BestShopSection />
-          </div>
+              <div id="couffin-tounsi"><CouffinTounsiSection /></div>
 
-          {/* Category Price Comparison Tables */}
-          <div className="mt-12 space-y-8">
-            <ShopPriceComparisonTable
-              type="products"
-              title="Prix moyen par chaque catégorie - E-commerce"
-              accentColor="purple"
-              initialCategories={productsCategories}
-              allAnalyticsData={productsAllAnalytics}
-              pricesData={pricesData || []}
-            />
-            <ShopPriceComparisonTable
-              type="para"
-              title="Prix moyen par chaque catégorie - Parapharmacie"
-              accentColor="teal"
-              initialCategories={paraCategories}
-              allAnalyticsData={paraAllAnalytics}
-              pricesData={pricesData || []}
-            />
-          </div>
+              {/* Best Shop Section */}
+              <div id="meilleur-magasin" className="my-12">
+                <BestShopSection />
+              </div>
 
-
-
-          <div className="mt-25">
-            {/* Supermarket Essentials Section */}
-            <SupermarketEssentials />
-          </div>
-
-
-          <ProductShowcase
-            defaultCategory="Imprimante"
-            categoryType="low_category"
-            categories={imprimanteCategories}
-            bannerImage="/images/imprimente.png"
-            bannerText="Imprimantes"
-            initialProducts={imprimanteProducts}
-            showDecorativeHeaders={true}
-          />
-          <ProductShowcase
-            defaultCategory="Refrigerateur"
-            categoryType="subcategory"
-            categories={refrigerateurCategories}
-            bannerImage="/images/electromenager.png"
-            bannerText="Électroménager"
-            initialProducts={refrigerateurProducts}
-          />
-          <ProductShowcase
-            defaultCategory="Machine à Laver"
-            categoryType="subcategory"
-            categories={machineALaverCategories}
-            bannerImage="/images/lavage.png"
-            bannerText="Lavage"
-            initialProducts={machineProducts}
-          />
-          <ProductShowcase
-            defaultCategory="Lave Vaisselle"
-            categoryType="subcategory"
-            categories={laveVaisselleCategories}
-            bannerImage="/images/cuisine.png"
-            bannerText="Cuisine"
-            initialProducts={laveVaisselleProducts}
-          />
+              {/* Category Price Comparison Tables */}
+              <div id="comparaison-prix" className="mt-12 space-y-8">
+                <ShopPriceComparisonTable
+                  type="products"
+                  title="Prix moyen par chaque catégorie - E-commerce"
+                  accentColor="purple"
+                  initialCategories={productsCategories}
+                  allAnalyticsData={productsAllAnalytics}
+                  pricesData={pricesData || []}
+                />
+                <ShopPriceComparisonTable
+                  type="para"
+                  title="Prix moyen par chaque catégorie - Parapharmacie"
+                  accentColor="teal"
+                  initialCategories={paraCategories}
+                  allAnalyticsData={paraAllAnalytics}
+                  pricesData={pricesData || []}
+                />
+              </div>
 
 
 
-          {/* Parapharmacie Section */}
-          <div className="max-w-7xl mx-auto w-full px-4 pt-12 flex flex-col md:flex-row items-center justify-between gap-8">
-            <div className="flex-1">
-              <h2 className="text-3xl md:text-5xl font-black text-[#0D9488] tracking-tight">
-                Parapharmacie: <span className="text-[#2563EB]">Comparez les Prix</span>
-              </h2>
-              <p className="text-gray-500 mt-2">
-                Trouvez les meilleurs prix parmi Parashop, Pharma Shop et Parafendri
-              </p>
-            </div>
-            <div className="relative w-72 h-32 md:w-[530px] md:h-64 shrink-0">
-              <img
-                src="/images/Gemini_Generated_Image_sca15ssca15ssca1 1.svg"
-                alt="Logo Parapharmacie"
-                className="w-full h-full object-contain"
+              <div id="courses-essentiels" className="mt-25">
+                {/* Supermarket Essentials Section */}
+                <SupermarketEssentials />
+              </div>
+
+
+              <div id="electronique">
+                <ProductShowcase
+                  defaultCategory="Imprimante"
+                  categoryType="low_category"
+                  categories={imprimanteCategories}
+                  bannerImage="/images/imprimente.png"
+                  bannerText="Imprimantes"
+                  initialProducts={imprimanteProducts}
+                  showDecorativeHeaders={true}
+                />
+              </div>
+              <ProductShowcase
+                defaultCategory="Refrigerateur"
+                categoryType="subcategory"
+                categories={refrigerateurCategories}
+                bannerImage="/images/electromenager.png"
+                bannerText="Électroménager"
+                initialProducts={refrigerateurProducts}
               />
+              <ProductShowcase
+                defaultCategory="Machine à Laver"
+                categoryType="subcategory"
+                categories={machineALaverCategories}
+                bannerImage="/images/lavage.png"
+                bannerText="Lavage"
+                initialProducts={machineProducts}
+              />
+              <ProductShowcase
+                defaultCategory="Lave Vaisselle"
+                categoryType="subcategory"
+                categories={laveVaisselleCategories}
+                bannerImage="/images/cuisine.png"
+                bannerText="Cuisine"
+                initialProducts={laveVaisselleProducts}
+              />
+
+
+
+              {/* Parapharmacie Section */}
+              <div id="parapharmacie" className="max-w-7xl mx-auto w-full px-4 pt-12 flex flex-col md:flex-row items-center justify-between gap-8">
+                <div className="flex-1">
+                  <h2 className="text-2xl sm:text-3xl md:text-5xl font-black text-[#0D9488] tracking-tight">
+                    Parapharmacie: <span className="text-[#2563EB]">Comparez les Prix</span>
+                  </h2>
+                  <p className="text-gray-500 mt-2">
+                    Trouvez les meilleurs prix parmi Parashop, Pharma Shop et Parafendri
+                  </p>
+                </div>
+                <div className="relative w-48 h-24 md:w-[350px] md:h-44 shrink-0 hidden sm:block">
+                  <img
+                    src="/images/Gemini_Generated_Image_sca15ssca15ssca1 1.svg"
+                    alt="Logo Parapharmacie"
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+              </div>
+
+              <ParaProductShowcase
+                defaultCategory="Maman et bébé"
+                categoryType="top"
+                bannerText="Maman & Bébé"
+                initialProducts={mamanProducts}
+              />
+              <ParaProductShowcase
+                defaultCategory="Solaire"
+                categoryType="top"
+                bannerText="Solaire"
+                initialProducts={solaireProducts}
+              />
+              <ParaProductShowcase
+                defaultCategory="Hygiène"
+                categoryType="top"
+                bannerText="Hygiène"
+                initialProducts={hygieneProducts}
+              />
+              <ParaProductShowcase
+                defaultCategory="Visage"
+                categoryType="low"
+                bannerText="Soins Visage"
+                initialProducts={visageProducts}
+              />
+
+            </div> {/* End of max-w-7xl from line 204 */}
+
+            <SupermarketComparison products={comparisonProducts} />
+
+            <div className="max-w-7xl mx-auto w-full px-4">
+              <div id="alertes-prix"><FakePriceAlerts /></div>
+              <div id="prediction-prix"><PriceVariationAlert product={predictiveProduct} /></div>
+              {/*<PriceIncreasePrediction />*/}
             </div>
+
+          </div> {/* End of main content wrapper */}
+          {/* Right SideBanner (only for HeroSection) */}
+          <div className="hidden md:block w-36 xl:w-48 2xl:w-56 flex-shrink-0">
+            <SideBanner side="right" />
           </div>
 
-          <ParaProductShowcase
-            defaultCategory="Maman et bébé"
-            categoryType="top"
-            bannerText="Maman & Bébé"
-            initialProducts={mamanProducts}
-          />
-          <ParaProductShowcase
-            defaultCategory="Solaire"
-            categoryType="top"
-            bannerText="Solaire"
-            initialProducts={solaireProducts}
-          />
-          <ParaProductShowcase
-            defaultCategory="Hygiène"
-            categoryType="top"
-            bannerText="Hygiène"
-            initialProducts={hygieneProducts}
-          />
-          <ParaProductShowcase
-            defaultCategory="Visage"
-            categoryType="low"
-            bannerText="Soins Visage"
-            initialProducts={visageProducts}
-          />
-
-        </div> {/* End of max-w-7xl from line 204 */}
-
-        <SupermarketComparison products={comparisonProducts} />
-
-        <div className="max-w-7xl mx-auto w-full px-4">
-          <FakePriceAlerts />
-          <PriceVariationAlert product={predictiveProduct} />
-          {/*<PriceIncreasePrediction />*/}
-        </div>
-
-
+          {/* Right Banner removed */}
+        </div> {/* End of 3-column grid */}
 
       </main>
       <Footer />

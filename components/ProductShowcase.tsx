@@ -131,15 +131,15 @@ export default function ProductShowcase({
         <section className="w-full max-w-[1400px] mx-auto px-4 py-8">
             {/* Decorative Headers */}
             {showDecorativeHeaders && (
-                <div className="flex justify-between items-center mb-10 px-4">
-                    <div className="relative w-72 h-32 md:w-96 md:h-40">
+                <div className="flex flex-col sm:flex-row justify-between items-center mb-10 px-4 gap-4">
+                    <div className="relative w-48 h-20 sm:w-72 sm:h-32 md:w-96 md:h-40">
                         <img
                             src="/images/Gemini_Generated_Image_uzbygwuzbygwuzby 1.svg"
                             alt="Tendances"
                             className="w-full h-full object-contain"
                         />
                     </div>
-                    <div className="relative w-72 h-32 md:w-96 md:h-40">
+                    <div className="relative w-48 h-20 sm:w-72 sm:h-32 md:w-96 md:h-40">
                         <img
                             src="/images/Gemini_Generated_Image_vju61pvju61pvju6 1.svg"
                             alt="e-commerce"

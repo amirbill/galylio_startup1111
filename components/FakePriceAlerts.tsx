@@ -119,7 +119,7 @@ export function FakePriceAlerts() {
                         <AlertTriangle className="size-7" />
                     </div>
                     <div>
-                        <h2 className="text-2xl md:text-4xl font-black text-[#2563EB] tracking-tight">
+                        <h2 className="text-xl sm:text-2xl md:text-4xl font-black text-[#2563EB] tracking-tight">
                             Attention aux Faux Prix!
                         </h2>
                         <p className="text-sm text-muted-foreground mt-1">
@@ -127,7 +127,7 @@ export function FakePriceAlerts() {
                         </p>
                     </div>
                 </div>
-                <div className="relative w-72 h-32 md:w-[450px] md:h-48 shrink-0">
+                <div className="relative w-48 h-24 md:w-[350px] md:h-40 shrink-0 hidden sm:block">
                     <img
                         src="/images/Gemini_Generated_Image_om8hf4om8hf4om8h 1.svg"
                         alt="Alert Logo"
@@ -152,7 +152,7 @@ export function FakePriceAlerts() {
             </div>
 
             {/* Products Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
                 {fakeDiscountProducts.map((product) => (
                     <div
                         key={product.id}

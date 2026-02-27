@@ -5,16 +5,16 @@ import { SearchBar } from './SearchBar';
 
 const HeroSection = () => {
     return (
-        <section className="relative overflow-hidden p-8 md:p-16 min-h-[600px] flex items-center bg-white">
-            
+        <section className="relative overflow-hidden p-4 sm:p-8 md:p-16 min-h-[400px] md:min-h-[600px] flex items-center bg-white">
+
             <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
                 {/* Left Content */}
                 <div className="flex flex-col gap-8">
                     {/* Logo */}
                     <div className="flex items-center">
-                        <img 
-                            src="/images/Logo 1111.svg" 
-                            alt="1111.tn Logo" 
+                        <img
+                            src="/images/Logo 1111.svg"
+                            alt="1111.tn Logo"
                             className="w-40 h-40 md:w-36 md:h-36 animate-float hover:scale-110 transition-transform duration-500 cursor-pointer"
                         />
                     </div>
@@ -30,16 +30,16 @@ const HeroSection = () => {
                             </h2>
 
                             <div className="flex flex-col space-y-1">
-                                <span className="text-2xl md:text-4xl font-extrabold text-[#2563EB] tracking-tight">
+                                <span className="text-xl sm:text-2xl md:text-4xl font-extrabold text-[#2563EB] tracking-tight">
                                     MONITORING
                                 </span>
-                                <span className="text-2xl md:text-4xl font-extrabold text-[#2563EB] tracking-tight">
+                                <span className="text-xl sm:text-2xl md:text-4xl font-extrabold text-[#2563EB] tracking-tight">
                                     BENCHMARKING
                                 </span>
-                                <span className="text-2xl md:text-4xl font-extrabold text-[#2563EB] tracking-tight text-nowrap">
+                                <span className="text-xl sm:text-2xl md:text-4xl font-extrabold text-[#2563EB] tracking-tight">
                                     VEILLE CONCURRENTIELLE
                                 </span>
-                                <span className="text-2xl md:text-4xl font-extrabold text-[#2563EB] tracking-tight">
+                                <span className="text-xl sm:text-2xl md:text-4xl font-extrabold text-[#2563EB] tracking-tight">
                                     PRÉDICTION
                                 </span>
                             </div>
@@ -62,9 +62,9 @@ const HeroSection = () => {
                 </div>
 
                 {/* Right Visual Section (Blobs) */}
-                <div className="relative h-[450px] md:h-[580px] w-full mt-10 lg:mt-0 flex items-center justify-center">
+                <div className="relative h-[300px] sm:h-[450px] md:h-[580px] w-full mt-10 lg:mt-0 flex items-center justify-center overflow-hidden">
                     {/* Top Right Circle Blob */}
-                    <div className="absolute -top-8 -right-8 size-48 md:size-64 rounded-full bg-[#A855F7] overflow-hidden border-[5px] border-white shadow-[0_15px_45px_rgba(0,0,0,0.12)] z-10 hover:scale-105 transition-transform duration-500">
+                    <div className="absolute -top-8 -right-8 size-32 sm:size-48 md:size-64 rounded-full bg-[#A855F7] overflow-hidden border-[5px] border-white shadow-[0_15px_45px_rgba(0,0,0,0.12)] z-10 hover:scale-105 transition-transform duration-500">
                         <img
                             src="/images/2_.png"
                             alt="Visual 2"
@@ -74,7 +74,7 @@ const HeroSection = () => {
                     </div>
 
                     {/* Bottom Right Arch Blob */}
-                    <div className="absolute -bottom-10 -right-6 w-40 md:size-68 rounded-t-[8rem] rounded-b-[1.5rem] bg-[#F97316] overflow-hidden border-[5px] border-white shadow-[0_15px_40px_rgba(0,0,0,0.12)] z-10 hover:scale-105 transition-transform duration-500">
+                    <div className="absolute -bottom-10 -right-6 w-28 sm:w-40 md:size-68 rounded-t-[8rem] rounded-b-[1.5rem] bg-[#F97316] overflow-hidden border-[5px] border-white shadow-[0_15px_40px_rgba(0,0,0,0.12)] z-10 hover:scale-105 transition-transform duration-500">
                         <img
                             src="/images/3_.png"
                             alt="Visual 3"

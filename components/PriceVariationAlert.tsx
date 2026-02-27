@@ -73,7 +73,7 @@ export function PriceVariationAlert({ product: initialProduct }: PriceVariationA
             {/* Header */}
             <div className="flex flex-col md:flex-row items-center justify-center gap-8 mb-16 px-4">
                 <div className="text-center md:text-right max-w-4xl">
-                    <h2 className="text-2xl md:text-4xl font-black text-[#2563EB] tracking-tight mb-2 leading-tight">
+                    <h2 className="text-xl sm:text-2xl md:text-4xl font-black text-[#2563EB] tracking-tight mb-2 leading-tight">
                         Alerte prédictive de variation de prix
                     </h2>
                     <p className="text-gray-500 text-sm md:text-base font-semibold leading-relaxed">
@@ -171,7 +171,7 @@ export function PriceVariationAlert({ product: initialProduct }: PriceVariationA
                     </div>
 
                     {/* Chart Container */}
-                    <div className="bg-white rounded-[3rem] p-10 border border-slate-100 shadow-[0_10px_40px_-20px_rgba(0,0,0,0.05)] flex flex-col h-full min-h-[450px]">
+                    <div className="bg-white rounded-[2rem] sm:rounded-[3rem] p-4 sm:p-10 border border-slate-100 shadow-[0_10px_40px_-20px_rgba(0,0,0,0.05)] flex flex-col h-full min-h-[300px] sm:min-h-[450px]">
                         <div className="flex justify-between items-center mb-10">
                             <div className="flex items-center gap-4 text-[10px] font-black uppercase tracking-widest text-slate-400">
                                 <div className="flex items-center gap-2">

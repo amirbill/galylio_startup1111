@@ -196,11 +196,11 @@ export default function PriceCards({ initialData }: PriceCardsProps) {
                     <div className="max-w-7xl mx-auto px-4 mb-10 flex flex-col md:flex-row items-center justify-between gap-8">
                         <div className="flex items-center gap-4 flex-1">
                             <div className="h-10 w-2 bg-[#8B5CF6] rounded-full"></div>
-                            <h2 className="text-[#2563EB] font-black text-3xl sm:text-4xl text-left tracking-tight">
+                            <h2 className="text-[#2563EB] font-black text-2xl sm:text-3xl md:text-4xl text-left tracking-tight">
                                 La moyenne des Prix par site <span className="text-[#8B5CF6]">E-commerce</span><span className="text-[#8B5CF6]">مُعَدَّلَ الأسعار</span>
                             </h2>
                         </div>
-                        <div className="relative w-72 h-32 md:w-[350px] md:h-32 shrink-0">
+                        <div className="relative w-48 h-24 md:w-[350px] md:h-32 shrink-0 hidden sm:block">
                             <img
                                 src="/images/Gemini_Generated_Image_cgcjk1cgcjk1cgcj 1.svg"
                                 alt="Price Analysis"
@@ -225,7 +225,7 @@ export default function PriceCards({ initialData }: PriceCardsProps) {
                     <div className="max-w-7xl mx-auto px-4 mb-10">
                         <div className="flex items-center gap-4">
                             <div className="h-10 w-2 bg-[#10B981] rounded-full"></div>
-                            <h2 className="text-[#2563EB] font-black text-3xl sm:text-4xl text-left tracking-tight">
+                            <h2 className="text-[#2563EB] font-black text-2xl sm:text-3xl md:text-4xl text-left tracking-tight">
                                 La moyenne des Prix par site <span className="text-[#10B981]">Parapharmacie</span><span className="text-[#8B5CF6]">مُعَدَّلَ الأسعار</span>
                             </h2>
                         </div>

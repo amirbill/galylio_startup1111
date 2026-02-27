@@ -87,10 +87,10 @@ export function BestShopSection() {
             <div className="max-w-7xl mx-auto">
                 {/* Header Container */}
                 <div className="flex flex-col md:flex-row items-center justify-between gap-8 mb-8">
-                    <h2 className="text-2xl md:text-4xl font-black text-[#2563EB] text-center md:text-left flex-1">
+                    <h2 className="text-xl sm:text-2xl md:text-4xl font-black text-[#2563EB] text-center md:text-left flex-1">
                         Le meilleur magasin pour vos courses
                     </h2>
-                    <div className="relative w-64 h-28 md:w-[400px] md:h-40 shrink-0">
+                    <div className="relative w-48 h-24 md:w-[400px] md:h-40 shrink-0 hidden sm:block">
                         <img
                             src="/images/Gemini_Generated_Image_ogh7ciogh7ciogh7 1.svg"
                             alt="Shopping Experience"
