@@ -184,15 +184,16 @@ function ProductSkeleton() {
 
 interface SideBannerProps {
   side: 'left' | 'right';
+  initialProducts?: RandomProduct[];
 }
 
-export function SideBanner({ side }: SideBannerProps) {
+export function SideBanner({ side, initialProducts }: SideBannerProps) {
+  const isLeft = side === 'left';
+
   const bannerRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
-  const [products, setProducts] = useState<RandomProduct[]>([]);
-  const [loadingProducts, setLoadingProducts] = useState(true);
-
-  const isLeft = side === 'left';
+  const [products, setProducts] = useState<RandomProduct[]>(initialProducts || []);
+  const [loadingProducts, setLoadingProducts] = useState(!initialProducts && !isLeft);
 
   useEffect(() => {
     const timer = setTimeout(() => setIsVisible(true), 150);
@@ -200,7 +201,8 @@ export function SideBanner({ side }: SideBannerProps) {
   }, []);
 
   useEffect(() => {
-    if (!isLeft) {
+    // Skip client-side fetch if server already provided products
+    if (!isLeft && (!initialProducts || initialProducts.length === 0)) {
       // Fetch a mix of random products using listing endpoints (no required params)
       const fetchProducts = async () => {
         setLoadingProducts(true);

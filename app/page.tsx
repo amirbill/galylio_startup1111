@@ -186,7 +186,9 @@ export default async function Home() {
     visageProducts,
     productsAllAnalytics,
     paraAllAnalytics,
-    comparisonProducts
+    comparisonProducts,
+    bannerProds,
+    bannerPara,
   ] = await Promise.all([
     getPrices(),
     getProducts("Imprimante", "low_category"),
@@ -199,10 +201,20 @@ export default async function Home() {
     getParaProducts("Visage", "low"),
     getAllAnalytics("products", productsCategories),
     getAllAnalytics("para", paraCategories),
-    getComparisonProducts(9)
+    getComparisonProducts(9),
+    // Banner products — fetched server side for instant render
+    fetch(`${API_URL}/products/listing?limit=20`).then(r => r.ok ? r.json() : { products: [] }).catch(() => ({ products: [] })),
+    fetch(`${API_URL}/para/listing?limit=10`).then(r => r.ok ? r.json() : { products: [] }).catch(() => ({ products: [] })),
   ]);
 
   const predictiveProduct = imprimanteProducts?.[0];
+
+  // Prepare banner products server-side (shuffle + pick 2 elec + 1 para)
+  const allBannerProds = (bannerProds?.products || []).map((p: any) => ({ ...p, type: 'product' }))
+  const allBannerPara = (bannerPara?.products || []).map((p: any) => ({ ...p, type: 'para' }))
+  const shuffledBannerProds = allBannerProds.sort(() => Math.random() - 0.5).slice(0, 2);
+  const shuffledBannerPara = allBannerPara.sort(() => Math.random() - 0.5).slice(0, 1);
+  const bannerProducts = [...shuffledBannerProds, ...shuffledBannerPara];
 
   return (
     <div className="flex flex-col min-h-screen bg-white font-[family-name:var(--font-geist-sans)] overflow-x-hidden">
@@ -361,9 +373,9 @@ export default async function Home() {
             </div>
 
           </div> {/* End of main content wrapper */}
-          {/* Right SideBanner (only for HeroSection) */}
+          {/* Right SideBanner */}
           <div className="hidden md:block w-36 xl:w-48 2xl:w-56 flex-shrink-0">
-            <SideBanner side="right" />
+            <SideBanner side="right" initialProducts={bannerProducts} />
           </div>
 
           {/* Right Banner removed */}

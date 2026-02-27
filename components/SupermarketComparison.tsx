@@ -68,7 +68,7 @@ export function SupermarketComparison({ products: initialProducts }: Supermarket
                                                         <div className="text-slate-400 font-black text-[10px] uppercase">{sp.shop.charAt(0)}</div>
                                                     )}
                                                 </div>
-                                                <span className={`text-[10px] font-black truncate w-full text-center ${idx === 0 ? 'text-[#ED1C24]' : 'text-slate-500'}`}>
+                                                <span className={`text-[9px] font-black whitespace-nowrap w-full text-center block ${idx === 0 ? 'text-[#ED1C24]' : 'text-slate-500'}`}>
                                                     {formatPrice(sp.price)}
                                                 </span>
                                             </div>
