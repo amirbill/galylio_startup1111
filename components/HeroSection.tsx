@@ -26,7 +26,7 @@ const HeroSection = () => {
 
                         <div className="space-y-2">
                             <h2 className="text-lg md:text-xl font-bold text-[#111827] tracking-tight">
-                                Les prix, en toute transparence et clairence 
+                                Les prix, en toute transparence et claireté.
                             </h2>
 
                             <div className="flex flex-col space-y-1">
