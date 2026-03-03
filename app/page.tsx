@@ -342,6 +342,7 @@ export default async function Home() {
                 categoryType="top"
                 bannerText="Maman & Bébé"
                 initialProducts={mamanProducts}
+                priorityBanner
               />
               <ParaProductShowcase
                 defaultCategory="Solaire"

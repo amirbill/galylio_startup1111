@@ -6,6 +6,7 @@ import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react"
 import { useState, useEffect, useRef } from "react"
 import { API_URL } from "@/lib/api"
 import Link from "next/link"
+import Image from "next/image"
 
 interface ShopPrice {
     shop: string
@@ -51,16 +52,17 @@ interface ParaProductShowcaseProps {
     bannerImage?: string
     bannerText?: string
     title?: string
+    priorityBanner?: boolean
 }
 
 // Category-specific banner images for PARA products
 const paraBannerImages: Record<string, string> = {
-    "Maman et bébé": "/objects-showing-its-girl-expectancy.jpg",
-    "Solaire": "/sunscreen-tube-with-spf-50-rock-by-sea.jpg",
-    "Hygiène": "/still-life-dispenser-bottle.jpg",
-    "Visage": "/portrait-woman-wearing-beauty-mask.jpg",
-    "Cheveux": "/still-life-dispenser-bottle.jpg",
-    "Corps": "/still-life-dispenser-bottle.jpg",
+    "Maman et bébé": "/para-banner-maman.webp",
+    "Solaire": "/para-banner-solaire.webp",
+    "Hygiène": "/para-banner-hygiene.webp",
+    "Visage": "/para-banner-visage.webp",
+    "Cheveux": "/para-banner-hygiene.webp",
+    "Corps": "/para-banner-hygiene.webp",
 }
 
 export function ParaProductShowcase({
@@ -70,7 +72,8 @@ export function ParaProductShowcase({
     initialProducts,
     bannerImage,
     bannerText = "Parapharmacie",
-    title = "Produits Parapharmacie"
+    title = "Produits Parapharmacie",
+    priorityBanner = false
 }: ParaProductShowcaseProps) {
     const [products, setProducts] = useState<ParaProduct[]>(initialProducts || [])
     const [loading, setLoading] = useState(!initialProducts)
@@ -143,10 +146,14 @@ export function ParaProductShowcase({
                 {/* Left Side Banner */}
                 <div className="lg:w-[280px] shrink-0 hidden lg:block">
                     <div className="h-full w-full relative group overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-teal-400 to-emerald-500">
-                        <img
+                        <Image
                             src={currentBannerImage}
                             alt="Banner"
-                            className="h-full w-full object-cover opacity-60 transition-transform duration-700 group-hover:scale-110"
+                            fill
+                            sizes="280px"
+                            quality={75}
+                            priority={priorityBanner}
+                            className="object-cover opacity-60 transition-transform duration-700 group-hover:scale-110"
                         />
                         <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
                         <div className="absolute bottom-6 left-6 right-6">
