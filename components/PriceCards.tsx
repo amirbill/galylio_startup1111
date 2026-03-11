@@ -8,10 +8,8 @@ const SHOP_IMAGES: { [key: string]: string } = {
     "mytek": "/images/téléchargement (4).png",
     "tunisianet": "/images/téléchargement (6).png",
     "ac space": "/images/file.svg",
-    "zoom": "/images/window.svg",
     "wamia": "/images/vercel.svg",
     "tdiscount": "/images/globe.svg",
-    "graiet": "/images/file.svg",
     "parafendri": "/images/parafendri-removebg-preview.png",
     "parashop": "/images/parashop-removebg-preview.png",
     "pharmashop": "/images/pharmashop-removebg-preview.png",
@@ -19,22 +17,30 @@ const SHOP_IMAGES: { [key: string]: string } = {
     "pharma-shop": "/images/pharmashop-removebg-preview.png",
     "technopro": "/images/technopro-logo.jpg",
     "darty": "/images/Darty.png",
+    "batam": "/images/logo-batam.jpg",
+    "graiet": "/images/logo-graiet.png",
+    "jumbo": "/images/logo-jambo.png",
+    "zoom": "/images/logo-zoom.jpg",
 };
 
-// Fallback data in case DB is empty
+// Static data — prices are hardcoded
 const DEFAULT_SHOPS = [
-    { name: 'MyTek', logo: 'MyTEK', color: 'text-[#E30613]', price: '150 DT' },
-    { name: 'Tunisianet', logo: 'Tunisianet', color: 'text-[#005DAA]', price: '150 DT' },
-    { name: 'Spacenet', logo: 'Spacenet', color: 'text-[#E30613]', price: '150 DT' },
-    { name: 'TechnoPro', logo: 'TechnoPro', color: 'text-[#7C3AED]', price: '155 DT' },
-    { name: 'Darty', logo: 'Darty', color: 'text-[#CA8A04]', price: '158 DT' },
+    { name: 'Spacenet', logo: 'Spacenet', color: 'text-[#E30613]', price: '800.45 DT' },
+    { name: 'Tunisianet', logo: 'Tunisianet', color: 'text-[#005DAA]', price: '815.72 DT' },
+    { name: 'Batam', logo: 'Batam', color: 'text-[#E53E3E]', price: '828.38 DT' },
+    { name: 'MyTek', logo: 'MyTEK', color: 'text-[#E30613]', price: '842.16 DT' },
+    { name: 'TechnoPro', logo: 'TechnoPro', color: 'text-[#7C3AED]', price: '855.93 DT' },
+    { name: 'Darty', logo: 'Darty', color: 'text-[#CA8A04]', price: '867.54 DT' },
+    { name: 'Graiet', logo: 'Graiet', color: 'text-[#2B6CB0]', price: '878.27 DT' },
+    { name: 'Jumbo', logo: 'Jumbo', color: 'text-[#D69E2E]', price: '889.61 DT' },
+    { name: 'Zoom', logo: 'Zoom', color: 'text-[#38A169]', price: '900.85 DT' },
     { name: 'Parafendri', logo: 'Parafendri', color: 'text-green-600', price: '45 DT' },
     { name: 'Parashop', logo: 'Parashop', color: 'text-green-600', price: '42 DT' },
     { name: 'Pharma-shop', logo: 'Pharma-shop', color: 'text-green-600', price: '48 DT' },
 ];
 
 // Define categories to filter which shop goes where
-const ECOMMERCE_SHOPS = ["mytek", "tunisianet", "spacenet", "technopro", "darty"];
+const ECOMMERCE_SHOPS = ["mytek", "tunisianet", "spacenet", "technopro", "darty", "batam", "graiet", "jumbo", "zoom"];
 const PARAPHARMACY_SHOPS = ["parafendri", "parashop", "pharmashop", "pharma-shop"];
 
 // Helper to render a rank badge
@@ -86,7 +92,8 @@ export default function PriceCards({ initialData }: PriceCardsProps) {
                 }
 
                 const mergedShops = DEFAULT_SHOPS.map(defaultShop => {
-                    const apiShop = apiShopsMap.get(defaultShop.name.toLowerCase());
+                    const isEcommerce = ECOMMERCE_SHOPS.includes(defaultShop.name.toLowerCase());
+                    const apiShop = isEcommerce ? null : apiShopsMap.get(defaultShop.name.toLowerCase());
                     const numericPrice = apiShop ? apiShop.average_price : (parseFloat(defaultShop.price) || 999999);
                     return {
                         ...defaultShop,

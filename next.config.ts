@@ -54,7 +54,23 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "parafendri.tn",
-      }
+      },
+      {
+        protocol: "https",
+        hostname: "www.technopro-online.com",
+      },
+      {
+        protocol: "https",
+        hostname: "technopro-online.com",
+      },
+      {
+        protocol: "https",
+        hostname: "jumbo.tn",
+      },
+      {
+        protocol: "https",
+        hostname: "www.jumbo.tn",
+      },
     ],
   },
   allowedDevOrigins: [

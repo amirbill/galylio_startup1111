@@ -10,9 +10,26 @@ const SHOP_CONFIG: Record<string, { image: string; display: string; accent: stri
     spacenet: { image: "/images/spacenet-removebg-preview.png", display: "Spacenet", accent: "#E30613", textColor: "text-red-600" },
     technopro: { image: "/images/technopro-logo.jpg", display: "TechnoPro", accent: "#7C3AED", textColor: "text-purple-600" },
     darty: { image: "/images/Darty.png", display: "Darty", accent: "#CA8A04", textColor: "text-yellow-600" },
+    batam: { image: "/images/logo-batam.jpg", display: "Batam", accent: "#E53E3E", textColor: "text-red-500" },
+    graiet: { image: "/images/logo-graiet.png", display: "Graiet", accent: "#2B6CB0", textColor: "text-blue-600" },
+    jumbo: { image: "/images/logo-jambo.png", display: "Jumbo", accent: "#D69E2E", textColor: "text-yellow-600" },
+    zoom: { image: "/images/logo-zoom.jpg", display: "Zoom", accent: "#38A169", textColor: "text-green-600" },
     parafendri: { image: "/images/parafendri-removebg-preview.png", display: "ParaFendri", accent: "#059669", textColor: "text-emerald-600" },
     parashop: { image: "/images/parashop-removebg-preview.png", display: "ParaShop", accent: "#0D9488", textColor: "text-teal-600" },
     "pharma-shop": { image: "/images/pharmashop-removebg-preview.png", display: "Pharma-Shop", accent: "#10B981", textColor: "text-green-600" },
+};
+
+// ─── Static overall average prices for E-commerce shops ─────────────
+const STATIC_ECOMMERCE_PRICES: Record<string, number> = {
+    spacenet: 800.45,
+    tunisianet: 815.72,
+    batam: 828.38,
+    mytek: 842.16,
+    technopro: 855.93,
+    darty: 867.54,
+    graiet: 878.27,
+    jumbo: 889.61,
+    zoom: 900.85,
 };
 
 // ─── Fake category-level data for technopro & darty ─────────────────
@@ -43,6 +60,58 @@ const FAKE_SHOP_CATEGORY_DATA: Record<string, Record<string, { avg_price: number
         "Refrigerateur": { avg_price: 1299.00, min_price: 549.00, max_price: 3799.00, product_count: 24 },
         "Machine à Laver": { avg_price: 1069.00, min_price: 649.00, max_price: 2599.00, product_count: 18 },
         "Imprimante": { avg_price: 445.00, min_price: 159.00, max_price: 2299.00, product_count: 15 },
+    },
+    batam: {
+        "BUREAUTIQUE": { avg_price: 257.63, min_price: 35.00, max_price: 1650.00, product_count: 15 },
+        "IMPRESSION": { avg_price: 375.40, min_price: 119.00, max_price: 2199.00, product_count: 22 },
+        "RESEAUX & SECURITE": { avg_price: 265.30, min_price: 18.00, max_price: 1399.00, product_count: 41 },
+        "ELECTROMENAGER": { avg_price: 1150.00, min_price: 179.00, max_price: 4599.00, product_count: 85 },
+        "PC PORTABLE": { avg_price: 2050.00, min_price: 849.00, max_price: 5999.00, product_count: 62 },
+        "COMPOSANTS": { avg_price: 320.40, min_price: 25.00, max_price: 2599.00, product_count: 38 },
+        "TELEPHONIE": { avg_price: 820.50, min_price: 49.00, max_price: 4999.00, product_count: 45 },
+        "GAMING": { avg_price: 530.20, min_price: 35.00, max_price: 3599.00, product_count: 31 },
+        "Refrigerateur": { avg_price: 1280.00, min_price: 529.00, max_price: 3699.00, product_count: 19 },
+        "Machine à Laver": { avg_price: 1020.00, min_price: 619.00, max_price: 2499.00, product_count: 14 },
+        "Imprimante": { avg_price: 410.00, min_price: 139.00, max_price: 2199.00, product_count: 12 },
+    },
+    graiet: {
+        "BUREAUTIQUE": { avg_price: 440.20, min_price: 52.00, max_price: 1850.00, product_count: 48 },
+        "IMPRESSION": { avg_price: 410.80, min_price: 145.00, max_price: 2550.00, product_count: 36 },
+        "RESEAUX & SECURITE": { avg_price: 295.60, min_price: 28.00, max_price: 1550.00, product_count: 29 },
+        "ELECTROMENAGER": { avg_price: 1265.00, min_price: 205.00, max_price: 4850.00, product_count: 72 },
+        "PC PORTABLE": { avg_price: 2310.00, min_price: 975.00, max_price: 6450.00, product_count: 51 },
+        "COMPOSANTS": { avg_price: 370.50, min_price: 38.00, max_price: 2850.00, product_count: 33 },
+        "TELEPHONIE": { avg_price: 935.70, min_price: 75.00, max_price: 5350.00, product_count: 27 },
+        "GAMING": { avg_price: 605.80, min_price: 48.00, max_price: 3850.00, product_count: 22 },
+        "Refrigerateur": { avg_price: 1420.00, min_price: 575.00, max_price: 3850.00, product_count: 16 },
+        "Machine à Laver": { avg_price: 1150.00, min_price: 675.00, max_price: 2650.00, product_count: 11 },
+        "Imprimante": { avg_price: 460.00, min_price: 165.00, max_price: 2450.00, product_count: 10 },
+    },
+    jumbo: {
+        "BUREAUTIQUE": { avg_price: 455.30, min_price: 55.00, max_price: 1900.00, product_count: 42 },
+        "IMPRESSION": { avg_price: 420.60, min_price: 150.00, max_price: 2600.00, product_count: 30 },
+        "RESEAUX & SECURITE": { avg_price: 305.40, min_price: 30.00, max_price: 1600.00, product_count: 25 },
+        "ELECTROMENAGER": { avg_price: 1310.00, min_price: 215.00, max_price: 4900.00, product_count: 68 },
+        "PC PORTABLE": { avg_price: 2380.00, min_price: 999.00, max_price: 6550.00, product_count: 47 },
+        "COMPOSANTS": { avg_price: 385.90, min_price: 40.00, max_price: 2900.00, product_count: 28 },
+        "TELEPHONIE": { avg_price: 960.20, min_price: 79.00, max_price: 5400.00, product_count: 23 },
+        "GAMING": { avg_price: 620.50, min_price: 50.00, max_price: 3900.00, product_count: 19 },
+        "Refrigerateur": { avg_price: 1450.00, min_price: 590.00, max_price: 3900.00, product_count: 14 },
+        "Machine à Laver": { avg_price: 1180.00, min_price: 690.00, max_price: 2700.00, product_count: 9 },
+        "Imprimante": { avg_price: 475.00, min_price: 170.00, max_price: 2500.00, product_count: 8 },
+    },
+    zoom: {
+        "BUREAUTIQUE": { avg_price: 470.10, min_price: 58.00, max_price: 1950.00, product_count: 37 },
+        "IMPRESSION": { avg_price: 435.30, min_price: 155.00, max_price: 2650.00, product_count: 25 },
+        "RESEAUX & SECURITE": { avg_price: 312.80, min_price: 32.00, max_price: 1650.00, product_count: 21 },
+        "ELECTROMENAGER": { avg_price: 1350.00, min_price: 225.00, max_price: 4950.00, product_count: 60 },
+        "PC PORTABLE": { avg_price: 2420.00, min_price: 1020.00, max_price: 6600.00, product_count: 42 },
+        "COMPOSANTS": { avg_price: 395.40, min_price: 42.00, max_price: 2950.00, product_count: 24 },
+        "TELEPHONIE": { avg_price: 985.50, min_price: 82.00, max_price: 5450.00, product_count: 20 },
+        "GAMING": { avg_price: 640.70, min_price: 52.00, max_price: 3950.00, product_count: 16 },
+        "Refrigerateur": { avg_price: 1480.00, min_price: 610.00, max_price: 3950.00, product_count: 12 },
+        "Machine à Laver": { avg_price: 1210.00, min_price: 710.00, max_price: 2750.00, product_count: 7 },
+        "Imprimante": { avg_price: 490.00, min_price: 175.00, max_price: 2550.00, product_count: 6 },
     },
 };
 
@@ -138,7 +207,7 @@ export function ShopPriceComparisonTable({
     }, []);
 
     // ─── Shop Lists ─────────────────────────────────────────────────
-    const KNOWN_ECOMMERCE = ["mytek", "tunisianet", "spacenet", "technopro", "darty"];
+    const KNOWN_ECOMMERCE = ["mytek", "tunisianet", "spacenet", "technopro", "darty", "batam", "graiet", "jumbo", "zoom"];
     const PARAPHARMACY = ["parafendri", "parashop", "pharmashop", "pharma-shop"];
 
     const allPriceKeys = pricesData.map(s => s.name.toLowerCase());
@@ -148,14 +217,23 @@ export function ShopPriceComparisonTable({
 
     const relevantShops = type === "products" ? ECOMMERCE : PARAPHARMACY;
 
-    // ─── Overall averages ───────────────────────────────────────────
+    // ─── Overall averages (static for e-commerce, API for parapharmacy) ─
     const shopOverallAverages: Record<string, number> = {};
-    pricesData.forEach((shop) => {
-        const key = shop.name.toLowerCase();
-        if (relevantShops.includes(key)) {
-            shopOverallAverages[key] = shop.average_price;
+    if (type === "products") {
+        // Use static prices for e-commerce shops
+        for (const [key, price] of Object.entries(STATIC_ECOMMERCE_PRICES)) {
+            if (relevantShops.includes(key)) {
+                shopOverallAverages[key] = price;
+            }
         }
-    });
+    } else {
+        pricesData.forEach((shop) => {
+            const key = shop.name.toLowerCase();
+            if (relevantShops.includes(key)) {
+                shopOverallAverages[key] = shop.average_price;
+            }
+        });
+    }
 
     // ─── Sorted shops (cheapest first) ──────────────────────────────
     const sortedShops = useMemo(() => {
@@ -226,7 +304,7 @@ export function ShopPriceComparisonTable({
 
     return (
         <div className="w-full">
-            <div className={`rounded-2xl border ${theme.border} bg-white shadow-sm overflow-visible`}>
+            <div className={`rounded-2xl border ${theme.border} bg-white shadow-sm ${type === 'products' ? 'overflow-hidden' : 'overflow-visible'}`}>
 
                 {/* ═══ Header ═══ */}
                 <div
@@ -245,19 +323,19 @@ export function ShopPriceComparisonTable({
                 </div>
 
                 {/* ═══ Table Layout — Vertical Columns per Shop ═══ */}
-                <div className="overflow-x-auto">
-                    <table className="w-full border-collapse" style={{ tableLayout: 'fixed' }}>
+                <div className={type === 'products' ? "overflow-x-auto scrollbar-thin scrollbar-thumb-slate-300 scrollbar-track-transparent" : "overflow-x-auto"}>
+                    <table className={type === 'products' ? "border-collapse" : "w-full border-collapse"} style={type === 'products' ? { minWidth: `${170 + sortedShops.length * 140}px` } : { tableLayout: 'fixed' as const }}>
                         <colgroup>
-                            <col className="w-[140px] sm:w-[170px]" />
+                            <col style={type === 'products' ? { width: '170px', minWidth: '170px' } : undefined} className={type !== 'products' ? "w-[140px] sm:w-[170px]" : undefined} />
                             {sortedShops.map(shop => (
-                                <col key={shop.name} />
+                                <col key={shop.name} style={type === 'products' ? { width: '140px', minWidth: '130px' } : undefined} />
                             ))}
                         </colgroup>
 
                         <tbody>
                             {/* ── Row 1: Shop Logos ── */}
                             <tr className={`border-b ${theme.divider}`}>
-                                <td className="px-4 sm:px-6 py-4 sm:py-5 align-middle">
+                                <td className={`px-4 sm:px-6 py-4 sm:py-5 align-middle ${type === 'products' ? 'sticky left-0 z-20 bg-white' : ''}`}>
                                     <div className="flex items-center gap-2">
                                         <Store className="size-4 text-slate-400" />
                                         <span className="text-[12px] sm:text-[13px] font-semibold text-slate-600">Boutiques</span>
@@ -306,7 +384,7 @@ export function ShopPriceComparisonTable({
 
                             {/* ── Row 2: Overall Average Prices ── */}
                             <tr className={`border-b ${theme.divider}`}>
-                                <td className="px-4 sm:px-6 py-4 sm:py-5 align-middle">
+                                <td className={`px-4 sm:px-6 py-4 sm:py-5 align-middle ${type === 'products' ? 'sticky left-0 z-20 bg-white' : ''}`}>
                                     <div className="flex items-center gap-2">
                                         <Tag className="size-4 text-slate-400" />
                                         <span className="text-[12px] sm:text-[13px] font-semibold text-slate-600">Prix moyen global</span>
@@ -358,7 +436,7 @@ export function ShopPriceComparisonTable({
 
                             {/* ── Row 3: Category Price Comparison ── */}
                             <tr>
-                                <td className="px-4 sm:px-6 py-4 sm:py-5 align-top relative" ref={dropdownRef}>
+                                <td className={`px-4 sm:px-6 py-4 sm:py-5 align-top relative ${type === 'products' ? 'sticky left-0 z-20 bg-white' : ''}`} ref={dropdownRef}>
                                     <div className="flex items-center gap-2 mb-3">
                                         <BarChart3 className="size-4 text-slate-400" />
                                         <span className="text-[12px] sm:text-[13px] font-semibold text-slate-600">Par catégorie</span>

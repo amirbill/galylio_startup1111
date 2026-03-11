@@ -5,7 +5,6 @@ import { API_URL } from "@/lib/api"
 export async function fetchProductsAction(category: string, categoryType: string, limit: number = 10) {
     try {
         const url = `${API_URL}/products/random?category=${encodeURIComponent(category)}&category_type=${categoryType}&limit=${limit}`;
-        // console.log(`[Server Action] Fetching products: ${url}`);
         const res = await fetch(url, { cache: 'no-store' });
 
         if (!res.ok) {
@@ -13,7 +12,16 @@ export async function fetchProductsAction(category: string, categoryType: string
             return [];
         }
 
-        return await res.json();
+        const data = await res.json();
+        // Fallback: if /random returns empty, use /listing with search
+        if (Array.isArray(data) && data.length === 0) {
+            const fallbackUrl = `${API_URL}/products/listing?search=${encodeURIComponent(category)}&limit=${limit}`;
+            const fallbackRes = await fetch(fallbackUrl, { cache: 'no-store' });
+            if (!fallbackRes.ok) return [];
+            const fallbackData = await fallbackRes.json();
+            return fallbackData.products || [];
+        }
+        return data;
     } catch (error) {
         console.error("[Server Action] Error fetching products:", error);
         return [];

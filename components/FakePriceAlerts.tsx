@@ -1,113 +1,102 @@
 "use client"
 
-import Image from "next/image"
-import { AlertTriangle, Eye, TrendingUp, BadgePercent } from "lucide-react"
+import { AlertTriangle, Eye, ChevronLeft, ChevronRight, ArrowRight } from "lucide-react"
+import { useRef, useState, useEffect } from "react"
+import Link from "next/link"
 
-interface FakeDiscountProduct {
+// Shop logo mapping
+const SHOP_LOGOS: Record<string, string> = {
+    mytek: "/images/téléchargement (4).png",
+    tunisianet: "/images/téléchargement (6).png",
+    spacenet: "/images/spacenet-removebg-preview.png",
+    technopro: "/images/technopro-logo.jpg",
+    darty: "/images/Darty.png",
+    batam: "/images/logo-batam.jpg",
+    graiet: "/images/logo-graiet.png",
+    jumbo: "/images/logo-jambo.png",
+    zoom: "/images/logo-zoom.jpg",
+    parafendri: "/images/parafendri-removebg-preview.png",
+    parashop: "/images/parashop-removebg-preview.png",
+    "pharma-shop": "/images/pharmashop-removebg-preview.png",
+    pharmashop: "/images/pharmashop-removebg-preview.png",
+}
+
+// API data shape from fake_promos collection
+interface FakePromoFromAPI {
     id: string
-    name: string
+    title: string
     brand: string
     shop: string
     image: string
-    currentPrice: number
-    claimedOriginalPrice: number
-    realOriginalPrice: number
-    discountClaimed: number
-    realDiscount: number
-    detectionDate: string
+    url: string
+    old_scrap_old_price: number | null   // real old price
+    old_scrap_price: number | null        // old promo/sale price
+    new_scrap_price: number | null       // current promo price
+    new_scrap_old_price: number | null   // fake "old price" they claim
+    old_price_inflated_by: number | null
+    old_price_inflated_by_pct: number | null
+    advertised_discount: number | null
+    advertised_discount_pct: number | null
+    real_increase_pct: number | null
+    category: string | null
 }
 
-// Fake but realistic products with suspicious discount patterns
-const fakeDiscountProducts: FakeDiscountProduct[] = [
-    {
-        id: "fake-001",
-        name: "Sérum Vitamine C 30ml",
-        brand: "L'Oréal Paris",
-        shop: "Parashop",
-        image: "https://images.unsplash.com/photo-1620916566398-39f1143ab7be?w=200",
-        currentPrice: 45.900,
-        claimedOriginalPrice: 89.900,
-        realOriginalPrice: 52.500,
-        discountClaimed: 49,
-        realDiscount: 13,
-        detectionDate: "Il y a 2 jours"
-    },
-    {
-        id: "fake-002",
-        name: "Crème Anti-Âge Nuit 50ml",
-        brand: "Vichy",
-        shop: "Pharma-Shop",
-        image: "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=200",
-        currentPrice: 78.500,
-        claimedOriginalPrice: 145.000,
-        realOriginalPrice: 89.900,
-        discountClaimed: 46,
-        realDiscount: 13,
-        detectionDate: "Hier"
-    },
-    {
-        id: "fake-003",
-        name: "Huile de Coco Bio 200ml",
-        brand: "SO'BiO étic",
-        shop: "Parafendri",
-        image: "https://images.unsplash.com/photo-1608571423902-eed4a5ad8108?w=200",
-        currentPrice: 22.900,
-        claimedOriginalPrice: 42.000,
-        realOriginalPrice: 26.500,
-        discountClaimed: 45,
-        realDiscount: 14,
-        detectionDate: "Aujourd'hui"
-    },
-    {
-        id: "fake-004",
-        name: "Shampooing Réparateur 250ml",
-        brand: "Ducray",
-        shop: "Parashop",
-        image: "https://images.unsplash.com/photo-1535585209827-a15fcdbc4c2d?w=200",
-        currentPrice: 19.900,
-        claimedOriginalPrice: 35.900,
-        realOriginalPrice: 23.500,
-        discountClaimed: 45,
-        realDiscount: 15,
-        detectionDate: "Il y a 3 jours"
-    },
-    {
-        id: "fake-005",
-        name: "Gel Douche Surgras 500ml",
-        brand: "Bioderma",
-        shop: "Pharma-Shop",
-        image: "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=200",
-        currentPrice: 15.500,
-        claimedOriginalPrice: 28.000,
-        realOriginalPrice: 17.900,
-        discountClaimed: 45,
-        realDiscount: 13,
-        detectionDate: "Hier"
-    },
-    {
-        id: "fake-006",
-        name: "Protection Solaire SPF50 100ml",
-        brand: "La Roche-Posay",
-        shop: "Parafendri",
-        image: "https://images.unsplash.com/photo-1556227834-09f1de7a7d14?w=200",
-        currentPrice: 55.000,
-        claimedOriginalPrice: 99.000,
-        realOriginalPrice: 62.900,
-        discountClaimed: 44,
-        realDiscount: 13,
-        detectionDate: "Aujourd'hui"
-    },
-]
-
-const shopColors: Record<string, string> = {
-    Parashop: "bg-teal-500",
-    "Pharma-Shop": "bg-emerald-500",
-    Parafendri: "bg-cyan-500",
+interface FakePriceAlertsProps {
+    initialData?: FakePromoFromAPI[]
 }
 
-export function FakePriceAlerts() {
-    const formatPrice = (price: number) => {
+export function FakePriceAlerts({ initialData = [] }: FakePriceAlertsProps) {
+    const scrollRef = useRef<HTMLDivElement>(null)
+    const [canScrollLeft, setCanScrollLeft] = useState(false)
+    const [canScrollRight, setCanScrollRight] = useState(true)
+    const [products, setProducts] = useState<FakePromoFromAPI[]>(initialData || [])
+    const [loading, setLoading] = useState(false)
+
+    // Client-side fallback: fetch from remote API if no server-side data
+    useEffect(() => {
+        if (products.length > 0) return
+        setLoading(true)
+        const REMOTE_API = "https://back-27em.onrender.com/api/v1"
+        fetch(`${REMOTE_API}/products/fake-promos/list?limit=10`)
+            .then(r => r.ok ? r.json() : [])
+            .then(data => {
+                if (Array.isArray(data) && data.length > 0) {
+                    setProducts(data)
+                }
+            })
+            .catch(() => {})
+            .finally(() => setLoading(false))
+    }, [])
+
+    const formatPrice = (price: number | null | undefined) => {
+        if (price == null || isNaN(price)) return "—"
         return price.toFixed(3) + " DT"
+    }
+
+    const safeNum = (val: number | null | undefined) => {
+        if (val == null || isNaN(val)) return 0
+        return val
+    }
+
+    const getShopLogo = (shop: string) => {
+        return SHOP_LOGOS[shop.toLowerCase()] || ""
+    }
+
+    const checkScroll = () => {
+        if (!scrollRef.current) return
+        const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current
+        setCanScrollLeft(scrollLeft > 0)
+        setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 10)
+    }
+
+    const scroll = (direction: 'left' | 'right') => {
+        if (!scrollRef.current) return
+        const scrollAmount = 340
+        scrollRef.current.scrollBy({
+            left: direction === 'left' ? -scrollAmount : scrollAmount,
+            behavior: 'smooth'
+        })
+        setTimeout(checkScroll, 350)
     }
 
     return (
@@ -146,101 +135,168 @@ export function FakePriceAlerts() {
                         Notre algorithme analyse l&apos;historique des prix pour détecter les promotions trompeuses
                     </p>
                     <p className="text-xs text-blue-600 mt-1">
-                        {fakeDiscountProducts.length} produits suspects détectés cette semaine
+                        {products.length} produits suspects détectés cette semaine
                     </p>
                 </div>
             </div>
 
-            {/* Products Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-                {fakeDiscountProducts.map((product) => (
+            {/* Products Horizontal Scroll */}
+            <div className="relative">
+                {/* Left Arrow */}
+                {canScrollLeft && (
+                    <button
+                        onClick={() => scroll('left')}
+                        className="absolute left-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white border-2 border-blue-200 shadow-lg flex items-center justify-center hover:bg-blue-50 hover:border-blue-400 transition-all -ml-2"
+                    >
+                        <ChevronLeft className="size-5 text-blue-600" />
+                    </button>
+                )}
+
+                {/* Right Arrow */}
+                {canScrollRight && (
+                    <button
+                        onClick={() => scroll('right')}
+                        className="absolute right-0 top-1/2 -translate-y-1/2 z-10 w-10 h-10 rounded-full bg-white border-2 border-blue-200 shadow-lg flex items-center justify-center hover:bg-blue-50 hover:border-blue-400 transition-all -mr-2"
+                    >
+                        <ChevronRight className="size-5 text-blue-600" />
+                    </button>
+                )}
+
+                {/* Scroll Container */}
+                <div
+                    ref={scrollRef}
+                    onScroll={checkScroll}
+                    className="flex gap-5 overflow-x-auto scrollbar-hide pb-2 px-1 snap-x snap-mandatory"
+                    style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+                >
+                {products.map((product) => {
+                    const shopLogo = getShopLogo(product.shop)
+
+                    return (
                     <div
                         key={product.id}
-                        className="bg-card rounded-2xl border-2 border-blue-200 p-3 shadow-sm hover:shadow-lg transition-all hover:border-blue-400"
+                        className="bg-white rounded-2xl border-2 border-blue-200 shadow-sm hover:shadow-xl transition-all hover:border-blue-400 min-w-[340px] w-[340px] flex-shrink-0 snap-start overflow-hidden"
                     >
-                        {/* Product Image with Warning Badge */}
-                        <div className="relative h-24 w-full mb-3 rounded-xl overflow-hidden bg-muted/30">
-                            <Image
-                                src={product.image}
-                                alt={product.name}
-                                fill
-                                className="object-cover"
-                            />
-                            <div className="absolute top-0 left-0 right-0 bg-blue-500 text-white text-[9px] font-bold py-1 text-center flex items-center justify-center gap-1">
-                                <AlertTriangle className="size-3" />
-                                FAUX PRIX
-                            </div>
-                            <div className={`absolute bottom-2 left-2 ${shopColors[product.shop] || "bg-gray-500"} text-white text-[8px] font-bold px-2 py-0.5 rounded-full`}>
-                                {product.shop}
-                            </div>
+                        {/* Top: FAUX PRIX banner */}
+                        <div className="bg-gradient-to-r from-red-500 to-red-600 text-white text-xs font-black py-2 text-center flex items-center justify-center gap-1.5">
+                            <AlertTriangle className="size-4" />
+                            FAUX PRIX DÉTECTÉ
                         </div>
 
-                        {/* Product Info */}
-                        <div className="mb-3">
-                            <span className="text-[9px] font-bold uppercase tracking-wider text-muted-foreground">
-                                {product.brand}
-                            </span>
-                            <h3 className="text-[11px] font-semibold text-foreground line-clamp-2 leading-tight">
-                                {product.name}
-                            </h3>
-                        </div>
-
-                        {/* Price Analysis */}
-                        <div className="space-y-2 p-2 bg-blue-50 rounded-lg">
-                            {/* Claimed Discount */}
-                            <div className="flex items-center justify-between">
-                                <span className="text-[9px] text-blue-600 font-medium">
-                                    Réduction affichée:
-                                </span>
-                                <div className="flex items-center gap-1">
-                                    <span className="text-[10px] line-through text-blue-400">
-                                        {formatPrice(product.claimedOriginalPrice)}
-                                    </span>
-                                    <span className="bg-blue-500 text-white text-[8px] font-bold px-1 rounded">
-                                        -{product.discountClaimed}%
-                                    </span>
+                        <div className="p-5">
+                            {/* Product Image + Shop Logo + Info */}
+                            <div className="flex items-start gap-3 mb-4">
+                                {/* Product image */}
+                                <div className="w-20 h-20 rounded-xl border border-slate-200 bg-slate-50 flex items-center justify-center overflow-hidden flex-shrink-0">
+                                    {product.image && product.image !== "/placeholder.svg" ? (
+                                        <img
+                                            src={product.image}
+                                            alt={product.title}
+                                            className="w-full h-full object-contain p-1"
+                                            onError={(e) => { (e.target as HTMLImageElement).src = "/placeholder.svg" }}
+                                        />
+                                    ) : (
+                                        <div className="text-slate-300 text-xs text-center">No image</div>
+                                    )}
+                                </div>
+                                <div className="flex-1 min-w-0">
+                                    <div className="flex items-center gap-2 mb-1">
+                                        <div className="w-8 h-8 rounded-lg border border-slate-100 bg-white flex items-center justify-center p-0.5 shadow-sm flex-shrink-0">
+                                            {shopLogo ? (
+                                                <img
+                                                    src={shopLogo}
+                                                    alt={product.shop}
+                                                    className="max-h-full max-w-full object-contain"
+                                                />
+                                            ) : (
+                                                <span className="text-[8px] font-black text-slate-600 uppercase">{product.shop}</span>
+                                            )}
+                                        </div>
+                                        <span className="text-[10px] font-semibold text-slate-400 capitalize">{product.shop}</span>
+                                    </div>
+                                    <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">{product.brand}</p>
+                                    <h3 className="text-sm font-bold text-slate-800 line-clamp-2 leading-tight">{product.title}</h3>
+                                    {product.category && <p className="text-[10px] text-slate-400 mt-0.5">{product.category}</p>}
                                 </div>
                             </div>
 
-                            {/* Real Price History */}
-                            <div className="flex items-center justify-between border-t border-blue-200 pt-2">
-                                <span className="text-[9px] text-green-700 font-medium">
-                                    Vrai prix d&apos;origine:
-                                </span>
-                                <span className="text-[10px] font-bold text-green-600">
-                                    {formatPrice(product.realOriginalPrice)}
-                                </span>
+                            {/* Price Comparison — old promo vs new promo */}
+                            <div className="rounded-xl overflow-hidden border border-slate-200">
+                                {/* Row 1: Ancienne promo — old_scrap_old_price → old_scrap_price */}
+                                <div className="bg-emerald-50 px-4 py-3 border-b border-emerald-100">
+                                    <p className="text-[10px] font-semibold text-emerald-700 uppercase tracking-wide mb-2">Ancienne promo (réelle)</p>
+                                    <div className="flex items-center justify-center gap-2">
+                                        <div className="text-center">
+                                            <p className="text-[9px] text-emerald-500 mb-0.5">Prix barré</p>
+                                            <span className="text-base font-black text-emerald-600 line-through decoration-1">
+                                                {formatPrice(product.old_scrap_old_price)}
+                                            </span>
+                                        </div>
+                                        <span className="text-emerald-400 font-black text-lg">→</span>
+                                        <div className="text-center">
+                                            <p className="text-[9px] text-emerald-500 mb-0.5">Prix promo</p>
+                                            <span className="text-base font-black text-emerald-700">
+                                                {formatPrice(product.old_scrap_price)}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Row 2: Nouvelle promo — new_scrap_old_price → new_scrap_price */}
+                                <div className="bg-red-50 px-4 py-3">
+                                    <p className="text-[10px] font-semibold text-red-500 uppercase tracking-wide mb-2">Nouvelle promo (suspecte)</p>
+                                    <div className="flex items-center justify-center gap-2">
+                                        <div className="text-center">
+                                            <p className="text-[9px] text-red-400 mb-0.5">Prix barré</p>
+                                            <span className="text-base font-black text-red-400 line-through decoration-1">
+                                                {formatPrice(product.new_scrap_old_price)}
+                                            </span>
+                                        </div>
+                                        <span className="text-red-400 font-black text-lg">→</span>
+                                        <div className="text-center">
+                                            <p className="text-[9px] text-red-400 mb-0.5">Prix promo</p>
+                                            <span className="text-base font-black text-red-600">
+                                                {formatPrice(product.new_scrap_price)}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
 
-                            {/* Current Price */}
-                            <div className="flex items-center justify-between">
-                                <span className="text-[9px] text-foreground font-medium">
-                                    Prix actuel:
-                                </span>
-                                <span className="text-sm font-black text-foreground">
-                                    {formatPrice(product.currentPrice)}
-                                </span>
+                            {/* Stats badges */}
+                            <div className="flex gap-3 mt-4">
+                                <div className="flex-1 bg-red-50 border border-red-200 rounded-xl p-2.5 text-center">
+                                    <p className="text-[9px] font-bold text-red-400 uppercase">Réduction affichée</p>
+                                    <p className="text-lg font-black text-red-500">-{safeNum(product.advertised_discount_pct).toFixed(1)}%</p>
+                                    <p className="text-[8px] text-red-300 font-semibold">FAUX</p>
+                                </div>
+                                <div className="flex-1 bg-amber-50 border border-amber-200 rounded-xl p-2.5 text-center">
+                                    <p className="text-[9px] font-bold text-amber-600 uppercase">Prix gonflé de</p>
+                                    <p className="text-lg font-black text-amber-600">+{safeNum(product.old_price_inflated_by_pct).toFixed(1)}%</p>
+                                    <p className="text-[8px] text-amber-400 font-semibold">{formatPrice(product.old_price_inflated_by)}</p>
+                                </div>
+                                <div className="flex-1 bg-blue-50 border border-blue-200 rounded-xl p-2.5 text-center">
+                                    <p className="text-[9px] font-bold text-blue-600 uppercase">Hausse réelle</p>
+                                    <p className="text-lg font-black text-blue-600">+{safeNum(product.real_increase_pct).toFixed(1)}%</p>
+                                    <p className="text-[8px] text-blue-400 font-semibold">ÉCART</p>
+                                </div>
                             </div>
-
-                            {/* Real Discount */}
-                            <div className="flex items-center justify-between bg-green-100 rounded px-2 py-1">
-                                <span className="text-[9px] text-green-700 font-semibold">
-                                    Vraie réduction:
-                                </span>
-                                <span className="text-[11px] font-bold text-green-600">
-                                    -{product.realDiscount}%
-                                </span>
-                            </div>
-                        </div>
-
-                        {/* Detection Date */}
-                        <div className="mt-2 text-center">
-                            <span className="text-[8px] text-muted-foreground">
-                                Détecté: {product.detectionDate}
-                            </span>
                         </div>
                     </div>
-                ))}
+                    )
+                })}
+                </div>
+            </div>
+
+            {/* See All Button */}
+            <div className="flex justify-center mt-8">
+                <Link
+                    href="/products/faux-prix"
+                    className="inline-flex items-center gap-2 px-8 py-3.5 bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-bold text-sm rounded-full shadow-lg hover:shadow-xl hover:from-blue-600 hover:to-indigo-700 transition-all duration-300 group"
+                >
+                    Voir tous les faux prix
+                    <ArrowRight className="size-4 group-hover:translate-x-1 transition-transform" />
+                </Link>
             </div>
         </section>
     )

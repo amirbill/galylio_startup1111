@@ -116,7 +116,16 @@ async function getProducts(category: string, type: string) {
     const url = `${API_URL}/products/random?category=${encodeURIComponent(category)}&category_type=${type}&limit=10`;
     const res = await fetch(url, { next: { revalidate: 300 } });
     if (!res.ok) return [];
-    return await res.json();
+    const data = await res.json();
+    // Fallback: if /random returns empty, use /listing with search
+    if (Array.isArray(data) && data.length === 0) {
+      const fallbackUrl = `${API_URL}/products/listing?search=${encodeURIComponent(category)}&limit=10`;
+      const fallbackRes = await fetch(fallbackUrl, { next: { revalidate: 300 } });
+      if (!fallbackRes.ok) return [];
+      const fallbackData = await fallbackRes.json();
+      return fallbackData.products || [];
+    }
+    return data;
   } catch (e) {
     console.error(`Error fetching products for ${category}:`, e);
     return [];
@@ -144,13 +153,22 @@ async function getComparisonProducts(limit: number = 9) {
     const randomRetailCategory = retailCategories[Math.floor(Math.random() * retailCategories.length)];
     const randomParaCategory = paraCategories[Math.floor(Math.random() * paraCategories.length)];
 
-    // Fetch from both sources with their respective valid categories
-    const [retailRes, paraRes] = await Promise.all([
-      fetch(`${API_URL}/products/random?category=${encodeURIComponent(randomRetailCategory)}&limit=${limit}`, { next: { revalidate: 300 } }),
-      fetch(`${API_URL}/para/random?category=${encodeURIComponent(randomParaCategory)}&limit=${limit}`, { next: { revalidate: 300 } })
-    ]);
+    // Fetch retail products - try /random first, then fallback to /listing+search
+    let retailData: any[] = [];
+    const retailRes = await fetch(`${API_URL}/products/random?category=${encodeURIComponent(randomRetailCategory)}&limit=${limit}`, { next: { revalidate: 300 } });
+    if (retailRes.ok) {
+      retailData = await retailRes.json();
+    }
+    if (retailData.length === 0) {
+      const fallbackRes = await fetch(`${API_URL}/products/listing?search=${encodeURIComponent(randomRetailCategory)}&limit=${limit}`, { next: { revalidate: 300 } });
+      if (fallbackRes.ok) {
+        const fallbackData = await fallbackRes.json();
+        retailData = fallbackData.products || [];
+      }
+    }
 
-    const retailData = retailRes.ok ? await retailRes.json() : [];
+    // Fetch para products
+    const paraRes = await fetch(`${API_URL}/para/random?category=${encodeURIComponent(randomParaCategory)}&limit=${limit}`, { next: { revalidate: 300 } });
     const paraData = paraRes.ok ? await paraRes.json() : [];
 
     const products = [
@@ -189,6 +207,7 @@ export default async function Home() {
     comparisonProducts,
     bannerProds,
     bannerPara,
+    fakePromos,
   ] = await Promise.all([
     getPrices(),
     getProducts("Imprimante", "low_category"),
@@ -205,6 +224,8 @@ export default async function Home() {
     // Banner products — fetched server side for instant render
     fetch(`${API_URL}/products/listing?limit=20`).then(r => r.ok ? r.json() : { products: [] }).catch(() => ({ products: [] })),
     fetch(`${API_URL}/para/listing?limit=10`).then(r => r.ok ? r.json() : { products: [] }).catch(() => ({ products: [] })),
+    // Fake promos from DB
+    fetch(`${API_URL}/products/fake-promos/list?limit=10`).then(r => r.ok ? r.json() : []).catch(() => []),
   ]);
 
   const predictiveProduct = imprimanteProducts?.[0];
@@ -316,6 +337,7 @@ export default async function Home() {
                 initialProducts={laveVaisselleProducts}
               />
 
+              <div id="alertes-prix"><FakePriceAlerts initialData={fakePromos} /></div>
 
 
               {/* Parapharmacie Section */}
@@ -368,7 +390,7 @@ export default async function Home() {
             <SupermarketComparison products={comparisonProducts} />
 
             <div className="max-w-7xl mx-auto w-full px-4">
-              <div id="alertes-prix"><FakePriceAlerts /></div>
+              
               <div id="prediction-prix"><PriceVariationAlert product={predictiveProduct} /></div>
               {/*<PriceIncreasePrediction />*/}
             </div>
