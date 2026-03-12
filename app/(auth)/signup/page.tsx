@@ -85,6 +85,9 @@ export default function SignUpPage() {
             await signup({
                 email: data.email,
                 password: data.password,
+                full_name: data.name,
+                phone: data.phone,
+                address: data.address,
                 role: "client",
             })
         } catch (err: any) {
