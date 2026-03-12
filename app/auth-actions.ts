@@ -138,6 +138,28 @@ export async function verifyEmailAction(email: string, code: string) {
     }
 }
 
+export async function resendVerificationAction(email: string) {
+    try {
+        const res = await fetch(`${API_URL}/auth/resend-verification`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email }),
+            cache: 'no-store'
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+            return { success: false, error: data.detail || 'Resend failed' };
+        }
+
+        return { success: true, data };
+    } catch (error) {
+        console.error("Resend Verification Action Error:", error);
+        return { success: false, error: "Network error" };
+    }
+}
+
 export async function forgotPasswordAction(email: string) {
     try {
         const res = await fetch(`${API_URL}/auth/forgot-password`, {

@@ -7,7 +7,7 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
 import { Loader2 } from "lucide-react"
-import { verifyEmailAction } from "@/app/auth-actions"
+import { verifyEmailAction, resendVerificationAction } from "@/app/auth-actions"
 
 const verifySchema = z.object({
     code: z.string().min(1, "Le code est requis"),
@@ -22,6 +22,8 @@ function VerifyContent() {
     const [error, setError] = useState<string | null>(null)
     const [success, setSuccess] = useState<boolean>(false)
     const [isLoading, setIsLoading] = useState(false)
+    const [resendLoading, setResendLoading] = useState(false)
+    const [resendMessage, setResendMessage] = useState<string | null>(null)
 
     const {
         register,
@@ -46,7 +48,8 @@ function VerifyContent() {
             if (response.success) {
                 setSuccess(true)
                 setTimeout(() => {
-                    router.push("/signin")
+                    // If we got a token back (auto-login), go to dashboard; otherwise signin
+                    router.push(response.data?.access_token ? "/" : "/signin")
                 }, 2000)
             } else {
                 setError(response.error || "Code invalide")
@@ -59,6 +62,24 @@ function VerifyContent() {
     }
 
     if (!email) return null
+
+    const handleResend = async () => {
+        setResendLoading(true)
+        setResendMessage(null)
+        setError(null)
+        try {
+            const response = await resendVerificationAction(email)
+            if (response.success) {
+                setResendMessage("Un nouveau code a été envoyé à votre email.")
+            } else {
+                setError(response.error || "Échec du renvoi du code")
+            }
+        } catch {
+            setError("Une erreur est survenue")
+        } finally {
+            setResendLoading(false)
+        }
+    }
 
     return (
         <div className="flex w-full items-center justify-center bg-muted/30 p-8 lg:w-1/2">
@@ -81,6 +102,12 @@ function VerifyContent() {
                 {success && (
                     <div className="mb-4 rounded-md bg-green-50 p-4 text-sm text-green-500">
                         Email vérifié avec succès! Redirection...
+                    </div>
+                )}
+
+                {resendMessage && (
+                    <div className="mb-4 rounded-md bg-blue-50 p-4 text-sm text-blue-600">
+                        {resendMessage}
                     </div>
                 )}
 
@@ -110,6 +137,20 @@ function VerifyContent() {
                         {isLoading ? "Vérification..." : "Vérifier"}
                     </button>
                 </form>
+
+                <div className="mt-4 text-center">
+                    <p className="text-sm text-muted-foreground">
+                        Vous n'avez pas reçu le code ?{" "}
+                        <button
+                            type="button"
+                            onClick={handleResend}
+                            disabled={resendLoading || success}
+                            className="font-medium text-purple-600 hover:text-purple-700 disabled:opacity-50"
+                        >
+                            {resendLoading ? "Envoi en cours..." : "Renvoyer le code"}
+                        </button>
+                    </p>
+                </div>
             </div>
         </div>
     )
