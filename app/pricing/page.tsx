@@ -4,18 +4,18 @@ import Footer from '@/components/Footer';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
-  title: 'Tarifs — Plans et Abonnements',
-  description:
-    'Découvrez nos plans tarifaires sur 1111.tn. Gratuit, Pro, Business — choisissez le plan adapté à vos besoins de comparaison de prix en Tunisie.',
-  alternates: {
-    canonical: '/pricing',
-  },
-  openGraph: {
-    title: 'Tarifs — 1111.tn',
+    title: 'Tarifs — Plans et Abonnements',
     description:
-      'Plans et tarifs pour la comparaison de prix en Tunisie.',
-    url: '/pricing',
-  },
+        'Découvrez nos plans tarifaires sur 1111.tn. Gratuit, Pro, Business — choisissez le plan adapté à vos besoins de comparaison de prix en Tunisie.',
+    alternates: {
+        canonical: '/pricing',
+    },
+    openGraph: {
+        title: 'Tarifs — 1111.tn',
+        description:
+            'Plans et tarifs pour la comparaison de prix en Tunisie.',
+        url: '/pricing',
+    },
 };
 import { Check, X, Zap, Building2, Rocket, Crown, ArrowRight, Shield, Clock, Users, TrendingDown, Bell, BarChart3, Download, Headphones } from 'lucide-react';
 
@@ -171,10 +171,10 @@ export default function PricingPage() {
             <Header />
             <main className="flex-grow">
                 {/* Hero Section */}
-                <section className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 py-20">
+                <section className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 py-20">
                     <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-20" />
                     <div className="absolute inset-0">
-                        <div className="absolute top-20 left-10 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse" />
+                        <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse" />
                         <div className="absolute bottom-20 right-10 w-72 h-72 bg-teal-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse" />
                     </div>
 
@@ -201,7 +201,7 @@ export default function PricingPage() {
                                 const IconComponent = plan.icon;
                                 const colorClasses: Record<string, { bg: string; border: string; text: string; button: string }> = {
                                     slate: { bg: "bg-slate-50", border: "border-slate-200", text: "text-slate-600", button: "bg-slate-900 hover:bg-slate-800" },
-                                    purple: { bg: "bg-purple-50", border: "border-purple-300", text: "text-purple-600", button: "bg-purple-600 hover:bg-purple-700" },
+                                    purple: { bg: "bg-blue-50", border: "border-blue-300", text: "text-blue-600", button: "bg-blue-600 hover:bg-blue-700" },
                                     teal: { bg: "bg-teal-50", border: "border-teal-200", text: "text-teal-600", button: "bg-teal-600 hover:bg-teal-700" },
                                     amber: { bg: "bg-amber-50", border: "border-amber-200", text: "text-amber-600", button: "bg-amber-600 hover:bg-amber-700" },
                                 };
@@ -210,10 +210,10 @@ export default function PricingPage() {
                                 return (
                                     <div
                                         key={plan.name}
-                                        className={`relative rounded-3xl bg-white border-2 ${plan.popular ? 'border-purple-400 shadow-xl shadow-purple-100' : 'border-slate-200'} p-6 flex flex-col`}
+                                        className={`relative rounded-3xl bg-white border-2 ${plan.popular ? 'border-blue-400 shadow-xl shadow-blue-100' : 'border-slate-200'} p-6 flex flex-col`}
                                     >
                                         {plan.popular && (
-                                            <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-gradient-to-r from-purple-600 to-purple-500 text-white text-xs font-bold rounded-full">
+                                            <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1 bg-gradient-to-r from-blue-600 to-blue-500 text-white text-xs font-bold rounded-full">
                                                 Plus populaire
                                             </div>
                                         )}
@@ -256,9 +256,12 @@ export default function PricingPage() {
                                         {/* CTA */}
                                         <Link
                                             href={plan.ctaLink}
-                                            className={`mt-6 w-full py-3 px-4 rounded-xl text-white font-semibold text-center transition-colors ${colors.button}`}
+                                            className={`group mt-6 w-full py-3 px-6 rounded-full text-white text-sm font-medium text-center transition-all duration-300 hover:shadow-lg hover:scale-[1.02] inline-flex items-center justify-center gap-2 ${colors.button}`}
                                         >
-                                            {plan.cta}
+                                            <span>{plan.cta}</span>
+                                            <span className="flex items-center justify-center w-5 h-5 bg-white/20 rounded-full group-hover:bg-white/30 transition-all duration-300">
+                                                <ArrowRight className="size-3 transition-transform duration-300 group-hover:translate-x-0.5" />
+                                            </span>
                                         </Link>
                                     </div>
                                 );
@@ -284,8 +287,8 @@ export default function PricingPage() {
                                 const IconComponent = feature.icon;
                                 return (
                                     <div key={idx} className="bg-white rounded-2xl p-6 border border-slate-200 hover:shadow-lg transition-shadow">
-                                        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-100 to-teal-100 flex items-center justify-center mb-4">
-                                            <IconComponent className="size-6 text-purple-600" />
+                                        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-100 to-teal-100 flex items-center justify-center mb-4">
+                                            <IconComponent className="size-6 text-blue-600" />
                                         </div>
                                         <h3 className="text-lg font-bold text-slate-900 mb-2">{feature.title}</h3>
                                         <p className="text-slate-600 text-sm">{feature.description}</p>
@@ -331,16 +334,18 @@ export default function PricingPage() {
                         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                             <Link
                                 href="/"
-                                className="inline-flex items-center gap-2 px-8 py-4 bg-white text-red-600 font-bold rounded-full hover:bg-red-50 transition-colors"
+                                className="group inline-flex items-center gap-3 px-8 py-3 bg-white text-red-600 text-sm font-medium rounded-full hover:bg-red-50 hover:shadow-xl transition-all duration-300 hover:scale-105"
                             >
-                                Commencer maintenant
-                                <ArrowRight className="size-5" />
+                                <span>Commencer maintenant</span>
+                                <span className="flex items-center justify-center w-5 h-5 bg-red-100 rounded-full group-hover:bg-red-200 transition-all duration-300">
+                                    <ArrowRight className="size-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
+                                </span>
                             </Link>
                             <Link
                                 href="/contact"
-                                className="inline-flex items-center gap-2 px-8 py-4 bg-transparent text-white font-bold rounded-full border-2 border-white/50 hover:bg-white/10 transition-colors"
+                                className="inline-flex items-center gap-3 px-8 py-3 bg-transparent text-white text-sm font-medium rounded-full border border-white/50 hover:bg-white/10 transition-all duration-300"
                             >
-                                Nous contacter
+                                <span>Nous contacter</span>
                             </Link>
                         </div>
                     </div>

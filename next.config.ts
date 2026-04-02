@@ -71,6 +71,14 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "www.jumbo.tn",
       },
+      {
+        protocol: "https",
+        hostname: "darty.tn",
+      },
+      {
+        protocol: "https",
+        hostname: "www.darty.tn",
+      },
     ],
   },
   allowedDevOrigins: [

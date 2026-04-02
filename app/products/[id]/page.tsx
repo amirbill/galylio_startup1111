@@ -32,36 +32,36 @@ interface Product {
 }
 
 export async function generateMetadata({
-  params,
+    params,
 }: {
-  params: Promise<{ id: string }>
+    params: Promise<{ id: string }>
 }): Promise<Metadata> {
-  const { id } = await params
-  const product = await getProduct(id)
+    const { id } = await params
+    const product = await getProduct(id)
 
-  if (!product) {
-    return {
-      title: "Produit non trouvé",
-      description: "Ce produit n'existe pas ou a été supprimé.",
+    if (!product) {
+        return {
+            title: "Produit non trouvé",
+            description: "Ce produit n'existe pas ou a été supprimé.",
+        }
     }
-  }
 
-  const title = `${product.name} — Prix à partir de ${product.bestPrice} TND`
-  const description = `Comparez les prix de ${product.name} (${product.brand}) en Tunisie. Meilleur prix: ${product.bestPrice} TND. Trouvez le meilleur deal sur 1111.tn.`
+    const title = `${product.name} — Prix à partir de ${product.bestPrice} TND`
+    const description = `Comparez les prix de ${product.name} (${product.brand}) en Tunisie. Meilleur prix: ${product.bestPrice} TND. Trouvez le meilleur deal sur 1111.tn.`
 
-  return {
-    title,
-    description,
-    alternates: {
-      canonical: `/products/${id}`,
-    },
-    openGraph: {
-      title,
-      description,
-      url: `/products/${id}`,
-      images: product.image ? [{ url: product.image, alt: product.name }] : [],
-    },
-  }
+    return {
+        title,
+        description,
+        alternates: {
+            canonical: `/products/${id}`,
+        },
+        openGraph: {
+            title,
+            description,
+            url: `/products/${id}`,
+            images: product.image ? [{ url: product.image, alt: product.name }] : [],
+        },
+    }
 }
 
 async function getProduct(id: string): Promise<Product | null> {
@@ -93,9 +93,12 @@ export default async function ProductDetailPage({
                     <p className="mt-2 text-muted-foreground">Le produit avec la référence &quot;{id}&quot; n&apos;existe pas.</p>
                     <Link
                         href="/products"
-                        className="mt-4 inline-block px-6 py-2 bg-purple-600 text-white rounded-full font-medium hover:bg-purple-700"
+                        className="group mt-4 inline-flex items-center gap-3 px-6 py-2 bg-slate-900 text-white text-sm font-medium rounded-full hover:bg-slate-800 hover:shadow-xl transition-all duration-300 hover:scale-105"
                     >
-                        Voir tous les produits
+                        <span>Voir tous les produits</span>
+                        <span className="flex items-center justify-center w-5 h-5 bg-white/20 rounded-full">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-300 group-hover:translate-x-0.5"><path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path></svg>
+                        </span>
                     </Link>
                 </div>
                 <Footer />
@@ -109,15 +112,15 @@ export default async function ProductDetailPage({
             <div className="mx-auto max-w-6xl px-4 py-8">
                 {/* Breadcrumb */}
                 <nav className="text-sm text-muted-foreground mb-6">
-                    <Link href="/" className="hover:text-purple-600">Accueil</Link>
+                    <Link href="/" className="hover:text-purple">Accueil</Link>
                     <span className="mx-2">/</span>
-                    <Link href="/products" className="hover:text-purple-600">Produits</Link>
+                    <Link href="/products" className="hover:text-purple">Produits</Link>
                     {product.category && (
                         <>
                             <span className="mx-2">/</span>
                             <Link
                                 href={`/products?category=${encodeURIComponent(product.category)}`}
-                                className="hover:text-purple-600"
+                                className="hover:text-purple"
                             >
                                 {product.category}
                             </Link>

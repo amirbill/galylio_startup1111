@@ -4,27 +4,27 @@ import Footer from "@/components/Footer"
 import Link from "next/link"
 
 export const metadata: Metadata = {
-  title: "Solutions — Outils de Comparaison de Prix",
-  description:
-    "Découvrez les solutions de 1111.tn : comparaison de prix, détection de fausses promotions, alertes de prix, suivi de produits en Tunisie.",
-  alternates: {
-    canonical: "/solutions",
-  },
-  openGraph: {
-    title: "Solutions — 1111.tn",
+    title: "Solutions — Outils de Comparaison de Prix",
     description:
-      "Nos outils intelligents pour comparer les prix et détecter les fausses promotions en Tunisie.",
-    url: "/solutions",
-  },
+        "Découvrez les solutions de 1111.tn : comparaison de prix, détection de fausses promotions, alertes de prix, suivi de produits en Tunisie.",
+    alternates: {
+        canonical: "/solutions",
+    },
+    openGraph: {
+        title: "Solutions — 1111.tn",
+        description:
+            "Nos outils intelligents pour comparer les prix et détecter les fausses promotions en Tunisie.",
+        url: "/solutions",
+    },
 };
-import { 
-    TrendingDown, 
-    Search, 
-    Bell, 
-    Shield, 
-    Zap, 
-    Users, 
-    BarChart3, 
+import {
+    TrendingDown,
+    Search,
+    Bell,
+    Shield,
+    Zap,
+    Users,
+    BarChart3,
     Globe,
     CheckCircle,
     ArrowRight,
@@ -39,7 +39,7 @@ const features = [
         icon: <Search className="size-6" />,
         title: "Recherche Intelligente",
         description: "Trouvez instantanément n'importe quel produit parmi des milliers de références dans les boutiques tunisiennes.",
-        color: "from-purple-500 to-indigo-500"
+        color: "from-blue-500 to-indigo-500"
     },
     {
         icon: <TrendingDown className="size-6" />,
@@ -85,7 +85,7 @@ const categories = [
         name: "Électronique & High-Tech",
         shops: ["Spacenet", "Mytek", "Tunisianet", "TechnoPro", "Darty"],
         items: ["PC Portables", "Smartphones", "Téléviseurs", "Électroménager"],
-        color: "bg-purple-500"
+        color: "bg-blue-500"
     },
     {
         name: "Parapharmacie",
@@ -105,48 +105,53 @@ export default function SolutionsPage() {
     return (
         <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
             <Header />
-            
+
             {/* Hero Section */}
             <section className="relative overflow-hidden pt-20 pb-32">
                 {/* Background decoration */}
                 <div className="absolute inset-0 overflow-hidden">
-                    <div className="absolute -top-40 -right-40 size-80 bg-purple-200 rounded-full blur-3xl opacity-30" />
+                    <div className="absolute -top-40 -right-40 size-80 bg-blue-200 rounded-full blur-3xl opacity-30" />
                     <div className="absolute -bottom-40 -left-40 size-80 bg-teal-200 rounded-full blur-3xl opacity-30" />
                 </div>
-                
+
                 <div className="relative max-w-6xl mx-auto px-4">
                     <div className="text-center">
-                        <div className="inline-flex items-center gap-2 px-4 py-2 bg-purple-100 rounded-full text-purple-700 text-sm font-medium mb-6">
+                        <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-100 rounded-full text-blue-700 text-sm font-medium mb-6">
                             <Sparkles className="size-4" />
                             Plateforme de Comparaison de Prix #1 en Tunisie
                         </div>
-                        
+
                         <h1 className="text-4xl md:text-6xl font-black text-slate-900 mb-6 leading-tight">
                             Économisez sur{" "}
-                            <span className="bg-gradient-to-r from-purple-600 to-teal-500 bg-clip-text text-transparent">
+                            <span className="bg-gradient-to-r from-blue-600 to-teal-500 bg-clip-text text-transparent">
                                 chaque achat
                             </span>
                             <br />en Tunisie
                         </h1>
-                        
+
                         <p className="text-xl text-slate-600 max-w-2xl mx-auto mb-10">
-                            111.tn compare les prix de milliers de produits dans les meilleures boutiques tunisiennes 
+                            111.tn compare les prix de milliers de produits dans les meilleures boutiques tunisiennes
                             pour vous aider à trouver les meilleures offres en quelques secondes.
                         </p>
-                        
+
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                            <Link 
+                            <Link
                                 href="/products"
-                                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-gradient-to-r from-purple-600 to-teal-500 text-white font-bold rounded-2xl shadow-lg shadow-purple-200 hover:shadow-xl hover:scale-105 transition-all"
+                                className="group inline-flex items-center gap-3 px-8 py-3 bg-slate-900 text-white text-sm font-medium rounded-full hover:bg-slate-800 hover:shadow-xl transition-all duration-300 hover:scale-105"
                             >
-                                Comparer les Prix
-                                <ArrowRight className="size-5" />
+                                <span>Comparer les Prix</span>
+                                <span className="flex items-center justify-center w-5 h-5 bg-white/20 rounded-full group-hover:bg-white/30 transition-all duration-300">
+                                    <ArrowRight className="size-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
+                                </span>
                             </Link>
-                            <Link 
+                            <Link
                                 href="/para"
-                                className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-slate-700 font-bold rounded-2xl border-2 border-slate-200 hover:border-teal-300 hover:bg-teal-50 transition-all"
+                                className="group inline-flex items-center gap-3 px-8 py-3 bg-white text-slate-700 text-sm font-medium rounded-full border border-slate-200 hover:border-slate-300 hover:shadow-md transition-all duration-300"
                             >
-                                Explorer Parapharmacie
+                                <span>Explorer Parapharmacie</span>
+                                <span className="flex items-center justify-center w-5 h-5 bg-slate-100 rounded-full group-hover:bg-slate-200 transition-all duration-300">
+                                    <ArrowRight className="size-3.5 text-slate-500 transition-transform duration-300 group-hover:translate-x-0.5" />
+                                </span>
                             </Link>
                         </div>
                     </div>
@@ -159,10 +164,10 @@ export default function SolutionsPage() {
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
                         {stats.map((stat, idx) => (
                             <div key={idx} className="text-center">
-                                <div className="inline-flex items-center justify-center size-12 bg-gradient-to-br from-purple-100 to-teal-100 rounded-2xl mb-4 text-purple-600">
+                                <div className="inline-flex items-center justify-center size-12 bg-gradient-to-br from-blue-100 to-teal-100 rounded-2xl mb-4 text-blue-600">
                                     {stat.icon}
                                 </div>
-                                <div className="text-3xl md:text-4xl font-black bg-gradient-to-r from-purple-600 to-teal-500 bg-clip-text text-transparent">
+                                <div className="text-3xl md:text-4xl font-black bg-gradient-to-r from-blue-600 to-teal-500 bg-clip-text text-transparent">
                                     {stat.value}
                                 </div>
                                 <div className="text-sm text-slate-600 mt-1">{stat.label}</div>
@@ -183,12 +188,12 @@ export default function SolutionsPage() {
                             Des outils intelligents pour vous aider à prendre les meilleures décisions d&apos;achat
                         </p>
                     </div>
-                    
+
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                         {features.map((feature, idx) => (
-                            <div 
+                            <div
                                 key={idx}
-                                className="group bg-white rounded-3xl p-8 border border-slate-100 shadow-sm hover:shadow-xl hover:border-purple-200 transition-all duration-300"
+                                className="group bg-white rounded-3xl p-8 border border-slate-100 shadow-sm hover:shadow-xl hover:border-blue-200 transition-all duration-300"
                             >
                                 <div className={`inline-flex items-center justify-center size-14 rounded-2xl bg-gradient-to-br ${feature.color} text-white mb-6 group-hover:scale-110 transition-transform`}>
                                     {feature.icon}
@@ -216,10 +221,10 @@ export default function SolutionsPage() {
                             Nous comparons les prix dans les principales boutiques tunisiennes
                         </p>
                     </div>
-                    
+
                     <div className="grid md:grid-cols-3 gap-6">
                         {categories.map((category, idx) => (
-                            <div 
+                            <div
                                 key={idx}
                                 className="bg-white rounded-3xl p-8 border border-slate-100 shadow-sm hover:shadow-lg transition-all"
                             >
@@ -227,14 +232,14 @@ export default function SolutionsPage() {
                                 <h3 className="text-xl font-bold text-slate-900 mb-4">
                                     {category.name}
                                 </h3>
-                                
+
                                 <div className="mb-6">
                                     <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
                                         Boutiques
                                     </p>
                                     <div className="flex flex-wrap gap-2">
                                         {category.shops.map((shop, i) => (
-                                            <span 
+                                            <span
                                                 key={i}
                                                 className="px-3 py-1 bg-slate-100 rounded-full text-sm font-medium text-slate-700"
                                             >
@@ -243,7 +248,7 @@ export default function SolutionsPage() {
                                         ))}
                                     </div>
                                 </div>
-                                
+
                                 <div>
                                     <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
                                         Produits
@@ -266,18 +271,18 @@ export default function SolutionsPage() {
             {/* Mission Section */}
             <section className="py-20">
                 <div className="max-w-4xl mx-auto px-4">
-                    <div className="bg-gradient-to-br from-purple-600 to-teal-500 rounded-3xl p-10 md:p-16 text-white text-center relative overflow-hidden">
+                    <div className="bg-gradient-to-br from-blue-600 to-teal-500 rounded-3xl p-10 md:p-16 text-white text-center relative overflow-hidden">
                         {/* Decorative elements */}
                         <div className="absolute top-0 right-0 size-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
                         <div className="absolute bottom-0 left-0 size-64 bg-white/10 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
-                        
+
                         <div className="relative">
                             <h2 className="text-3xl md:text-4xl font-black mb-6">
                                 Notre Mission
                             </h2>
                             <p className="text-lg md:text-xl opacity-90 leading-relaxed mb-8">
-                                Aider les consommateurs tunisiens à faire des achats intelligents en leur donnant 
-                                accès à une comparaison de prix transparente et en temps réel. Nous croyons que 
+                                Aider les consommateurs tunisiens à faire des achats intelligents en leur donnant
+                                accès à une comparaison de prix transparente et en temps réel. Nous croyons que
                                 chaque dinar compte et que vous méritez de connaître le meilleur prix disponible.
                             </p>
                             <div className="flex items-center justify-center gap-4">
@@ -303,18 +308,20 @@ export default function SolutionsPage() {
                         Commencez à comparer les prix maintenant et trouvez les meilleures offres
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                        <Link 
+                        <Link
                             href="/products"
-                            className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-slate-900 text-white font-bold rounded-2xl hover:bg-slate-800 transition-colors"
+                            className="group inline-flex items-center gap-3 px-8 py-3 bg-slate-900 text-white text-sm font-medium rounded-full hover:bg-slate-800 hover:shadow-xl transition-all duration-300 hover:scale-105"
                         >
-                            <Search className="size-5" />
-                            Rechercher un Produit
+                            <span>Rechercher un Produit</span>
+                            <span className="flex items-center justify-center w-5 h-5 bg-white/20 rounded-full group-hover:bg-white/30 transition-all duration-300">
+                                <ArrowRight className="size-3.5 transition-transform duration-300 group-hover:translate-x-0.5" />
+                            </span>
                         </Link>
-                        <Link 
+                        <Link
                             href="/"
-                            className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-slate-700 font-bold rounded-2xl border-2 border-slate-200 hover:border-slate-300 transition-colors"
+                            className="group inline-flex items-center gap-3 px-8 py-3 bg-white text-slate-700 text-sm font-medium rounded-full border border-slate-200 hover:border-slate-300 hover:shadow-md transition-all duration-300"
                         >
-                            Retour à l&apos;Accueil
+                            <span>Retour à l&apos;Accueil</span>
                         </Link>
                     </div>
                 </div>

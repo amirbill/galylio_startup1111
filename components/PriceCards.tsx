@@ -157,17 +157,17 @@ export default function PriceCards({ initialData }: PriceCardsProps) {
         const rank = (index % totalCount) + 1;
 
         return (
-            <div key={index} className="flex flex-col gap-3 group w-[160px] shrink-0 relative">
+            <div key={index} className="flex flex-col gap-2.5 group w-[145px] shrink-0 relative">
                 {rank <= 3 && <RankBadge rank={rank} />}
 
-                <div className={`bg-white border-2 rounded-[24px] p-5 flex items-center justify-center h-32 transition-all duration-500 overflow-hidden
+                <div className={`bg-white border-2 rounded-[22px] p-4 flex items-center justify-center h-28 transition-all duration-500 overflow-hidden
                     ${rank === 1 ? "border-[#FFD700]/30 shadow-xl" :
                         rank === 2 ? "border-[#C0C0C0]/30 shadow-lg" :
                             rank === 3 ? "border-[#CD7F32]/30 shadow-md" : "border-[#E5E7EB]/80"}`}>
                     {shop.image ? (
                         <img src={shop.image} alt={shop.name} className="max-h-full max-w-full object-contain transform group-hover:scale-110 transition-transform duration-500" />
                     ) : (
-                        <span className={`font-black text-lg md:text-xl tracking-tighter uppercase ${shop.color} transform group-hover:scale-110 transition-transform duration-500`}>
+                        <span className={`font-black text-base md:text-lg tracking-tighter uppercase ${shop.color} transform group-hover:scale-110 transition-transform duration-500`}>
                             {shop.logo}
                         </span>
                     )}
@@ -181,11 +181,11 @@ export default function PriceCards({ initialData }: PriceCardsProps) {
                     )}
                 </div>
 
-                <div className={`rounded-[18px] py-3 text-center transition-all duration-300 border
+                <div className={`rounded-[16px] py-2 text-center transition-all duration-300 border
                     ${rank === 1 ? "bg-[#FFD700]/10 border-[#FFD700]/40" :
                         rank === 2 ? "bg-[#C0C0C0]/10 border-[#C0C0C0]/40" :
                             rank === 3 ? "bg-[#CD7F32]/10 border-[#CD7F32]/40" : "bg-[#EBEDF2] border-white/50"}`}>
-                    <span className={`font-extrabold text-lg
+                    <span className={`font-extrabold text-base
                         ${rank === 1 ? "text-[#B8860B]" :
                             rank === 2 ? "text-[#808080]" :
                                 rank === 3 ? "text-[#8B4513]" : "text-[#111827]"}`}>
@@ -203,8 +203,8 @@ export default function PriceCards({ initialData }: PriceCardsProps) {
                     <div className="max-w-7xl mx-auto px-4 mb-10 flex flex-col md:flex-row items-center justify-between gap-8">
                         <div className="flex items-center gap-4 flex-1">
                             <div className="h-10 w-2 bg-[#8B5CF6] rounded-full"></div>
-                            <h2 className="text-[#2563EB] font-black text-2xl sm:text-3xl md:text-4xl text-left tracking-tight">
-                                La moyenne des Prix par site <span className="text-[#8B5CF6]">E-commerce</span><span className="text-[#8B5CF6]">مُعَدَّلَ الأسعار</span>
+                            <h2 className="text-[#2563EB] font-black text-xl sm:text-2xl md:text-3xl text-left tracking-tight whitespace-nowrap">
+                                La moyenne des Prix par site <span className="text-[#8B5CF6] ml-1">E-commerce</span> <span className="text-[#8B5CF6] ml-1">مُعَدَّلَ الأسعار</span>
                             </h2>
                         </div>
                         <div className="relative w-48 h-24 md:w-[350px] md:h-32 shrink-0 hidden sm:block">
@@ -232,8 +232,8 @@ export default function PriceCards({ initialData }: PriceCardsProps) {
                     <div className="max-w-7xl mx-auto px-4 mb-10">
                         <div className="flex items-center gap-4">
                             <div className="h-10 w-2 bg-[#10B981] rounded-full"></div>
-                            <h2 className="text-[#2563EB] font-black text-2xl sm:text-3xl md:text-4xl text-left tracking-tight">
-                                La moyenne des Prix par site <span className="text-[#10B981]">Parapharmacie</span><span className="text-[#8B5CF6]">مُعَدَّلَ الأسعار</span>
+                            <h2 className="text-[#2563EB] font-black text-xl sm:text-2xl md:text-3xl text-left tracking-tight whitespace-nowrap">
+                                La moyenne des Prix par site <span className="text-[#10B981] ml-1">Parapharmacie</span> <span className="text-[#8B5CF6] ml-1">مُعَدَّلَ الأسعار</span>
                             </h2>
                         </div>
                     </div>

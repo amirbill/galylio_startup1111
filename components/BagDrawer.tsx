@@ -213,7 +213,7 @@ export function BagDrawer({ isOpen, onClose }: BagDrawerProps) {
                                         </p>
                                         <span className={`inline-block text-[10px] px-2 py-0.5 rounded-full mt-1 ${item.source === 'para'
                                             ? 'bg-teal-100 text-teal-600'
-                                            : 'bg-purple-100 text-purple-600'
+                                            : 'bg-blue-100 text-blue-600'
                                             }`}>
                                             {item.source === 'para' ? 'Parapharmacie' : 'Électronique'}
                                         </span>
@@ -260,7 +260,7 @@ export function BagDrawer({ isOpen, onClose }: BagDrawerProps) {
                                     renderCategorySection(
                                         result.retail_result,
                                         <Monitor className="size-4 text-white" />,
-                                        'bg-purple-500'
+                                        'bg-blue-500'
                                     )
                                 )}
 

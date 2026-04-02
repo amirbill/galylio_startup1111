@@ -116,7 +116,7 @@ export default function ProfilePage() {
     if (loading) {
         return (
             <div className="flex h-screen items-center justify-center bg-slate-50">
-                <Loader2 className="size-8 animate-spin text-purple-600" />
+                <Loader2 className="size-8 animate-spin text-blue-600" />
             </div>
         )
     }
@@ -129,7 +129,7 @@ export default function ProfilePage() {
                 <div className="mb-8 flex items-center justify-between">
                     <div>
                         <h1 className="text-3xl font-black text-slate-900 tracking-tight">
-                            Mon <span className="text-purple-600">Profil</span>
+                            Mon <span className="text-blue-600">Profil</span>
                         </h1>
                         <p className="text-slate-500 mt-1">Gérez vos informations et votre sécurité</p>
                     </div>
@@ -165,7 +165,7 @@ export default function ProfilePage() {
                         >
                             Informations Personnelles
                             {activeTab === "profile" && (
-                                <span className="absolute bottom-0 left-0 h-1 w-full bg-purple-600 rounded-t-full" />
+                                <span className="absolute bottom-0 left-0 h-1 w-full bg-blue-600 rounded-t-full" />
                             )}
                         </button>
                         <button
@@ -177,7 +177,7 @@ export default function ProfilePage() {
                         >
                             Sécurité & Mot de passe
                             {activeTab === "security" && (
-                                <span className="absolute bottom-0 left-0 h-1 w-full bg-purple-600 rounded-t-full" />
+                                <span className="absolute bottom-0 left-0 h-1 w-full bg-blue-600 rounded-t-full" />
                             )}
                         </button>
                     </div>
@@ -197,7 +197,7 @@ export default function ProfilePage() {
                                             className="size-full object-cover"
                                         />
                                     </div>
-                                    <button className="absolute -bottom-2 -right-2 flex size-10 items-center justify-center rounded-2xl bg-purple-600 text-white shadow-xl hover:bg-purple-700 transition-colors border-2 border-white">
+                                    <button className="absolute -bottom-2 -right-2 flex size-10 items-center justify-center rounded-2xl bg-blue-600 text-white shadow-xl hover:bg-blue-700 transition-colors border-2 border-white">
                                         <Pencil className="size-4" />
                                     </button>
                                 </div>
@@ -217,7 +217,7 @@ export default function ProfilePage() {
                                             name="nom"
                                             value={profileData.nom}
                                             onChange={handleProfileChange}
-                                            className="w-full rounded-2xl border border-slate-200 bg-slate-50/50 px-5 py-3 text-sm text-slate-900 outline-none transition-all focus:border-purple-600 focus:bg-white focus:ring-4 focus:ring-purple-600/5"
+                                            className="w-full rounded-2xl border border-slate-200 bg-slate-50/50 px-5 py-3 text-sm text-slate-900 outline-none transition-all focus:border-blue-600 focus:bg-white focus:ring-4 focus:ring-blue-600/5"
                                         />
                                     </div>
 
@@ -228,7 +228,7 @@ export default function ProfilePage() {
                                             name="nomUtilisateur"
                                             value={profileData.nomUtilisateur}
                                             onChange={handleProfileChange}
-                                            className="w-full rounded-2xl border border-slate-200 bg-slate-50/50 px-5 py-3 text-sm text-slate-900 outline-none transition-all focus:border-purple-600 focus:bg-white focus:ring-4 focus:ring-purple-600/5"
+                                            className="w-full rounded-2xl border border-slate-200 bg-slate-50/50 px-5 py-3 text-sm text-slate-900 outline-none transition-all focus:border-blue-600 focus:bg-white focus:ring-4 focus:ring-blue-600/5"
                                         />
                                     </div>
 
@@ -251,7 +251,7 @@ export default function ProfilePage() {
                                             name="dateNaissance"
                                             value={profileData.dateNaissance}
                                             onChange={handleProfileChange}
-                                            className="w-full rounded-2xl border border-slate-200 bg-slate-50/50 px-5 py-3 text-sm text-slate-900 outline-none transition-all focus:border-purple-600 focus:bg-white focus:ring-4 focus:ring-purple-600/5"
+                                            className="w-full rounded-2xl border border-slate-200 bg-slate-50/50 px-5 py-3 text-sm text-slate-900 outline-none transition-all focus:border-blue-600 focus:bg-white focus:ring-4 focus:ring-blue-600/5"
                                         />
                                     </div>
 
@@ -262,7 +262,7 @@ export default function ProfilePage() {
                                             name="adresse"
                                             value={profileData.adresse}
                                             onChange={handleProfileChange}
-                                            className="w-full rounded-2xl border border-slate-200 bg-slate-50/50 px-5 py-3 text-sm text-slate-900 outline-none transition-all focus:border-purple-600 focus:bg-white focus:ring-4 focus:ring-purple-600/5"
+                                            className="w-full rounded-2xl border border-slate-200 bg-slate-50/50 px-5 py-3 text-sm text-slate-900 outline-none transition-all focus:border-blue-600 focus:bg-white focus:ring-4 focus:ring-blue-600/5"
                                         />
                                     </div>
                                 </div>
@@ -271,10 +271,10 @@ export default function ProfilePage() {
                                     <button
                                         onClick={saveProfile}
                                         disabled={saving}
-                                        className="inline-flex items-center gap-3 rounded-2xl bg-slate-900 px-8 py-3 text-sm font-bold text-white shadow-xl shadow-slate-900/20 transition-all hover:bg-slate-800 hover:scale-105 active:scale-95 disabled:opacity-50"
+                                        className="group inline-flex items-center gap-3 rounded-full bg-slate-900 px-8 py-3 text-sm font-medium text-white shadow-lg transition-all hover:bg-slate-800 hover:shadow-xl hover:scale-105 active:scale-95 disabled:opacity-50"
                                     >
                                         {saving && <Loader2 className="size-4 animate-spin" />}
-                                        Enregistrer les modifications
+                                        <span>Enregistrer les modifications</span>
                                     </button>
                                 </div>
                             </div>
@@ -295,7 +295,7 @@ export default function ProfilePage() {
                                             value={securityData.currentPassword}
                                             onChange={handleSecurityChange}
                                             placeholder="••••••••"
-                                            className="w-full rounded-2xl border border-slate-200 bg-slate-50/50 px-5 py-3 text-sm text-slate-900 outline-none transition-all focus:border-purple-600 focus:bg-white focus:ring-4 focus:ring-purple-600/5"
+                                            className="w-full rounded-2xl border border-slate-200 bg-slate-50/50 px-5 py-3 text-sm text-slate-900 outline-none transition-all focus:border-blue-600 focus:bg-white focus:ring-4 focus:ring-blue-600/5"
                                         />
                                     </div>
 
@@ -307,7 +307,7 @@ export default function ProfilePage() {
                                             value={securityData.newPassword}
                                             onChange={handleSecurityChange}
                                             placeholder="••••••••"
-                                            className="w-full rounded-2xl border border-slate-200 bg-slate-50/50 px-5 py-3 text-sm text-slate-900 outline-none transition-all focus:border-purple-600 focus:bg-white focus:ring-4 focus:ring-purple-600/5"
+                                            className="w-full rounded-2xl border border-slate-200 bg-slate-50/50 px-5 py-3 text-sm text-slate-900 outline-none transition-all focus:border-blue-600 focus:bg-white focus:ring-4 focus:ring-blue-600/5"
                                         />
                                     </div>
                                 </div>
@@ -317,7 +317,7 @@ export default function ProfilePage() {
                                 <button
                                     onClick={saveSecurity}
                                     disabled={saving}
-                                    className="inline-flex items-center gap-3 rounded-2xl bg-purple-600 px-8 py-3 text-sm font-bold text-white shadow-xl shadow-purple-600/20 transition-all hover:bg-purple-700 hover:scale-105 active:scale-95 disabled:opacity-50"
+                                    className="group inline-flex items-center gap-3 rounded-full bg-blue-600 px-8 py-3 text-sm font-medium text-white shadow-lg transition-all hover:bg-blue-700 hover:shadow-xl hover:scale-105 active:scale-95 disabled:opacity-50"
                                 >
                                     {saving && <Loader2 className="size-4 animate-spin" />}
                                     Mettre à jour le mot de passe

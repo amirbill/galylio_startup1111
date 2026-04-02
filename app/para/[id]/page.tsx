@@ -32,36 +32,36 @@ interface Product {
 }
 
 export async function generateMetadata({
-  params,
+    params,
 }: {
-  params: Promise<{ id: string }>
+    params: Promise<{ id: string }>
 }): Promise<Metadata> {
-  const { id } = await params
-  const product = await getProduct(id)
+    const { id } = await params
+    const product = await getProduct(id)
 
-  if (!product) {
-    return {
-      title: "Produit non trouvé",
-      description: "Ce produit de parapharmacie n'existe pas ou a été supprimé.",
+    if (!product) {
+        return {
+            title: "Produit non trouvé",
+            description: "Ce produit de parapharmacie n'existe pas ou a été supprimé.",
+        }
     }
-  }
 
-  const title = `${product.name} — Prix à partir de ${product.bestPrice} TND`
-  const description = `Comparez les prix de ${product.name} (${product.brand}) en Tunisie. Meilleur prix: ${product.bestPrice} TND. Parapharmacie sur 1111.tn.`
+    const title = `${product.name} — Prix à partir de ${product.bestPrice} TND`
+    const description = `Comparez les prix de ${product.name} (${product.brand}) en Tunisie. Meilleur prix: ${product.bestPrice} TND. Parapharmacie sur 1111.tn.`
 
-  return {
-    title,
-    description,
-    alternates: {
-      canonical: `/para/${id}`,
-    },
-    openGraph: {
-      title,
-      description,
-      url: `/para/${id}`,
-      images: product.image ? [{ url: product.image, alt: product.name }] : [],
-    },
-  }
+    return {
+        title,
+        description,
+        alternates: {
+            canonical: `/para/${id}`,
+        },
+        openGraph: {
+            title,
+            description,
+            url: `/para/${id}`,
+            images: product.image ? [{ url: product.image, alt: product.name }] : [],
+        },
+    }
 }
 
 async function getProduct(id: string): Promise<Product | null> {

@@ -221,7 +221,7 @@ export function BestShopSection() {
                                                 </p>
                                                 <span className={`text-[10px] px-2 py-0.5 rounded-full font-medium ${result.source === 'para'
                                                     ? 'bg-teal-50 text-teal-600 border border-teal-100'
-                                                    : 'bg-purple-50 text-purple-600 border border-purple-100'
+                                                    : 'bg-blue-50 text-blue-600 border border-blue-100'
                                                     }`}>
                                                     {result.source === 'para' ? 'Parapharmacie' : 'Électronique'}
                                                 </span>

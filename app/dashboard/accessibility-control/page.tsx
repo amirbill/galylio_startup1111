@@ -105,11 +105,10 @@ export default function AccessibilityControlPage() {
                                 <button
                                     key={category}
                                     onClick={() => setSelectedCategory(category)}
-                                    className={`rounded-lg border px-4 py-2 text-sm font-medium transition-all ${
-                                        selectedCategory === category
-                                            ? "border-purple bg-purple/10 text-purple"
-                                            : "border-border bg-background text-muted-foreground hover:border-purple/50"
-                                    }`}
+                                    className={`rounded-lg border px-4 py-2 text-sm font-medium transition-all ${selectedCategory === category
+                                        ? "border-purple bg-purple/10 text-purple"
+                                        : "border-border bg-background text-muted-foreground hover:border-purple/50"
+                                        }`}
                                 >
                                     {category.charAt(0).toUpperCase() + category.slice(1)}
                                 </button>

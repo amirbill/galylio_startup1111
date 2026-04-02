@@ -8,7 +8,7 @@ const SHOP_CONFIG: Record<string, { image: string; display: string; accent: stri
     mytek: { image: "/images/téléchargement (4).png", display: "MyTek", accent: "#E30613", textColor: "text-red-600" },
     tunisianet: { image: "/images/téléchargement (6).png", display: "Tunisianet", accent: "#005DAA", textColor: "text-blue-700" },
     spacenet: { image: "/images/spacenet-removebg-preview.png", display: "Spacenet", accent: "#E30613", textColor: "text-red-600" },
-    technopro: { image: "/images/technopro-logo.jpg", display: "TechnoPro", accent: "#7C3AED", textColor: "text-purple-600" },
+    technopro: { image: "/images/technopro-logo.jpg", display: "TechnoPro", accent: "#7C3AED", textColor: "text-blue-600" },
     darty: { image: "/images/Darty.png", display: "Darty", accent: "#CA8A04", textColor: "text-yellow-600" },
     batam: { image: "/images/logo-batam.jpg", display: "Batam", accent: "#E53E3E", textColor: "text-red-500" },
     graiet: { image: "/images/logo-graiet.png", display: "Graiet", accent: "#2B6CB0", textColor: "text-blue-600" },

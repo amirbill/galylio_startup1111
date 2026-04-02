@@ -188,11 +188,11 @@ export function EnergyConsumption({ productId }: EnergyConsumptionProps) {
                     </div>
 
                     {/* Monthly */}
-                    <div className="rounded-lg border bg-purple-50 dark:bg-purple-950/20 p-4 text-center">
+                    <div className="rounded-lg border bg-blue-50 dark:bg-purple-950/20 p-4 text-center">
                         <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
                             Par mois
                         </p>
-                        <p className="mt-1 text-2xl font-bold text-purple-600 dark:text-purple-400">
+                        <p className="mt-1 text-2xl font-bold text-blue-600 dark:text-blue-400">
                             {data.consumption.monthly_kwh}
                             <span className="text-sm font-normal ml-1">kWh</span>
                         </p>

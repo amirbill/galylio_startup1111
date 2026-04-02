@@ -24,18 +24,24 @@ export function UserMenu({ initialUser }: UserMenuProps) {
 
     if (!user) {
         return (
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-3">
                 <Link
                     href="/signin"
-                    className="relative inline-flex h-9 cursor-pointer outline-none overflow-hidden transition-all duration-300 ease-out text-sm font-semibold text-white bg-gradient-to-r from-purple-600 to-teal-500 rounded-lg px-4 shadow-sm items-center justify-center hover:scale-105"
+                    className="group inline-flex items-center gap-2 hover:bg-slate-50 transition-all duration-300 transform hover:scale-105 text-sm font-bold text-slate-700 bg-white border border-slate-200 rounded-full py-2 px-5 shadow-sm hover:shadow"
                 >
-                    <span className="relative z-10">Connexion</span>
+                    <span>Connexion</span>
                 </Link>
                 <Link
                     href="/signup"
-                    className="relative inline-flex h-9 cursor-pointer outline-none overflow-hidden transition-all duration-300 ease-out text-sm font-semibold text-purple-600 bg-white border border-purple-100 rounded-lg px-4 shadow-sm items-center justify-center hover:bg-purple-50"
+                    className="group inline-flex items-center gap-2 hover:bg-[#0056b3] hover:shadow-lg hover:shadow-[#0066FF]/20 transition-all duration-300 transform hover:scale-105 text-sm font-bold text-white bg-[#0066FF] rounded-full py-2 px-5 shadow-md shadow-[#0066FF]/10"
                 >
-                    <span className="relative z-10">Inscription</span>
+                    <span>Inscription</span>
+                    <div className="relative flex items-center justify-center size-5 bg-white/20 rounded-full group-hover:bg-white/30 transition-all duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="transition-transform duration-300 group-hover:translate-x-0.5">
+                            <path d="M5 12h14"></path>
+                            <path d="m12 5 7 7-7 7"></path>
+                        </svg>
+                    </div>
                 </Link>
             </div>
         )
@@ -45,7 +51,7 @@ export function UserMenu({ initialUser }: UserMenuProps) {
         <div className="flex items-center gap-2">
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                    <button className="flex size-10 overflow-hidden rounded-full bg-slate-100 ring-offset-white transition-all hover:ring-2 hover:ring-purple-500/50 hover:ring-offset-2 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:ring-offset-2 items-center justify-center border border-slate-200 shadow-sm">
+                    <button className="flex size-10 overflow-hidden rounded-full bg-slate-100 ring-offset-white transition-all hover:ring-2 hover:ring-blue-500/50 hover:ring-offset-2 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 items-center justify-center border border-slate-200 shadow-sm">
                         {!imgError ? (
                             <Image
                                 src="/avatar.jpg"

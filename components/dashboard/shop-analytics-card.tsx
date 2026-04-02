@@ -57,7 +57,7 @@ export function ShopAnalyticsCard({
                         </span>
                     </div>
                     <div className="h-2 w-full overflow-hidden rounded-full bg-muted">
-                        <div 
+                        <div
                             className="h-full rounded-full bg-gradient-to-r from-purple to-stock transition-all"
                             style={{ width: `${availabilityPercent}%` }}
                         />

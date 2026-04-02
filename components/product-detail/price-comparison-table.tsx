@@ -54,9 +54,8 @@ export function PriceComparisonTable({ product, accentColor = "purple" }: PriceC
         <div className="rounded-2xl bg-card p-6 shadow-sm border border-border">
             {/* Header */}
             <div className="mb-6 flex items-center justify-between">
-                <h2 className={`text-xl font-bold italic ${
-                    accentColor === "teal" ? "text-teal-600" : "text-purple"
-                }`}>
+                <h2 className={`text-xl font-bold italic ${accentColor === "teal" ? "text-teal-600" : "text-purple"
+                    }`}>
                     Comparer les prix
                 </h2>
                 <span className="text-sm text-muted-foreground">
@@ -81,9 +80,8 @@ export function PriceComparisonTable({ product, accentColor = "purple" }: PriceC
                         {product.shopPrices.map((item, idx) => (
                             <tr
                                 key={item.shop}
-                                className={`transition-colors hover:bg-muted/30 ${
-                                    idx === 0 ? "bg-green-50/50" : ""
-                                }`}
+                                className={`transition-colors hover:bg-muted/30 ${idx === 0 ? "bg-green-50/50" : ""
+                                    }`}
                             >
                                 {/* Store */}
                                 <td className="py-4 pr-4">
@@ -108,9 +106,8 @@ export function PriceComparisonTable({ product, accentColor = "purple" }: PriceC
 
                                 {/* Price */}
                                 <td className="px-4 py-4">
-                                    <span className={`text-sm font-bold ${
-                                        idx === 0 ? "text-green-600" : (accentColor === "teal" ? "text-teal-600" : "text-purple")
-                                    }`}>
+                                    <span className={`text-sm font-bold ${idx === 0 ? "text-green-600" : (accentColor === "teal" ? "text-teal-600" : "text-purple")
+                                        }`}>
                                         {formatPrice(item.price)}
                                     </span>
                                 </td>
@@ -129,11 +126,10 @@ export function PriceComparisonTable({ product, accentColor = "purple" }: PriceC
                                 {/* Stock Status */}
                                 <td className="px-4 py-4 text-center">
                                     <span
-                                        className={`inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium ${
-                                            item.available
-                                                ? "bg-green-100 text-green-700"
-                                                : "bg-red-100 text-red-700"
-                                        }`}
+                                        className={`inline-flex items-center gap-1 rounded-full px-2 py-1 text-xs font-medium ${item.available
+                                            ? "bg-green-100 text-green-700"
+                                            : "bg-red-100 text-red-700"
+                                            }`}
                                     >
                                         {item.available ? (
                                             <>
@@ -163,11 +159,10 @@ export function PriceComparisonTable({ product, accentColor = "purple" }: PriceC
                                         <a href={item.url} target="_blank" rel="noopener noreferrer">
                                             <Button
                                                 size="sm"
-                                                className={`gap-1 rounded-full text-xs ${
-                                                    accentColor === "teal"
-                                                        ? "bg-teal-600 text-white hover:bg-teal-700"
-                                                        : "bg-purple text-purple-foreground hover:bg-purple/90"
-                                                }`}
+                                                className={`gap-1 rounded-full text-xs ${accentColor === "teal"
+                                                    ? "bg-teal-600 text-white hover:bg-teal-700"
+                                                    : "bg-purple text-purple-foreground hover:bg-purple/90"
+                                                    }`}
                                             >
                                                 Voir l&apos;offre
                                                 <ExternalLink className="size-3" />

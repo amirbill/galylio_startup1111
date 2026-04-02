@@ -56,7 +56,7 @@ export default function FauxPrixPage() {
             .then(data => {
                 if (Array.isArray(data)) setProducts(data)
             })
-            .catch(() => {})
+            .catch(() => { })
             .finally(() => setLoading(false))
     }, [])
 
@@ -335,11 +335,10 @@ export default function FauxPrixPage() {
                                     <button
                                         key={item}
                                         onClick={() => goToPage(item)}
-                                        className={`w-10 h-10 rounded-xl text-sm font-bold transition-all ${
-                                            currentPage === item
+                                        className={`w-10 h-10 rounded-xl text-sm font-bold transition-all ${currentPage === item
                                                 ? 'bg-blue-600 text-white shadow-md'
                                                 : 'border border-slate-200 bg-white text-slate-600 hover:bg-blue-50 hover:border-blue-300'
-                                        }`}
+                                            }`}
                                     >
                                         {item}
                                     </button>

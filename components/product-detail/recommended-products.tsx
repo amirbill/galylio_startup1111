@@ -84,7 +84,7 @@ export function RecommendedProducts({ category, currentProductId, currentPrice, 
         return (
             <div className="mt-12 mb-8">
                 <div className="flex items-center gap-3 mb-6">
-                    <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-purple-500 to-indigo-500 flex items-center justify-center">
+                    <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-500 flex items-center justify-center">
                         <Sparkles className="size-4 text-white" />
                     </div>
                     <div>
@@ -108,12 +108,12 @@ export function RecommendedProducts({ category, currentProductId, currentPrice, 
     return (
         <div className="mt-12 mb-8">
             <div className="flex items-center gap-3 mb-6">
-                <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-purple-500 to-indigo-500 flex items-center justify-center">
+                <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-500 flex items-center justify-center">
                     <Sparkles className="size-4 text-white" />
                 </div>
                 <div>
                     <h2 className="text-lg font-bold text-foreground">Produits recommandés</h2>
-                    <p className="text-xs text-muted-foreground">Produits similaires dans la catégorie <span className="font-semibold text-purple-600">{category}</span></p>
+                    <p className="text-xs text-muted-foreground">Produits similaires dans la catégorie <span className="font-semibold text-blue-600">{category}</span></p>
                 </div>
             </div>
             <div className="flex gap-5 overflow-x-auto scrollbar-hide pb-2">

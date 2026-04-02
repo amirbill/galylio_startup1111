@@ -19,7 +19,7 @@
   --accent-foreground: oklch(0.18 0 0);
   --orange: oklch(0.75 0.18 55);
   --orange-foreground: oklch(0.98 0 0);
-  --purple: oklch(0.55 0.2 300);
+  --purple: oklch(0.55 0.2 301.6);
   --purple-foreground: oklch(0.98 0 0);
   --stock: oklch(0.65 0.2 145);
   --stock-foreground: oklch(0.98 0 0);
@@ -190,9 +190,12 @@
 
 /* Logo float animation */
 @keyframes float {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0px);
   }
+
   50% {
     transform: translateY(-10px);
   }
@@ -207,12 +210,15 @@
   0% {
     transform: translateX(-100%);
   }
+
   50% {
     transform: translateX(50%) rotateY(0deg);
   }
+
   50.1% {
     transform: translateX(50%) rotateY(180deg);
   }
+
   100% {
     transform: translateX(-100%) rotateY(180deg);
   }

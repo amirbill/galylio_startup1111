@@ -54,7 +54,7 @@ function getFamilleStyle(type: string) {
         case "leader":
             return "bg-amber-100 text-amber-700"
         case "moyenne":
-            return "bg-purple-100 text-purple-700"
+            return "bg-blue-100 text-blue-700"
         case "challenger":
             return "bg-teal-100 text-teal-700"
         default:
@@ -76,7 +76,7 @@ export default function BenchmarkingPage() {
                             </h3>
                             <div className="flex items-center gap-4 text-xs">
                                 <div className="flex items-center gap-1.5">
-                                    <span className="size-2.5 rounded-full bg-purple-500" />
+                                    <span className="size-2.5 rounded-full bg-blue-500" />
                                     <span className="text-muted-foreground">Debit</span>
                                 </div>
                                 <div className="flex items-center gap-1.5">
@@ -146,7 +146,7 @@ export default function BenchmarkingPage() {
                                 <span className="text-muted-foreground">Leader</span>
                             </div>
                             <div className="flex items-center gap-1.5">
-                                <span className="size-2.5 rounded-full bg-purple-500" />
+                                <span className="size-2.5 rounded-full bg-blue-500" />
                                 <span className="text-muted-foreground">Moyenne</span>
                             </div>
                             <div className="flex items-center gap-1.5">

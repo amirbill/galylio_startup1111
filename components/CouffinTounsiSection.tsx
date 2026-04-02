@@ -24,10 +24,10 @@ export function CouffinTounsiSection() {
                     <div className="flex items-center gap-4 flex-1">
                         <div className="h-10 w-2 bg-[#2563EB] rounded-full"></div>
                         <div className="flex flex-col">
-                            <h2 className="text-[#2563EB] font-black text-2xl sm:text-3xl md:text-4xl text-left tracking-tight">
+                            <h2 className="text-[#2563EB] font-black text-xl sm:text-2xl md:text-3xl text-left tracking-tight whitespace-nowrap">
                                 Prix moyen <span className="text-[#8B5CF6]">couffin Tounsi</span><span className="text-[#8B5CF6] ml-2">مُعَدَّلَ الأسعار</span>
                             </h2>
-                            <p className="text-gray-500 text-sm md:text-base font-medium mt-1">
+                            <p className="text-gray-500 text-xs md:text-sm font-medium mt-1">
                                 Tomate , poivron , huile , yaourt ...
                             </p>
                         </div>
@@ -46,10 +46,10 @@ export function CouffinTounsiSection() {
                     <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-white via-white/80 to-transparent z-10 pointer-events-none"></div>
                     <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-white via-white/80 to-transparent z-10 pointer-events-none"></div>
 
-                    <div className="animate-marquee-container flex gap-12 whitespace-nowrap">
+                    <div className="animate-marquee-container flex gap-10 whitespace-nowrap">
                         {marqueeRetailers.map((retailer, index) => (
-                            <div key={index} className="flex flex-col gap-3 group w-[160px] shrink-0 relative">
-                                <div className="bg-white border-2 border-[#E5E7EB]/80 rounded-[24px] p-5 flex items-center justify-center h-32 transition-all duration-500 overflow-hidden group-hover:shadow-lg">
+                            <div key={index} className="flex flex-col gap-2.5 group w-[145px] shrink-0 relative">
+                                <div className="bg-white border-2 border-[#E5E7EB]/80 rounded-[22px] p-4 flex items-center justify-center h-28 transition-all duration-500 overflow-hidden group-hover:shadow-lg">
                                     <div className="relative w-full h-full">
                                         <img
                                             src={retailer.logo}
@@ -58,8 +58,8 @@ export function CouffinTounsiSection() {
                                         />
                                     </div>
                                 </div>
-                                <div className="bg-[#EBEDF2] border border-white/50 rounded-[18px] py-3 text-center transition-all duration-300">
-                                    <span className="font-extrabold text-lg text-[#111827]">
+                                <div className="bg-[#EBEDF2] border border-white/50 rounded-[16px] py-2 text-center transition-all duration-300">
+                                    <span className="font-extrabold text-base text-[#111827]">
                                         {retailer.price}
                                     </span>
                                 </div>

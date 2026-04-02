@@ -6,7 +6,7 @@ export const SHOP_CONFIG: Record<string, { name: string; image?: string; color: 
     'mytek': { name: 'MyTek', image: '/images/téléchargement (4).png', color: 'bg-red-500' },
     'tunisianet': { name: 'Tunisianet', image: '/images/téléchargement (6).png', color: 'bg-blue-500' },
     'spacenet': { name: 'Spacenet', image: '/images/spacenet-removebg-preview.png', color: 'bg-orange-500' },
-    'oxtek': { name: 'Oxtek', image: '/images/technopro-logo.jpg', color: 'bg-purple-500' },
-    'technopro': { name: 'TechnoPro', image: '/images/technopro-logo.svg', color: 'bg-purple-500' },
+    'oxtek': { name: 'Oxtek', image: '/images/technopro-logo.jpg', color: 'bg-blue-500' },
+    'technopro': { name: 'TechnoPro', image: '/images/technopro-logo.svg', color: 'bg-blue-500' },
     'darty': { name: 'Darty', image: '/images/darty-logo.svg', color: 'bg-yellow-600' },
 };

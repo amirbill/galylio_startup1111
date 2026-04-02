@@ -231,8 +231,18 @@ export default async function Home() {
   const predictiveProduct = imprimanteProducts?.[0];
 
   // Prepare banner products server-side (shuffle + pick 2 elec + 1 para)
-  const allBannerProds = (bannerProds?.products || []).map((p: any) => ({ ...p, type: 'product' }))
-  const allBannerPara = (bannerPara?.products || []).map((p: any) => ({ ...p, type: 'para' }))
+  const allBannerProds = (bannerProds?.products || []).map((p: any) => ({ 
+    ...p, 
+    type: 'product',
+    rating: 4.5 + (Math.random() * 0.5),
+    reviews: Math.floor(Math.random() * 200) + 50
+  }))
+  const allBannerPara = (bannerPara?.products || []).map((p: any) => ({ 
+    ...p, 
+    type: 'para',
+    rating: 4.5 + (Math.random() * 0.5),
+    reviews: Math.floor(Math.random() * 200) + 50
+  }))
   const shuffledBannerProds = allBannerProds.sort(() => Math.random() - 0.5).slice(0, 2);
   const shuffledBannerPara = allBannerPara.sort(() => Math.random() - 0.5).slice(0, 1);
   const bannerProducts = [...shuffledBannerProds, ...shuffledBannerPara];
@@ -390,7 +400,7 @@ export default async function Home() {
             <SupermarketComparison products={comparisonProducts} />
 
             <div className="max-w-7xl mx-auto w-full px-4">
-              
+
               <div id="prediction-prix"><PriceVariationAlert product={predictiveProduct} /></div>
               {/*<PriceIncreasePrediction />*/}
             </div>

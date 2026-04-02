@@ -1,92 +1,85 @@
-import React from 'react';
-import { Star, MoveUpRight } from 'lucide-react';
-import Link from 'next/link';
-import { SearchBar } from './SearchBar';
+import { Search, LineChart, Target, ShieldCheck, Zap } from 'lucide-react'
+import { SearchBar } from './SearchBar'
 
-const HeroSection = () => {
-    return (
-        <section className="relative overflow-hidden p-4 sm:p-8 md:p-16 min-h-[400px] md:min-h-[600px] flex items-center bg-white">
+export function HeroSection() {
+  const features = [
+    { label: "MONITORING", icon: <LineChart className="w-4 h-4" />, color: "text-blue-600", bg: "bg-blue-50" },
+    { label: "BENCHMARKING", icon: <Target className="w-4 h-4" />, color: "text-indigo-600", bg: "bg-indigo-50" },
+    { label: "VEILLE CONCURRENTIELLE", icon: <ShieldCheck className="w-4 h-4" />, color: "text-purple-600", bg: "bg-purple-50" },
+    { label: "PRÉDICTION", icon: <Zap className="w-4 h-4" />, color: "text-teal-600", bg: "bg-teal-50" }
+  ];
 
-            <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10">
-                {/* Left Content */}
-                <div className="flex flex-col gap-8">
-                    {/* Logo */}
-                    <div className="flex items-center">
-                        <img
-                            src="/images/Logo 1111.svg"
-                            alt="1111.tn Logo"
-                            className="w-40 h-40 md:w-36 md:h-36 animate-float hover:scale-110 transition-transform duration-500 cursor-pointer"
-                        />
-                    </div>
+  return (
+    <div className="relative min-h-[80vh] bg-white overflow-hidden flex flex-col items-center justify-center pt-16 pb-10 sm:pt-24 sm:pb-16">
+      
+      {/* Premium Background Glow - Keeping only subtle blue */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-6xl h-full pointer-events-none opacity-40">
+        <div className="absolute top-[-10%] left-[-10%] w-[60%] h-[60%] bg-blue-50 rounded-full blur-[120px]" />
+      </div>
 
-                    <div className="space-y-6">
-                        <span className="text-xs font-medium text-[#111827] tracking-tight">
-                            Comparateur de prix intelligent
-                        </span>
+      <div className="relative w-full max-w-5xl px-4 sm:px-6 text-center space-y-10 sm:space-y-14">
+        
+        {/* Logo Section - Slightly smaller */}
+        <div className="flex justify-center mb-4 sm:mb-6">
+          <div className="relative inline-block">
+            <img
+              src="/images/Logo 1111.svg"
+              alt="1111.tn Logo"
+              className="relative w-32 h-32 sm:w-40 sm:h-40 animate-float hover:scale-105 transition-transform duration-700 cursor-pointer drop-shadow-xl"
+            />
+          </div>
+        </div>
 
-                        <div className="space-y-2">
-                            <h2 className="text-lg md:text-xl font-bold text-[#111827] tracking-tight">
-                                Les prix, en toute transparence et claireté.
-                            </h2>
+        {/* Headline & Subtitle - Slightly smaller */}
+        <div className="space-y-6 sm:space-y-8">
+          <div className="space-y-3 sm:space-y-4">
+            <h1 className="text-3xl sm:text-5xl md:text-6xl font-black text-slate-900 tracking-tight leading-[1.1]">
+              Comparateur de prix <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600">intelligent</span>
+            </h1>
+            <p className="max-w-2xl mx-auto text-lg sm:text-xl md:text-2xl font-bold text-slate-700 leading-relaxed">
+              Les prix, en toute transparence et claireté.
+            </p>
+          </div>
 
-                            <div className="flex flex-col space-y-1">
-                                <span className="text-xl sm:text-2xl md:text-4xl font-extrabold text-[#2563EB] tracking-tight">
-                                    MONITORING
-                                </span>
-                                <span className="text-xl sm:text-2xl md:text-4xl font-extrabold text-[#2563EB] tracking-tight">
-                                    BENCHMARKING
-                                </span>
-                                <span className="text-xl sm:text-2xl md:text-4xl font-extrabold text-[#2563EB] tracking-tight">
-                                    VEILLE CONCURRENTIELLE
-                                </span>
-                                <span className="text-xl sm:text-2xl md:text-4xl font-extrabold text-[#2563EB] tracking-tight">
-                                    PRÉDICTION
-                                </span>
-                            </div>
-                        </div>
-                    </div>
+          {/* Feature Capsules - Original Labels */}
+          <div className="flex flex-wrap justify-center gap-3 pt-4 px-4 overflow-x-auto sm:overflow-visible pb-2 no-scrollbar">
+            {features.map((feature, idx) => (
+              <div 
+                key={idx}
+                className={`flex items-center gap-2 px-6 py-3 rounded-2xl ${feature.bg} ${feature.color} border border-white/50 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:scale-105 hover:shadow-md transition-all duration-300 cursor-default whitespace-nowrap`}
+              >
+                {feature.icon}
+                <span className="text-xs sm:text-sm font-black tracking-widest uppercase">{feature.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
 
-                    <div className="space-y-1">
-                        <p className="text-xs text-[#111827] font-medium leading-relaxed">
-                            On compare les vrais prix. On dévoile tout les mensonges.
-                        </p>
-                        <p className="text-xs text-[#111827] font-medium">
-                            Gratuitement, pour toi.
-                        </p>
-                    </div>
-
-                    {/* Keep Search Bar for functionality, placing it below the text */}
-                    <div className="flex flex-col gap-6 w-full max-w-xl">
-                        <SearchBar variant="hero" searchBoth={true} placeholder="Rechercher un produit (électronique, parapharmacie...)" />
-                    </div>
-                </div>
-
-                {/* Right Visual Section (Blobs) */}
-                <div className="relative h-[300px] sm:h-[450px] md:h-[580px] w-full mt-10 lg:mt-0 flex items-center justify-center overflow-hidden">
-                    {/* Top Right Circle Blob */}
-                    <div className="absolute -top-8 -right-8 size-32 sm:size-48 md:size-64 rounded-full bg-[#A855F7] overflow-hidden border-[5px] border-white shadow-[0_15px_45px_rgba(0,0,0,0.12)] z-10 hover:scale-105 transition-transform duration-500">
-                        <img
-                            src="/images/2_.png"
-                            alt="Visual 2"
-                            className="w-full h-full object-cover"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-tr from-purple-600/20 to-transparent" />
-                    </div>
-
-                    {/* Bottom Right Arch Blob */}
-                    <div className="absolute -bottom-10 -right-6 w-28 sm:w-40 md:size-68 rounded-t-[8rem] rounded-b-[1.5rem] bg-[#F97316] overflow-hidden border-[5px] border-white shadow-[0_15px_40px_rgba(0,0,0,0.12)] z-10 hover:scale-105 transition-transform duration-500">
-                        <img
-                            src="/images/3_.png"
-                            alt="Visual 3"
-                            className="w-full h-full object-cover"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-orange/40 to-transparent" />
-                    </div>
-                </div>
+        {/* Functional Search Bar Wrapper */}
+        <div className="max-w-3xl mx-auto space-y-6 pt-4">
+          <SearchBar 
+            variant="premium" 
+            searchBoth={true}
+            placeholder="Cherchez un produit, une marque, ou un prix..."
+          />
+          
+          <div className="space-y-4">
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 sm:gap-8 text-slate-800">
+              <p className="text-sm sm:text-lg font-bold">
+                On compare les vrais prix. On dévoile tout les mensonges.
+              </p>
+              <p className="text-base sm:text-xl font-black bg-purple-50 text-purple-600 px-6 py-2 rounded-full border border-purple-100 shadow-sm">
+                Gratuitement, pour toi.
+              </p>
             </div>
-        </section>
-    );
-};
-
+            <p className="text-sm sm:text-base text-slate-400 font-medium max-w-2xl mx-auto">
+              Comparez instantanément les prix, analysez les stratégies concurrentes, et trouvez les meilleures offres
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
 
 export default HeroSection;

@@ -124,7 +124,7 @@ export default function Chatbot() {
             {!open && (
                 <button
                     onClick={() => setOpen(true)}
-                    className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-purple-600 text-white shadow-lg hover:bg-purple-700 transition-all hover:scale-105 active:scale-95"
+                    className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-blue-600 text-white shadow-lg hover:bg-blue-700 transition-all hover:scale-105 active:scale-95"
                     aria-label="Ouvrir le chat"
                 >
                     <MessageCircle className="h-6 w-6" />
@@ -138,13 +138,13 @@ export default function Chatbot() {
                     style={{ height: "min(520px, calc(100vh - 3rem))" }}
                 >
                     {/* Header */}
-                    <div className="flex items-center gap-3 rounded-t-2xl bg-purple-600 px-4 py-3 text-white">
+                    <div className="flex items-center gap-3 rounded-t-2xl bg-blue-600 px-4 py-3 text-white">
                         <div className="flex h-9 w-9 items-center justify-center rounded-full bg-white/20">
                             <Bot className="h-5 w-5" />
                         </div>
                         <div className="flex-1">
                             <h3 className="text-sm font-semibold">Assistant 1111.tn</h3>
-                            <p className="text-xs text-purple-200">
+                            <p className="text-xs text-blue-200">
                                 En ligne • Réponse instantanée
                             </p>
                         </div>
@@ -169,21 +169,21 @@ export default function Chatbot() {
                                 }`}
                             >
                                 {msg.sender === "bot" && (
-                                    <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-purple-100 dark:bg-purple-900/40 mt-0.5">
-                                        <Bot className="h-4 w-4 text-purple-600 dark:text-purple-400" />
+                                    <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/40 mt-0.5">
+                                        <Bot className="h-4 w-4 text-blue-600 dark:text-blue-400" />
                                     </div>
                                 )}
                                 <div
                                     className={`max-w-[75%] rounded-2xl px-3.5 py-2.5 text-sm leading-relaxed whitespace-pre-line ${
                                         msg.sender === "user"
-                                            ? "bg-purple-600 text-white rounded-br-md"
+                                            ? "bg-blue-600 text-white rounded-br-md"
                                             : "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-200 rounded-bl-md"
                                     }`}
                                 >
                                     {msg.text}
                                 </div>
                                 {msg.sender === "user" && (
-                                    <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-purple-600 mt-0.5">
+                                    <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-blue-600 mt-0.5">
                                         <User className="h-4 w-4 text-white" />
                                     </div>
                                 )}
@@ -193,8 +193,8 @@ export default function Chatbot() {
                         {/* Typing indicator */}
                         {loading && (
                             <div className="flex gap-2 justify-start">
-                                <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-purple-100 dark:bg-purple-900/40 mt-0.5">
-                                    <Bot className="h-4 w-4 text-purple-600 dark:text-purple-400" />
+                                <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-blue-100 dark:bg-blue-900/40 mt-0.5">
+                                    <Bot className="h-4 w-4 text-blue-600 dark:text-blue-400" />
                                 </div>
                                 <div className="rounded-2xl rounded-bl-md bg-gray-100 dark:bg-gray-800 px-4 py-3">
                                     <div className="flex gap-1">
@@ -225,7 +225,7 @@ export default function Chatbot() {
                                 <button
                                     key={i}
                                     onClick={() => sendMessage(s)}
-                                    className="rounded-full border border-purple-200 dark:border-purple-800 bg-purple-50 dark:bg-purple-900/30 px-3 py-1 text-xs text-purple-700 dark:text-purple-300 hover:bg-purple-100 dark:hover:bg-purple-900/50 transition-colors"
+                                    className="rounded-full border border-blue-200 dark:border-blue-800 bg-blue-50 dark:bg-blue-900/30 px-3 py-1 text-xs text-blue-700 dark:text-blue-300 hover:bg-blue-100 dark:hover:bg-blue-900/50 transition-colors"
                                 >
                                     {s}
                                 </button>
@@ -244,13 +244,13 @@ export default function Chatbot() {
                             value={input}
                             onChange={(e) => setInput(e.target.value)}
                             placeholder="Tapez votre message..."
-                            className="flex-1 rounded-full border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 px-4 py-2 text-sm outline-none focus:border-purple-400 focus:ring-1 focus:ring-purple-400 dark:text-white"
+                            className="flex-1 rounded-full border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 px-4 py-2 text-sm outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-400 dark:text-white"
                             disabled={loading}
                         />
                         <button
                             type="submit"
                             disabled={!input.trim() || loading}
-                            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-purple-600 text-white hover:bg-purple-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+                            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
                             aria-label="Envoyer"
                         >
                             <Send className="h-4 w-4" />

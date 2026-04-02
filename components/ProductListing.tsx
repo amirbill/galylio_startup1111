@@ -187,7 +187,7 @@ export function ProductListingContent({
                         </Link>
 
                         <div className="flex-1 max-w-2xl">
-                            <SearchBar variant="header" placeholder="Rechercher un produit..." />
+                            <SearchBar variant="header" accentColor="blue" placeholder="Rechercher un produit..." />
                         </div>
 
                         {/* User Menu */}
@@ -202,7 +202,7 @@ export function ProductListingContent({
                 {/* Page Title & Breadcrumb */}
                 <div className="mb-6">
                     <nav className="text-sm text-gray-500 mb-2">
-                        <Link href="/" className="hover:text-purple-600">Accueil</Link>
+                        <Link href="/" className="hover:text-purple">Accueil</Link>
                         <span className="mx-2">/</span>
                         <span className="text-gray-900">
                             {categoryParam || searchQuery ? (
@@ -231,7 +231,7 @@ export function ProductListingContent({
                                 {hasActiveFilters && (
                                     <button
                                         onClick={clearFilters}
-                                        className="text-xs text-purple-600 hover:underline"
+                                        className="text-xs text-purple hover:underline"
                                     >
                                         Réinitialiser
                                     </button>
@@ -249,7 +249,7 @@ export function ProductListingContent({
                                             onClick={() => setSelectedPriceRange(idx)}
                                         >
                                             <div className={`size-4 rounded border-2 flex items-center justify-center transition-colors ${selectedPriceRange === idx
-                                                ? "bg-purple-600 border-purple-600"
+                                                ? "bg-purple border-purple"
                                                 : "border-gray-300 group-hover:border-purple-400"
                                                 }`}>
                                                 {selectedPriceRange === idx && (
@@ -272,7 +272,7 @@ export function ProductListingContent({
                                     onClick={() => setInStockOnly(!inStockOnly)}
                                 >
                                     <div className={`size-4 rounded border-2 flex items-center justify-center transition-colors ${inStockOnly
-                                        ? "bg-purple-600 border-purple-600"
+                                        ? "bg-purple border-purple"
                                         : "border-gray-300 group-hover:border-purple-400"
                                         }`}>
                                         {inStockOnly && <Check className="size-3 text-white" />}
@@ -295,7 +295,7 @@ export function ProductListingContent({
                                                 onClick={() => setSelectedCategory(cat === selectedCategory ? null : cat)}
                                             >
                                                 <div className={`size-4 rounded border-2 flex items-center justify-center transition-colors ${selectedCategory === cat
-                                                    ? "bg-purple-600 border-purple-600"
+                                                    ? "bg-purple border-purple"
                                                     : "border-gray-300 group-hover:border-purple-400"
                                                     }`}>
                                                     {selectedCategory === cat && (
@@ -324,7 +324,7 @@ export function ProductListingContent({
                                 <SlidersHorizontal className="size-4" />
                                 Filtres
                                 {hasActiveFilters && (
-                                    <span className="size-5 bg-purple-600 text-white rounded-full text-xs flex items-center justify-center">
+                                    <span className="size-5 bg-purple text-white rounded-full text-xs flex items-center justify-center">
                                         !
                                     </span>
                                 )}
@@ -334,7 +334,7 @@ export function ProductListingContent({
                                 <button
                                     onClick={() => setViewMode("grid")}
                                     className={`p-2 rounded-lg transition-colors ${viewMode === "grid"
-                                        ? "bg-purple-100 text-purple-600"
+                                        ? "bg-purple/10 text-purple"
                                         : "bg-white text-gray-400 hover:text-gray-600"
                                         }`}
                                 >
@@ -343,7 +343,7 @@ export function ProductListingContent({
                                 <button
                                     onClick={() => setViewMode("list")}
                                     className={`p-2 rounded-lg transition-colors ${viewMode === "list"
-                                        ? "bg-purple-100 text-purple-600"
+                                        ? "bg-purple/10 text-purple"
                                         : "bg-white text-gray-400 hover:text-gray-600"
                                         }`}
                                 >
@@ -356,7 +356,7 @@ export function ProductListingContent({
                         {hasActiveFilters && (
                             <div className="flex flex-wrap gap-2 mb-4">
                                 {searchQuery && (
-                                    <span className="inline-flex items-center gap-1 px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm">
+                                    <span className="inline-flex items-center gap-1 px-3 py-1 bg-purple/10 text-purple/90 rounded-full text-sm">
                                         Recherche: {searchQuery}
                                         <button onClick={() => router.push("/products")}>
                                             <X className="size-3" />
@@ -364,7 +364,7 @@ export function ProductListingContent({
                                     </span>
                                 )}
                                 {categoryParam && (
-                                    <span className="inline-flex items-center gap-1 px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm">
+                                    <span className="inline-flex items-center gap-1 px-3 py-1 bg-purple/10 text-purple/90 rounded-full text-sm">
                                         {categoryParam}
                                         <button onClick={() => router.push("/products")}>
                                             <X className="size-3" />
@@ -393,7 +393,7 @@ export function ProductListingContent({
                         {/* Loading State */}
                         {loading ? (
                             <div className="flex items-center justify-center py-20">
-                                <Loader2 className="size-8 text-purple-600 animate-spin" />
+                                <Loader2 className="size-8 text-purple animate-spin" />
                             </div>
                         ) : products.length === 0 ? (
                             /* Empty State */
@@ -409,7 +409,7 @@ export function ProductListingContent({
                                 </p>
                                 <button
                                     onClick={clearFilters}
-                                    className="px-6 py-2 bg-purple-600 text-white rounded-full font-medium hover:bg-purple-700 transition-colors"
+                                    className="px-6 py-2 bg-purple text-white rounded-full font-medium hover:bg-purple/90 transition-colors"
                                 >
                                     Réinitialiser les filtres
                                 </button>
@@ -466,7 +466,7 @@ export function ProductListingContent({
                                                 key={pageNum}
                                                 onClick={() => setCurrentPage(pageNum)}
                                                 className={`size-10 rounded-lg text-sm font-medium transition-colors ${currentPage === pageNum
-                                                    ? "bg-purple-600 text-white"
+                                                    ? "bg-purple text-white"
                                                     : "bg-white border border-gray-200 hover:bg-gray-50"
                                                     }`}
                                             >
@@ -517,7 +517,7 @@ export function ProductListingContent({
                                         className="flex items-center gap-2 cursor-pointer"
                                     >
                                         <div className={`size-5 rounded border-2 flex items-center justify-center ${selectedPriceRange === idx
-                                            ? "bg-purple-600 border-purple-600"
+                                            ? "bg-purple border-purple"
                                             : "border-gray-300"
                                             }`}>
                                             {selectedPriceRange === idx && (
@@ -537,7 +537,7 @@ export function ProductListingContent({
                             <h3 className="text-sm font-semibold text-gray-700 mb-3">Disponibilité</h3>
                             <label className="flex items-center gap-2 cursor-pointer">
                                 <div className={`size-5 rounded border-2 flex items-center justify-center ${inStockOnly
-                                    ? "bg-purple-600 border-purple-600"
+                                    ? "bg-purple border-purple"
                                     : "border-gray-300"
                                     }`}>
                                     {inStockOnly && <Check className="size-3 text-white" />}
@@ -551,7 +551,7 @@ export function ProductListingContent({
                         {/* Apply Button */}
                         <button
                             onClick={() => setShowFilters(false)}
-                            className="w-full py-3 bg-purple-600 text-white rounded-full font-semibold"
+                            className="w-full py-3 bg-purple text-white rounded-full font-semibold"
                         >
                             Appliquer les filtres
                         </button>
@@ -566,7 +566,7 @@ export function ProductListing({ initialProducts, initialTotal, initialTotalPage
     return (
         <Suspense fallback={
             <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-                <Loader2 className="size-8 text-purple-600 animate-spin" />
+                <Loader2 className="size-8 text-purple animate-spin" />
             </div>
         }>
             <ProductListingContent

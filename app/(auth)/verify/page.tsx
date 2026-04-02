@@ -85,7 +85,7 @@ function VerifyContent() {
         <div className="flex w-full items-center justify-center bg-muted/30 p-8 lg:w-1/2">
             <div className="w-full max-w-md rounded-2xl bg-card p-8 shadow-sm">
                 <div className="mb-8 text-center">
-                    <h1 className="mb-2 text-3xl font-bold text-purple-600">
+                    <h1 className="mb-2 text-3xl font-bold text-blue-600">
                         Vérifiez votre email
                     </h1>
                     <p className="text-sm text-muted-foreground">
@@ -121,7 +121,7 @@ function VerifyContent() {
                             type="text"
                             {...register("code")}
                             placeholder="Entrez le code"
-                            className="w-full rounded-lg border border-border bg-card px-4 py-3 text-sm outline-none transition-colors focus:border-purple-400 focus:ring-1 focus:ring-purple-400"
+                            className="w-full rounded-lg border border-border bg-card px-4 py-3 text-sm outline-none transition-colors focus:border-blue-400 focus:ring-1 focus:ring-blue-400"
                         />
                         {errors.code && (
                             <span className="text-xs text-red-500">{errors.code.message}</span>
@@ -131,7 +131,7 @@ function VerifyContent() {
                     <button
                         type="submit"
                         disabled={isLoading || success}
-                        className="w-full rounded-lg bg-purple-600 py-3 text-sm font-medium text-white transition-colors hover:bg-purple-700 disabled:opacity-50"
+                        className="w-full rounded-lg bg-blue-600 py-3 text-sm font-medium text-white transition-colors hover:bg-blue-700 disabled:opacity-50"
                     >
                         {isLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin inline" /> : null}
                         {isLoading ? "Vérification..." : "Vérifier"}
@@ -145,7 +145,7 @@ function VerifyContent() {
                             type="button"
                             onClick={handleResend}
                             disabled={resendLoading || success}
-                            className="font-medium text-purple-600 hover:text-purple-700 disabled:opacity-50"
+                            className="font-medium text-blue-600 hover:text-blue-700 disabled:opacity-50"
                         >
                             {resendLoading ? "Envoi en cours..." : "Renvoyer le code"}
                         </button>
@@ -159,7 +159,7 @@ function VerifyContent() {
 export default function VerifyPage() {
     return (
         <div className="flex min-h-screen">
-            <div className="relative hidden w-1/2 flex-col justify-between bg-gradient-to-br from-purple-200 via-pink-200 to-orange-100 p-8 lg:flex">
+            <div className="relative hidden w-1/2 flex-col justify-between bg-gradient-to-br from-blue-200 via-pink-200 to-orange-100 p-8 lg:flex">
                 <div className="flex items-center gap-1">
                     <Image
                         src="/images/Logo 1111.svg"

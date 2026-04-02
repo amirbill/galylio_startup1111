@@ -37,7 +37,7 @@ const shopColorsMap: Record<string, string> = {
     monoprix: "bg-red-600",
     carrefour: "bg-blue-500",
     geantdrive: "bg-green-600",
-    technopro: "bg-purple-500",
+    technopro: "bg-blue-500",
     darty: "bg-yellow-600",
 }
 

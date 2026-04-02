@@ -4,7 +4,6 @@ import React, { useState, useEffect, useRef, useCallback } from "react"
 import { Search, X, Loader2 } from "lucide-react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
-import { API_URL } from "@/lib/api"
 import { searchProductsAction } from "@/app/actions"
 
 interface SearchResult {
@@ -20,7 +19,7 @@ interface SearchResult {
 interface SearchBarProps {
     placeholder?: string
     className?: string
-    variant?: "hero" | "header"
+    variant?: "hero" | "header" | "premium"
     searchEndpoint?: string
     linkPrefix?: string
     accentColor?: string
@@ -56,26 +55,10 @@ export function SearchBar({
         const timer = setTimeout(async () => {
             setIsLoading(true)
             try {
-                if (searchBoth) {
-                    // Use Server Action for both
-                    const combined = await searchProductsAction(query, 5);
-                    setResults(combined);
-                    setShowDropdown(true);
-                } else {
-                    // For single endpoint search, we can reuse the generic action or just use the combined one and filter? 
-                    // Actually, the current component supports `searchEndpoint` prop which might be specific.
-                    // But for security, we should avoid arbitrary endpoints.
-                    // Given the usage (Hero Header uses searchBoth=true usually?), checking usage...
-                    // Assuming we can default to the combined search action which mimics the "both" behavior.
-                    // If specific endpoint is needed, it's better to secure it too. 
-                    // For now, let's map to the server action since the main usage is the global search.
-
-                    const combined = await searchProductsAction(query, 8);
-                    // Filter if needed? The original code had specific endpoint support.
-                    // But let's assume global search is what we want for now to secure it.
-                    setResults(combined);
-                    setShowDropdown(true);
-                }
+                const limit = variant === "premium" ? 8 : 5
+                const combined = await searchProductsAction(query, limit);
+                setResults(combined);
+                setShowDropdown(true);
             } catch (error) {
                 console.error("Search error:", error)
             } finally {
@@ -84,7 +67,7 @@ export function SearchBar({
         }, 300)
 
         return () => clearTimeout(timer)
-    }, [query, searchBoth, searchEndpoint])
+    }, [query, searchBoth, variant])
 
     // Close dropdown when clicking outside
     useEffect(() => {
@@ -114,7 +97,6 @@ export function SearchBar({
     const handleResultClick = (result: SearchResult) => {
         setShowDropdown(false)
         setQuery("")
-        // Use source-based routing for combined search, otherwise use linkPrefix
         const prefix = searchBoth && result.source === "para" ? "/para" :
             searchBoth && result.source === "retail" ? "/products" :
                 linkPrefix
@@ -167,22 +149,170 @@ export function SearchBar({
     }
 
     const isHero = variant === "hero"
+    const isPremium = variant === "premium"
 
     // Color mappings for different accent colors
     const accentColors = {
         purple: {
-            bg50: "bg-purple-50",
-            text600: "text-purple-600",
-            hoverBg: "hover:bg-purple-50"
+            bg50: "bg-purple/10",
+            text600: "text-purple",
+            hoverBg: "hover:bg-purple/10",
+            buttonText: "text-[#8B5CF6]"
+        },
+        blue: {
+            bg50: "bg-blue-50",
+            text600: "text-blue-600",
+            hoverBg: "hover:bg-blue-50",
+            buttonText: "text-[#2563EB]"
         },
         teal: {
             bg50: "bg-teal-50",
             text600: "text-teal-600",
-            hoverBg: "hover:bg-teal-50"
+            hoverBg: "hover:bg-teal-50",
+            buttonText: "text-[#0D9488]"
         }
     }
 
-    const colors = accentColors[accentColor as keyof typeof accentColors] || accentColors.purple
+    const colors = isPremium 
+        ? { bg50: "bg-blue-50", text600: "text-blue-600", hoverBg: "hover:bg-blue-50", buttonText: "text-white" }
+        : (accentColors[accentColor as keyof typeof accentColors] || accentColors.purple)
+
+    if (isPremium) {
+        return (
+            <div className={`relative ${className}`}>
+                <form onSubmit={handleSubmit}>
+                    <div className="relative group">
+                        <div className="relative bg-white rounded-[2.5rem] px-6 sm:px-8 py-3 sm:py-4 flex items-center gap-4 shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-slate-100/80">
+                            <Search className="w-5 h-5 sm:w-6 sm:h-6 text-blue-500 flex-shrink-0" />
+                            <input
+                                ref={inputRef}
+                                type="text"
+                                value={query}
+                                onChange={(e) => {
+                                    setQuery(e.target.value)
+                                    setSelectedIndex(-1)
+                                }}
+                                onFocus={() => {
+                                    if (results.length > 0) setShowDropdown(true)
+                                }}
+                                onKeyDown={handleKeyDown}
+                                placeholder={placeholder}
+                                className="flex-1 text-sm sm:text-lg outline-none bg-transparent text-slate-900 placeholder-slate-400"
+                            />
+                            {query && (
+                                <button
+                                    type="button"
+                                    onClick={clearSearch}
+                                    className="p-1 hover:bg-gray-100 rounded-full transition-colors mr-2"
+                                >
+                                    <X className="size-4 text-gray-400" />
+                                </button>
+                            )}
+                            {isLoading && (
+                                <Loader2 className="size-4 text-gray-400 animate-spin mr-2" />
+                            )}
+                            <button 
+                                type="submit"
+                                className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 sm:px-10 py-2.5 sm:py-3.5 rounded-2xl text-sm sm:text-base font-bold hover:shadow-lg transition-all duration-300 active:scale-95"
+                            >
+                                Chercher
+                            </button>
+                        </div>
+                    </div>
+                </form>
+
+                {/* Dropdown Results */}
+                {showDropdown && results.length > 0 && (
+                    <div
+                        ref={dropdownRef}
+                        className="absolute top-full left-0 right-0 mt-4 bg-white rounded-3xl shadow-2xl border border-gray-100 overflow-hidden z-50 max-h-[450px] overflow-y-auto p-2"
+                    >
+                        <div className="space-y-1">
+                            {results.map((result, index) => (
+                                <button
+                                    key={`${result.source || 'item'}-${result.id}`}
+                                    onClick={() => handleResultClick(result)}
+                                    className={`w-full flex items-center gap-4 p-3 rounded-2xl transition-all text-left ${index === selectedIndex
+                                        ? "bg-blue-50"
+                                        : "hover:bg-gray-50"
+                                        }`}
+                                >
+                                    <div className="relative size-14 rounded-xl overflow-hidden bg-gray-50 flex-shrink-0 border border-gray-100">
+                                        <Image
+                                            src={result.image || "/placeholder.svg"}
+                                            alt={result.name}
+                                            fill
+                                            className="object-contain p-1.5"
+                                        />
+                                        {result.source && (
+                                            <div className={`absolute bottom-0 left-0 right-0 text-[9px] font-black text-white text-center py-0.5 ${result.source === "para" ? "bg-teal-500" : "bg-blue-500"
+                                                }`}>
+                                                {result.source === "para" ? "PARA" : "TECH"}
+                                            </div>
+                                        )}
+                                    </div>
+                                    <div className="flex-1 min-w-0">
+                                        <p className={`text-[10px] font-black uppercase tracking-wider ${result.source === "para" ? "text-teal-600" : "text-blue-600"
+                                            }`}>
+                                            {result.brand}
+                                        </p>
+                                        <p className="text-base font-bold text-gray-900 truncate">
+                                            {result.name}
+                                        </p>
+                                        <div className="flex items-center gap-3 mt-1">
+                                            <span className="text-sm font-black text-orange-500">
+                                                {formatPrice(result.bestPrice)}
+                                            </span>
+                                            <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${result.inStock
+                                                ? "bg-green-100 text-green-700"
+                                                : "bg-red-100 text-red-600"
+                                                }`}>
+                                                {result.inStock ? "En stock" : "Épuisé"}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </button>
+                            ))}
+                        </div>
+
+                        {/* See all results button */}
+                        <div className="mt-2 pt-2 border-t border-gray-100">
+                            <button
+                                onClick={() => handleSubmit()}
+                                className="w-full py-3 text-sm font-bold text-blue-600 hover:bg-blue-50 rounded-xl transition-colors"
+                            >
+                                Voir tous les résultats pour &quot;{query}&quot;
+                            </button>
+                        </div>
+                    </div>
+                )}
+
+                {/* No results message */}
+                {showDropdown && query.length >= 2 && results.length === 0 && !isLoading && (
+                    <div
+                        ref={dropdownRef}
+                        className="absolute top-full left-0 right-0 mt-4 bg-white rounded-3xl shadow-2xl border border-gray-100 overflow-hidden z-50 p-8 text-center"
+                    >
+                        <div className="flex flex-col items-center gap-3">
+                            <div className="p-4 bg-gray-50 rounded-full">
+                                <Search className="size-8 text-gray-300" />
+                            </div>
+                            <div>
+                                <p className="text-lg font-bold text-gray-900">Aucun produit trouvé</p>
+                                <p className="text-sm text-gray-500">Nous n'avons pas trouvé de résultats pour &quot;{query}&quot;</p>
+                            </div>
+                            <button
+                                onClick={() => handleSubmit()}
+                                className="mt-2 px-6 py-2 bg-blue-600 text-white rounded-full text-sm font-bold hover:bg-blue-700 transition-colors"
+                            >
+                                Recherche globale
+                            </button>
+                        </div>
+                    </div>
+                )}
+            </div>
+        )
+    }
 
     return (
         <div className={`relative ${className}`}>
@@ -231,7 +361,7 @@ export function SearchBar({
                         {isHero && (
                             <button
                                 type="submit"
-                                className="size-10 rounded-full bg-white shadow-md flex items-center justify-center text-[#8B5CF6] transition-transform hover:scale-110 active:scale-95"
+                                className={`size-10 rounded-full bg-white shadow-md flex items-center justify-center ${colors.buttonText} transition-transform hover:scale-110 active:scale-95`}
                             >
                                 <Search className="size-4 stroke-[3px]" />
                             </button>
@@ -263,15 +393,15 @@ export function SearchBar({
                                         fill
                                         className="object-contain p-1"
                                     />
-                                    {searchBoth && result.source && (
-                                        <div className={`absolute bottom-0 left-0 right-0 text-[8px] font-bold text-white text-center py-0.5 ${result.source === "para" ? "bg-teal-500" : "bg-purple-500"
+                                    {result.source && (
+                                        <div className={`absolute bottom-0 left-0 right-0 text-[8px] font-bold text-white text-center py-0.5 ${result.source === "para" ? "bg-teal-500" : "bg-blue-500"
                                             }`}>
                                             {result.source === "para" ? "PARA" : "TECH"}
                                         </div>
                                     )}
                                 </div>
                                 <div className="flex-1 min-w-0">
-                                    <p className={`text-xs font-bold uppercase ${searchBoth && result.source === "para" ? "text-teal-600" : colors.text600
+                                    <p className={`text-xs font-bold uppercase ${result.source === "para" ? "text-teal-600" : colors.text600
                                         }`}>
                                         {result.brand}
                                     </p>

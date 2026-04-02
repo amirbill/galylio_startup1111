@@ -75,7 +75,7 @@ export default function Footer() {
                         <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 gap-8 w-full lg:w-auto">
                             <div>
                                 <p className="text-sm font-bold text-slate-900 tracking-tight flex items-center gap-2">
-                                    <ShoppingBag className="size-4 text-purple-600" />
+                                    <ShoppingBag className="size-4 text-blue-600" />
                                     Catégories
                                 </p>
                                 <ul className="mt-3 space-y-2 text-sm text-slate-600">
