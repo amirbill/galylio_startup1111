@@ -45,10 +45,10 @@ export function RecommendedProducts({ category, currentProductId, currentPrice, 
         async function fetchRecommendations() {
             try {
                 const endpoint = type === "para" ? "para" : "products"
-                // Fetch 10 products to have enough candidates for price filtering
+                // Fetch 20 products to have enough candidates for price filtering
                 const catTypeParam = categoryType ? `&category_type=${encodeURIComponent(categoryType)}` : ""
                 const res = await fetch(
-                    `${API_URL}/${endpoint}/random?category=${encodeURIComponent(category)}&limit=10${catTypeParam}`
+                    `${API_URL}/${endpoint}/random?category=${encodeURIComponent(category)}&limit=20${catTypeParam}`
                 )
                 if (!res.ok) return
                 const data: Product[] = await res.json()
@@ -63,7 +63,7 @@ export function RecommendedProducts({ category, currentProductId, currentPrice, 
                     .filter(p => p.bestPrice >= minPrice && p.bestPrice <= maxPrice)
                     // Sort by closest price to the current product
                     .sort((a, b) => Math.abs(a.bestPrice - currentPrice) - Math.abs(b.bestPrice - currentPrice))
-                    .slice(0, 3)
+                    .slice(0, 5)
 
                 setProducts(filtered)
             } catch (err) {
@@ -92,9 +92,9 @@ export function RecommendedProducts({ category, currentProductId, currentPrice, 
                         <p className="text-xs text-muted-foreground">Produits similaires dans la même catégorie</p>
                     </div>
                 </div>
-                <div className="flex gap-5">
-                    {[1, 2, 3].map(i => (
-                        <div key={i} className="w-[220px] h-[320px] rounded-2xl bg-muted/50 animate-pulse" />
+                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-5">
+                    {[1, 2, 3, 4, 5].map(i => (
+                        <div key={i} className="aspect-[3/4] rounded-2xl bg-muted/50 animate-pulse w-full" />
                     ))}
                 </div>
             </div>
@@ -116,7 +116,7 @@ export function RecommendedProducts({ category, currentProductId, currentPrice, 
                     <p className="text-xs text-muted-foreground">Produits similaires dans la catégorie <span className="font-semibold text-blue-600">{category}</span></p>
                 </div>
             </div>
-            <div className="flex gap-5 overflow-x-auto scrollbar-hide pb-2">
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-5">
                 {products.map(product => (
                     <ProductCard
                         key={product.id}

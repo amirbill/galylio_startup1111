@@ -24,6 +24,7 @@ interface ProductCardProps {
     inStock?: boolean
     shopPrices?: ShopPrice[]
     linkPrefix?: string
+    accentColor?: string
 }
 
 // Shop colors for visual distinction (case-insensitive lookup)
@@ -56,6 +57,7 @@ export function ProductCard({
     inStock = false,
     shopPrices = [],
     linkPrefix = "/products",
+    accentColor = "purple",
 }: ProductCardProps) {
     const formatPrice = (value: number) => {
         return value.toFixed(3) + " DT"
@@ -64,7 +66,7 @@ export function ProductCard({
     const productLink = `${linkPrefix}/${id}`
 
     return (
-        <div className="flex w-[220px] shrink-0 flex-col rounded-2xl border border-border bg-card p-3 shadow-sm transition-all hover:shadow-lg">
+        <div className="flex w-full max-w-[280px] shrink-0 flex-col rounded-2xl border border-border bg-card p-3 shadow-sm transition-all hover:shadow-lg">
             {/* Image Container */}
             <Link
                 href={productLink}
@@ -89,7 +91,12 @@ export function ProductCard({
             {/* Content */}
             <div className="flex flex-1 flex-col gap-2">
                 {/* Brand */}
-                <span className="text-[10px] font-bold uppercase tracking-wider text-purple">
+                <span className={`text-[10px] font-bold uppercase tracking-wider ${
+                    accentColor === "blue" ? "text-blue-600" :
+                    accentColor === "teal" ? "text-teal-600" :
+                    accentColor === "orange" ? "text-orange-600" :
+                    "text-purple"
+                }`}>
                     {brand}
                 </span>
 
@@ -154,7 +161,12 @@ export function ProductCard({
                 {/* Action Button */}
                 <Link
                     href={productLink}
-                    className="mt-auto flex items-center justify-center gap-1.5 rounded-full bg-purple py-2 text-[11px] font-bold text-purple-foreground transition-colors hover:bg-purple/90"
+                    className={`mt-auto flex items-center justify-center gap-1.5 rounded-full py-2 text-[11px] font-bold text-white transition-colors ${
+                        accentColor === "blue" ? "bg-blue-600 hover:bg-blue-700" :
+                        accentColor === "teal" ? "bg-teal-600 hover:bg-teal-700" :
+                        accentColor === "orange" ? "bg-orange-600 hover:bg-orange-700" :
+                        "bg-purple hover:bg-purple/90"
+                    }`}
                 >
                     Voir les offres
                     <ArrowRight className="size-3.5" />

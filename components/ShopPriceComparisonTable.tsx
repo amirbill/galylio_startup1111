@@ -169,32 +169,18 @@ const RANK_CONFIG: Record<number, {
         border: "border-amber-300", glow: "shadow-amber-200/60",
         label: "Moins cher"
     },
-    2: {
-        emoji: "🥈", icon: Medal,
-        gradient: "from-slate-400 via-slate-300 to-slate-500",
-        textColor: "text-slate-600", cardBg: "bg-gradient-to-b from-slate-50 to-gray-50",
-        border: "border-slate-300", glow: "shadow-slate-200/40",
-        label: "2ème"
-    },
-    3: {
-        emoji: "🥉", icon: Award,
-        gradient: "from-orange-400 via-amber-300 to-orange-500",
-        textColor: "text-orange-600", cardBg: "bg-gradient-to-b from-orange-50 to-amber-50",
-        border: "border-orange-300", glow: "shadow-orange-200/40",
-        label: "3ème"
-    },
 };
 
-function getVisibleCount(type: "para" | "products", viewportWidth: number): number {
+function getVisibleCount(viewportWidth: number): number {
     if (viewportWidth < 640) {
         return 2;
     }
 
     if (viewportWidth < 1024) {
-        return type === "products" ? 3 : 2;
+        return 3;
     }
 
-    return type === "products" ? 5 : 3;
+    return 5;
 }
 
 function RowLabel({
@@ -326,7 +312,7 @@ export function ShopPriceComparisonTable({
     }, [relevantShops, shopOverallAverages]);
 
     const cheapestOverall = sortedShops[0]?.price || 0;
-    const visibleCount = getVisibleCount(type, viewportWidth);
+    const visibleCount = getVisibleCount(viewportWidth);
     const maxStartIndex = Math.max(0, sortedShops.length - visibleCount);
     const safeStartIndex = Math.min(startIndex, maxStartIndex);
     const visibleShops = useMemo(
@@ -464,7 +450,7 @@ export function ShopPriceComparisonTable({
         return (
             <div className="flex justify-center">
                 <div
-                    className={`relative flex min-h-30 w-full flex-col items-center rounded-3xl px-3 py-3 transition-all duration-300 ${
+                    className={`relative flex min-h-30 w-full flex-col items-center justify-center rounded-3xl px-3 py-3 transition-all duration-300 ${
                         config
                             ? `${config.cardBg} border ${config.border} shadow-[0_18px_35px_rgba(15,23,42,0.08)] ${config.glow}`
                             : "border border-slate-200/80 bg-linear-to-b from-white to-slate-50 hover:shadow-[0_14px_28px_rgba(15,23,42,0.08)]"
@@ -478,9 +464,6 @@ export function ShopPriceComparisonTable({
                             </span>
                         </div>
                     )}
-                    <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">
-                        Prix moyen
-                    </span>
                     <span className={`mt-2 text-[16px] font-extrabold tracking-tight sm:text-[18px] ${config ? config.textColor : "text-slate-700"}`}>
                         {overallShop.price.toFixed(2)}
                     </span>
@@ -518,21 +501,18 @@ export function ShopPriceComparisonTable({
         return (
             <div className="flex justify-center">
                 <div className="relative w-full pt-3">
-                    {catRank <= 3 && config && (
+                    {catRank === 1 && config && (
                         <div className={`absolute left-1/2 top-0 z-10 flex h-7 w-7 -translate-x-1/2 items-center justify-center rounded-full border-2 border-white bg-linear-to-br ${config.gradient} text-[13px] shadow-lg sm:h-8 sm:w-8`}>
                             {config.emoji}
                         </div>
                     )}
                     <div
-                        className={`flex min-h-33 w-full flex-col items-center rounded-3xl px-3 py-3 transition-all duration-300 hover:shadow-lg ${
+                        className={`flex min-h-33 w-full flex-col items-center justify-center rounded-3xl px-3 py-3 transition-all duration-300 hover:shadow-lg ${
                             config
                                 ? `${config.cardBg} border ${config.border} shadow-[0_18px_35px_rgba(15,23,42,0.08)] ${config.glow}`
                                 : "border border-slate-200/80 bg-linear-to-b from-white to-slate-50 hover:border-slate-300"
                         }`}
                     >
-                        <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">
-                            Catégorie
-                        </span>
                         <span className={`mt-2 text-[16px] font-extrabold tracking-tight sm:text-[18px] ${config ? config.textColor : "text-slate-700"}`}>
                             {catShop.avg_price.toFixed(2)}
                         </span>
@@ -633,7 +613,7 @@ export function ShopPriceComparisonTable({
                                     <button
                                         type="button"
                                         aria-label="Voir les boutiques precedentes"
-                                        onClick={() => setStartIndex((current) => Math.max(0, current - 1))}
+                                        onClick={() => setStartIndex((current) => Math.max(0, current - 5))}
                                         disabled={safeStartIndex === 0}
                                         className="flex size-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 shadow-sm transition disabled:cursor-not-allowed disabled:opacity-35 enabled:hover:border-slate-300 enabled:hover:bg-slate-50 enabled:hover:text-slate-900"
                                     >
@@ -642,7 +622,7 @@ export function ShopPriceComparisonTable({
                                     <button
                                         type="button"
                                         aria-label="Voir les boutiques suivantes"
-                                        onClick={() => setStartIndex((current) => Math.min(maxStartIndex, current + 1))}
+                                        onClick={() => setStartIndex((current) => Math.min(maxStartIndex, current + 5))}
                                         disabled={safeStartIndex >= maxStartIndex}
                                         className="flex size-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 shadow-sm transition disabled:cursor-not-allowed disabled:opacity-35 enabled:hover:border-slate-300 enabled:hover:bg-slate-50 enabled:hover:text-slate-900"
                                     >
@@ -663,9 +643,13 @@ export function ShopPriceComparisonTable({
                         <div className="space-y-4">
                             <div className={`rounded-3xl border ${theme.divider} bg-linear-to-b from-slate-50/70 to-white p-3 sm:p-4 shadow-[0_14px_34px_rgba(15,23,42,0.04)]`}>
                                 <MobileRowLabel icon={Store} title="Boutiques" />
-                                <div className="grid gap-3 sm:gap-4" style={{ gridTemplateColumns: `repeat(${visibleShops.length || 1}, minmax(0, 1fr))` }}>
+                                <div className="flex justify-between">
                                     {visibleShops.map((shop) => (
-                                        <div key={`logo-${shop.name}`} className="min-w-0">
+                                        <div 
+                                            key={`logo-${shop.name}`} 
+                                            className="min-w-0"
+                                            style={{ width: `calc((100% - (${visibleCount - 1} * ${viewportWidth < 640 ? 12 : 16}px)) / ${visibleCount})` }}
+                                        >
                                             {renderLogoCard(shop.name)}
                                         </div>
                                     ))}
@@ -674,9 +658,13 @@ export function ShopPriceComparisonTable({
 
                             <div className={`rounded-3xl border ${theme.divider} bg-linear-to-b from-slate-50/70 to-white p-3 sm:p-4 shadow-[0_14px_34px_rgba(15,23,42,0.04)]`}>
                                 <MobileRowLabel icon={Tag} title={type === "products" ? "Prix moyen global" : "Prix moyen"} />
-                                <div className="grid gap-3 sm:gap-4" style={{ gridTemplateColumns: `repeat(${visibleShops.length || 1}, minmax(0, 1fr))` }}>
+                                <div className="flex justify-between">
                                     {visibleShops.map((shop) => (
-                                        <div key={`overall-${shop.name}`} className="min-w-0">
+                                        <div 
+                                            key={`overall-${shop.name}`} 
+                                            className="min-w-0"
+                                            style={{ width: `calc((100% - (${visibleCount - 1} * ${viewportWidth < 640 ? 12 : 16}px)) / ${visibleCount})` }}
+                                        >
                                             {renderOverallCard(shop.name)}
                                         </div>
                                     ))}
@@ -685,9 +673,13 @@ export function ShopPriceComparisonTable({
 
                             <div className={`rounded-3xl border ${theme.divider} bg-linear-to-b from-slate-50/70 to-white p-3 sm:p-4 shadow-[0_14px_34px_rgba(15,23,42,0.04)]`}>
                                 <MobileRowLabel icon={BarChart3} title="Par catégorie" subtitle={selectedCategory || "Catégorie"} />
-                                <div className="grid gap-3 sm:gap-4" style={{ gridTemplateColumns: `repeat(${visibleShops.length || 1}, minmax(0, 1fr))` }}>
+                                <div className="flex justify-between">
                                     {visibleShops.map((shop) => (
-                                        <div key={`category-${shop.name}`} className="min-w-0">
+                                        <div 
+                                            key={`category-${shop.name}`} 
+                                            className="min-w-0"
+                                            style={{ width: `calc((100% - (${visibleCount - 1} * ${viewportWidth < 640 ? 12 : 16}px)) / ${visibleCount})` }}
+                                        >
                                             {renderCategoryCard(shop.name)}
                                         </div>
                                     ))}

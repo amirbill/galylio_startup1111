@@ -25,7 +25,7 @@ export function PriceCollectionNotice({
             <AlertTriangle className="size-5" />
           </div>
 
-          <div className="min-w-0 space-y-2.5">
+          <div className="min-w-0 flex-1 space-y-3">
             <div className="flex flex-wrap items-center gap-2">
               <span className="rounded-full border border-amber-200 bg-white/90 px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.16em] text-orange-600">
                 {badge}
@@ -35,21 +35,23 @@ export function PriceCollectionNotice({
               </span>
             </div>
 
-            <p className="max-w-2xl text-[13px] font-semibold leading-relaxed text-slate-800 sm:text-[15px]">
+            <p className="text-[13px] font-semibold leading-relaxed text-slate-800 sm:text-[15px] lg:whitespace-nowrap">
               {message}
             </p>
 
-            <div className="inline-flex max-w-full rounded-2xl border border-orange-200/80 bg-linear-to-r from-orange-100 via-amber-50 to-white px-4 py-2 shadow-sm shadow-orange-100/80">
-              <p dir="rtl" className="text-base font-black leading-relaxed text-orange-700 sm:text-lg">
-                {arabicNote}
-              </p>
+            <div className="flex flex-wrap items-center justify-between gap-4 pt-1">
+              <div className="inline-flex max-w-full rounded-2xl border border-orange-200/80 bg-linear-to-r from-orange-100 via-amber-50 to-white px-4 py-2 shadow-sm shadow-orange-100/80">
+                <p dir="rtl" className="text-base font-black leading-relaxed text-orange-700 sm:text-lg">
+                  {arabicNote}
+                </p>
+              </div>
+
+              <div className="flex shrink-0 items-center gap-2 rounded-xl border border-amber-200/80 bg-white/90 px-3 py-2 text-amber-700 shadow-sm">
+                <BadgeInfo className="size-4.5" />
+                <span className="text-xs font-bold">Sources publiques affichées</span>
+              </div>
             </div>
           </div>
-        </div>
-
-        <div className="flex shrink-0 items-center gap-2 self-start rounded-xl border border-amber-200/80 bg-white/90 px-3 py-2 text-amber-700 shadow-sm lg:self-center">
-          <BadgeInfo className="size-4.5" />
-          <span className="text-xs font-bold">Sources publiques affichées</span>
         </div>
       </div>
     </section>

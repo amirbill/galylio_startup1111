@@ -11,9 +11,10 @@ interface CategoryTabsProps {
     categories: Category[]
     activeCategory: string
     onCategoryChange?: (category: string) => void
+    accentColor?: string
 }
 
-export function CategoryTabs({ categories, activeCategory, onCategoryChange }: CategoryTabsProps) {
+export function CategoryTabs({ categories, activeCategory, onCategoryChange, accentColor = "purple" }: CategoryTabsProps) {
     const [currentActive, setCurrentActive] = useState(activeCategory)
 
     useEffect(() => {
@@ -23,6 +24,15 @@ export function CategoryTabs({ categories, activeCategory, onCategoryChange }: C
     const handleCategoryClick = (categoryId: string) => {
         setCurrentActive(categoryId)
         onCategoryChange?.(categoryId)
+    }
+
+    const getActiveStyles = () => {
+        switch (accentColor) {
+            case "blue": return "bg-blue-600 text-white"
+            case "teal": return "bg-teal-600 text-white"
+            case "orange": return "bg-orange-600 text-white"
+            default: return "bg-purple text-purple-foreground"
+        }
     }
 
     if (categories.length === 0) {
@@ -35,8 +45,8 @@ export function CategoryTabs({ categories, activeCategory, onCategoryChange }: C
                 <button
                     key={category.id}
                     onClick={() => handleCategoryClick(category.id)}
-                    className={`rounded-full px-5 py-2 text-sm font-medium transition-all cursor-pointer whitespace-nowrap ${currentActive === category.id
-                        ? "bg-purple text-purple-foreground shadow-sm"
+                    className={`rounded-full px-5 py-2 text-sm font-medium transition-all cursor-pointer whitespace-nowrap shadow-sm ${currentActive === category.id
+                        ? getActiveStyles()
                         : "border border-border bg-card text-muted-foreground hover:bg-muted"
                         }`}
                 >

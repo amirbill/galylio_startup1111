@@ -53,6 +53,7 @@ interface ParaProductShowcaseProps {
     bannerText?: string
     title?: string
     priorityBanner?: boolean
+    accentColor?: string
 }
 
 // Category-specific banner images for PARA products
@@ -65,6 +66,14 @@ const paraBannerImages: Record<string, string> = {
     "Corps": "/para-banner-hygiene.webp",
 }
 
+// Category-specific banner texts for PARA
+const categoryParaBannerTexts: Record<string, string> = {
+    "Maman et bébé": "Maman & Bébé",
+    "Solaire": "Solaire",
+    "Hygiène": "Hygiène",
+    "Visage": "Soins Visage",
+}
+
 export function ParaProductShowcase({
     defaultCategory,
     categoryType = "top",
@@ -73,7 +82,8 @@ export function ParaProductShowcase({
     bannerImage,
     bannerText = "Parapharmacie",
     title = "Produits Parapharmacie",
-    priorityBanner = false
+    priorityBanner = false,
+    accentColor = "teal"
 }: ParaProductShowcaseProps) {
     const [products, setProducts] = useState<ParaProduct[]>(initialProducts || [])
     const [loading, setLoading] = useState(!initialProducts)
@@ -82,8 +92,12 @@ export function ParaProductShowcase({
     const [isFirstLoad, setIsFirstLoad] = useState(!!initialProducts)
     const scrollContainerRef = useRef<HTMLDivElement>(null)
 
-    // Get the appropriate banner image for the current category
+    // Get the appropriate banner image/text for the current category
     const currentBannerImage = bannerImage || paraBannerImages[activeCategory] || "https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=400&h=600&fit=crop"
+
+    // Find the category label to show on the banner
+    const activeCategoryLabel = categories.find(c => c.id === activeCategory)?.label || activeCategory
+    const currentBannerText = categoryParaBannerTexts[activeCategory] || activeCategoryLabel
 
     useEffect(() => {
         if (!activeCategory) return
@@ -148,17 +162,18 @@ export function ParaProductShowcase({
                     <div className="h-full w-full relative group overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-teal-400 to-emerald-500">
                         <Image
                             src={currentBannerImage}
+                            key={activeCategory} // Ensure image transitions on category change
                             alt="Banner"
                             fill
                             sizes="280px"
-                            quality={75}
+                            quality={85}
                             priority={priorityBanner}
-                            className="object-cover opacity-60 transition-transform duration-700 group-hover:scale-110"
+                            className="object-cover opacity-75 transition-all duration-700 group-hover:scale-110 animate-in fade-in zoom-in-95"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                         <div className="absolute bottom-6 left-6 right-6">
-                            <span className="text-white text-sm font-bold uppercase tracking-wider">Para</span>
-                            <h3 className="text-white text-xl font-black mt-1">{bannerText}</h3>
+                            <span className="text-white text-sm font-bold uppercase tracking-wider opacity-80 underline decoration-white underline-offset-4">Para</span>
+                            <h3 className="text-white text-xl font-black mt-1">{currentBannerText}</h3>
                         </div>
                     </div>
                 </div>
@@ -171,6 +186,7 @@ export function ParaProductShowcase({
                             categories={categories}
                             activeCategory={activeCategory}
                             onCategoryChange={handleCategoryChange}
+                            accentColor={accentColor}
                         />
                     </div>
 
@@ -223,6 +239,7 @@ export function ParaProductShowcase({
                                         inStock={product.inStock}
                                         shopPrices={product.shopPrices}
                                         linkPrefix="/para"
+                                        accentColor={accentColor}
                                     />
                                 ))
                             )}
@@ -240,10 +257,18 @@ export function ParaProductShowcase({
             <div className="mt-8 flex justify-center">
                 <Link
                     href={`/para?category=${encodeURIComponent(activeCategory)}&type=${activeCategoryType}`}
-                    className="inline-flex items-center gap-2 rounded-full border border-teal-200 bg-teal-50 px-8 py-4 text-base font-bold text-teal-700 shadow-sm transition-all hover:shadow-md hover:bg-teal-100 group"
+                    className={`inline-flex items-center gap-2 rounded-full border px-8 py-4 text-base font-bold shadow-sm transition-all hover:shadow-md group ${accentColor === "blue" ? "border-blue-200 bg-blue-50 text-blue-700 hover:bg-blue-100" :
+                            accentColor === "orange" ? "border-orange-200 bg-orange-50 text-orange-700 hover:bg-orange-100" :
+                                accentColor === "purple" ? "border-purple-200 bg-purple-50 text-purple-700 hover:bg-purple-100" :
+                                    "border-teal-200 bg-teal-50 text-teal-700 hover:bg-teal-100"
+                        }`}
                 >
                     Voir plus de produits parapharmacie
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-teal-500 text-white transition-transform group-hover:rotate-45">
+                    <div className={`flex h-8 w-8 items-center justify-center rounded-full text-white transition-transform group-hover:rotate-45 ${accentColor === "blue" ? "bg-blue-600" :
+                            accentColor === "orange" ? "bg-orange-600" :
+                                accentColor === "purple" ? "bg-purple-600" :
+                                    "bg-teal-500"
+                        }`}>
                         <ArrowRight className="h-5 w-5" />
                     </div>
                 </Link>

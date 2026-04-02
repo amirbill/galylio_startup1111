@@ -321,35 +321,31 @@ export default async function Home() {
                   defaultCategory="Imprimante"
                   categoryType="low_category"
                   categories={imprimanteCategories}
-                  bannerImage="/images/imprimente.png"
-                  bannerText="Imprimantes"
                   initialProducts={imprimanteProducts}
                   showDecorativeHeaders={true}
+                  accentColor="purple"
                 />
               </div>
               <ProductShowcase
                 defaultCategory="Refrigerateur"
                 categoryType="subcategory"
                 categories={refrigerateurCategories}
-                bannerImage="/images/electromenager.png"
-                bannerText="Électroménager"
                 initialProducts={refrigerateurProducts}
+                accentColor="blue"
               />
               <ProductShowcase
                 defaultCategory="Machine à Laver"
                 categoryType="subcategory"
                 categories={machineALaverCategories}
-                bannerImage="/images/lavage.png"
-                bannerText="Lavage"
                 initialProducts={machineProducts}
+                accentColor="teal"
               />
               <ProductShowcase
                 defaultCategory="Lave Vaisselle"
                 categoryType="subcategory"
                 categories={laveVaisselleCategories}
-                bannerImage="/images/cuisine.png"
-                bannerText="Cuisine"
                 initialProducts={laveVaisselleProducts}
+                accentColor="orange"
               />
 
               <div id="alertes-prix"><FakePriceAlerts initialData={fakePromos} /></div>
@@ -377,27 +373,27 @@ export default async function Home() {
               <ParaProductShowcase
                 defaultCategory="Maman et bébé"
                 categoryType="top"
-                bannerText="Maman & Bébé"
                 initialProducts={mamanProducts}
                 priorityBanner
+                accentColor="blue"
               />
               <ParaProductShowcase
                 defaultCategory="Solaire"
                 categoryType="top"
-                bannerText="Solaire"
                 initialProducts={solaireProducts}
+                accentColor="orange"
               />
               <ParaProductShowcase
                 defaultCategory="Hygiène"
                 categoryType="top"
-                bannerText="Hygiène"
                 initialProducts={hygieneProducts}
+                accentColor="blue"
               />
               <ParaProductShowcase
                 defaultCategory="Visage"
                 categoryType="low"
-                bannerText="Soins Visage"
                 initialProducts={visageProducts}
+                accentColor="teal"
               />
 
             </div> {/* End of max-w-7xl from line 204 */}

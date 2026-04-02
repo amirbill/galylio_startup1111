@@ -49,16 +49,32 @@ interface ProductShowcaseProps {
     bannerText?: string
     /** Whether to show the decorative "Tendances" and "e-commerce" headers */
     showDecorativeHeaders?: boolean
+    /** Accent color for the section (purple, blue, teal, orange) */
+    accentColor?: string
 }
 
-// Category-specific banner images
+// Category-specific banner images (Curated Unsplash URLs for premium look)
 const categoryBannerImages: Record<string, string> = {
-    "PC de Bureau": "https://images.unsplash.com/photo-1593062096033-9a26b09da705?w=400&h=600&fit=crop",
-    "Pc Portable": "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=400&h=600&fit=crop",
-    "Imprimante": "/images/imprimente.png",
-    "Refrigerateur": "/images/electromenager.png",
-    "Machine à Laver": "/images/lavage.png",
-    "Lave Vaisselle": "/images/cuisine.png",
+    "PC de Bureau": "https://images.unsplash.com/photo-1593062096033-9a26b09da705?q=80&w=800&auto=format&fit=crop",
+    "Pc Portable": "https://images.unsplash.com/photo-1496181133206-80ce9b88a853?q=80&w=800&auto=format&fit=crop",
+    "Imprimante": "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?q=80&w=800&auto=format&fit=crop",
+    "Refrigerateur": "https://images.unsplash.com/photo-1571175443880-49e1d25b2bc5?q=80&w=800&auto=format&fit=crop",
+    "Machine à Laver": "https://images.unsplash.com/photo-1626806819282-2c1dc01a5e0c?q=80&w=800&auto=format&fit=crop",
+    "Lave Vaisselle": "https://images.unsplash.com/photo-1584622650111-993a426fbf0a?q=80&w=800&auto=format&fit=crop",
+    "Maman et bébé": "https://images.unsplash.com/photo-1555252332-902e08e64c8d?q=80&w=800&auto=format&fit=crop",
+    "Solaire": "https://images.unsplash.com/photo-1524316886470-760771804f32?q=80&w=800&auto=format&fit=crop",
+    "Hygiène": "https://images.unsplash.com/photo-1600857062241-98e5dba7f214?q=80&w=800&auto=format&fit=crop",
+    "Visage": "https://images.unsplash.com/photo-1556228720-195a672e8a03?q=80&w=800&auto=format&fit=crop",
+}
+
+// Category-specific banner texts (fallback to category label)
+const categoryBannerTexts: Record<string, string> = {
+    "PC de Bureau": "PC de Bureau",
+    "Pc Portable": "Pc Portables",
+    "Imprimante": "Imprimantes",
+    "Refrigerateur": "Réfrigérateurs",
+    "Machine à Laver": "Lavage",
+    "Lave Vaisselle": "Cuisine",
 }
 
 export default function ProductShowcase({
@@ -68,7 +84,8 @@ export default function ProductShowcase({
     bannerImage,
     bannerText = "Jusqu'à -40%",
     initialProducts,
-    showDecorativeHeaders = false
+    showDecorativeHeaders = false,
+    accentColor = "purple"
 }: ProductShowcaseProps) {
     const [products, setProducts] = useState<Product[]>(initialProducts || [])
     const [loading, setLoading] = useState(!initialProducts)
@@ -77,8 +94,12 @@ export default function ProductShowcase({
     const [isFirstLoad, setIsFirstLoad] = useState(!!initialProducts)
     const scrollContainerRef = useRef<HTMLDivElement>(null)
 
-    // Get the appropriate banner image for the current category
-    const currentBannerImage = bannerImage || categoryBannerImages[activeCategory] || "https://images.unsplash.com/photo-1593062096033-9a26b09da705?w=400&h=600&fit=crop"
+    // Get the appropriate banner image/text for the current category
+    const currentBannerImage = categoryBannerImages[activeCategory] || bannerImage || "https://images.unsplash.com/photo-1593062096033-9a26b09da705?w=400&h=600&fit=crop"
+    
+    // Find the category label to show on the banner
+    const activeCategoryLabel = categories.find(c => c.id === activeCategory)?.label || activeCategory
+    const currentBannerText = categoryBannerTexts[activeCategory] || activeCategoryLabel
 
     // Fetch products when category changes (max 10)
     useEffect(() => {
@@ -152,17 +173,25 @@ export default function ProductShowcase({
             <div className="flex flex-col lg:flex-row gap-6">
 
                 {/* Left Side Banner */}
-                <div className="lg:w-[280px] shrink-0 hidden lg:block">
+                <div className="lg:w-[320px] shrink-0 hidden lg:block">
                     <div className="h-full w-full relative group overflow-hidden rounded-[2.5rem] bg-[#f8f6f3]">
                         <img
                             src={currentBannerImage}
+                            key={activeCategory} // Ensure image transitions on category change
                             alt="Banner"
-                            className="h-full w-full object-cover opacity-80 transition-transform duration-700 group-hover:scale-110"
+                            className="h-full w-full object-cover opacity-85 transition-transform duration-700 group-hover:scale-110 animate-in fade-in zoom-in-95"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                         <div className="absolute bottom-6 left-6 right-6">
-                            <span className="text-white text-sm font-bold uppercase tracking-wider">Promo</span>
-                            <h3 className="text-white text-xl font-black mt-1">{bannerText}</h3>
+                            <span className={`text-white text-sm font-bold uppercase tracking-wider opacity-80 underline underline-offset-4 ${
+                                accentColor === "blue" ? "decoration-blue-500" :
+                                accentColor === "teal" ? "decoration-teal-500" :
+                                accentColor === "orange" ? "decoration-orange-500" :
+                                "decoration-purple"
+                            }`}>Promo</span>
+                            <h3 className="text-white text-2xl font-black mt-2 drop-shadow-md">
+                                {currentBannerText}
+                            </h3>
                         </div>
                     </div>
                 </div>
@@ -175,6 +204,7 @@ export default function ProductShowcase({
                             categories={categories}
                             activeCategory={activeCategory}
                             onCategoryChange={handleCategoryChange}
+                            accentColor={accentColor}
                         />
                     </div>
 
@@ -191,7 +221,7 @@ export default function ProductShowcase({
                         {/* Right Scroll Button */}
                         <button
                             onClick={scrollRight}
-                            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 size-10 rounded-full bg-white shadow-lg border border-border flex items-center justify-center opacity-0 group-hover/scroll:opacity-100 transition-opacity hover:bg-muted translate-x-1/2"
+                            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 size-10 rounded-full bg-white shadow-lg border border-border flex items-center justify-center opacity-0 group-hover/scroll:opacity-100 transition-opacity hover:bg-muted translate-x-1/2 -mr-2"
                         >
                             <ChevronRight className="size-5" />
                         </button>
@@ -203,7 +233,7 @@ export default function ProductShowcase({
                         {/* Scrollable Product Row */}
                         <div
                             ref={scrollContainerRef}
-                            className="flex gap-4 overflow-x-auto scrollbar-hide pb-4 scroll-smooth"
+                            className="flex gap-4 overflow-x-auto scrollbar-hide pb-4 scroll-smooth sm:grid sm:grid-cols-2 lg:grid lg:grid-cols-3 xl:flex"
                             style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
                         >
                             {loading ? (
@@ -220,7 +250,7 @@ export default function ProductShowcase({
                                 ))
                             ) : (
                                 products.map((product) => (
-                                    <ProductCard key={product.id} {...product} />
+                                    <ProductCard key={product.id} {...product} accentColor={accentColor} />
                                 ))
                             )}
                             {!loading && products.length === 0 && (
@@ -240,7 +270,12 @@ export default function ProductShowcase({
                     className="inline-flex items-center gap-2 rounded-full border border-border bg-card px-8 py-4 text-base font-bold text-foreground shadow-sm transition-all hover:shadow-md hover:bg-muted group"
                 >
                     Voir plus de produits
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-purple text-white transition-transform group-hover:rotate-45">
+                    <div className={`flex h-8 w-8 items-center justify-center rounded-full text-white transition-transform group-hover:rotate-45 ${
+                        accentColor === "blue" ? "bg-blue-600" :
+                        accentColor === "teal" ? "bg-teal-600" :
+                        accentColor === "orange" ? "bg-orange-600" :
+                        "bg-purple"
+                    }`}>
                         <ArrowRight className="h-5 w-5" />
                     </div>
                 </Link>

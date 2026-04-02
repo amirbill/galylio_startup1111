@@ -4,6 +4,7 @@ import "./globals.css";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { BagProvider } from "@/contexts/BagContext";
 import { GoogleProvider } from "@/components/providers/GoogleProvider";
+import { Analytics } from "@vercel/analytics/next";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -132,6 +133,7 @@ export default async function RootLayout({
           <AuthProvider initialUser={user}>
             <BagProvider>
               {children}
+              <Analytics />
               <Chatbot />
             </BagProvider>
           </AuthProvider>
