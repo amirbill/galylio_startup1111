@@ -6,6 +6,7 @@ import HeroSection from '@/components/HeroSection';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import PriceCards from '@/components/PriceCards';
+import { PriceCollectionNotice } from '@/components/PriceCollectionNotice';
 import { SmartInfoCard } from '@/components/smart-info-card';
 import { SideBanner } from '@/components/SideBanner';
 
@@ -260,6 +261,10 @@ export default async function Home() {
             <div className="max-w-7xl mx-auto w-full px-0">
               <div id="hero">
                 <HeroSection />
+              </div>
+
+              <div className="mt-10">
+                <PriceCollectionNotice />
               </div>
 
               <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">

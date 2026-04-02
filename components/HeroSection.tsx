@@ -1,4 +1,4 @@
-import { Search, LineChart, Target, ShieldCheck, Zap } from 'lucide-react'
+import { LineChart, Target, ShieldCheck, Zap } from 'lucide-react'
 import { SearchBar } from './SearchBar'
 
 export function HeroSection() {
@@ -34,7 +34,7 @@ export function HeroSection() {
         <div className="space-y-6 sm:space-y-8">
           <div className="space-y-3 sm:space-y-4">
             <h1 className="text-3xl sm:text-5xl md:text-6xl font-black text-slate-900 tracking-tight leading-[1.1]">
-              Comparateur de prix <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600">intelligent</span>
+              1er Comparateur de prix <span className="bg-clip-text text-transparent bg-linear-to-r from-blue-600 via-indigo-600 to-purple-600">intelligent</span>
             </h1>
             <p className="max-w-2xl mx-auto text-lg sm:text-xl md:text-2xl font-bold text-slate-700 leading-relaxed">
               Les prix, en toute transparence et claireté.
@@ -42,14 +42,14 @@ export function HeroSection() {
           </div>
 
           {/* Feature Capsules - Original Labels */}
-          <div className="flex flex-wrap justify-center gap-3 pt-4 px-4 overflow-x-auto sm:overflow-visible pb-2 no-scrollbar">
+          <div className="mx-auto grid w-full max-w-4xl grid-cols-1 gap-3 px-4 pt-4 pb-2 sm:grid-cols-2 xl:grid-cols-4">
             {features.map((feature, idx) => (
               <div 
                 key={idx}
-                className={`flex items-center gap-2 px-6 py-3 rounded-2xl ${feature.bg} ${feature.color} border border-white/50 shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:scale-105 hover:shadow-md transition-all duration-300 cursor-default whitespace-nowrap`}
+                className={`flex min-h-14 w-full items-center justify-center gap-2 rounded-2xl border border-white/50 px-4 py-3 text-center shadow-[0_4px_20px_rgba(0,0,0,0.03)] transition-all duration-300 hover:scale-[1.02] hover:shadow-md ${feature.bg} ${feature.color}`}
               >
                 {feature.icon}
-                <span className="text-xs sm:text-sm font-black tracking-widest uppercase">{feature.label}</span>
+                <span className="text-[11px] font-black uppercase tracking-[0.14em] sm:text-xs xl:text-sm xl:tracking-[0.12em]">{feature.label}</span>
               </div>
             ))}
           </div>

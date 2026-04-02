@@ -54,7 +54,7 @@ Run the development server:
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to view the application.
+Open [http://localhost:1111](http://localhost:1111) to view the application.
 
 ### Build
 
@@ -69,6 +69,8 @@ Start the production server:
 ```bash
 npm start
 ```
+
+The application runs on port `1111` for both `dev` and `start`.
 
 ## Deployment
 
