@@ -1,7 +1,9 @@
 "use client";
 
+import Image from "next/image";
 import { useState, useRef, useEffect, useMemo } from "react";
-import { ChevronDown, Trophy, TrendingDown, Store, BarChart3, Tag, Crown, Medal, Award } from "lucide-react";
+import type { ComponentType } from "react";
+import { ChevronDown, ChevronLeft, ChevronRight, TrendingDown, Store, BarChart3, Tag, Crown, Medal, Award } from "lucide-react";
 
 // ─── Shop Configuration ─────────────────────────────────────────────
 const SHOP_CONFIG: Record<string, { image: string; display: string; accent: string; textColor: string }> = {
@@ -31,6 +33,9 @@ const STATIC_ECOMMERCE_PRICES: Record<string, number> = {
     jumbo: 889.61,
     zoom: 900.85,
 };
+
+const KNOWN_ECOMMERCE = ["mytek", "tunisianet", "spacenet", "technopro", "darty", "batam", "graiet", "jumbo", "zoom"];
+const PARAPHARMACY = ["parafendri", "parashop", "pharmashop", "pharma-shop"];
 
 // ─── Fake category-level data for technopro & darty ─────────────────
 // Injects realistic placeholder rankings when these shops have no real category data
@@ -149,7 +154,7 @@ interface ShopPriceComparisonTableProps {
 // ─── Medal / Rank Config ────────────────────────────────────────────
 const RANK_CONFIG: Record<number, {
     emoji: string;
-    icon: React.ComponentType<any>;
+    icon: ComponentType<{ className?: string }>;
     gradient: string;
     textColor: string;
     cardBg: string;
@@ -180,6 +185,66 @@ const RANK_CONFIG: Record<number, {
     },
 };
 
+function getVisibleCount(type: "para" | "products", viewportWidth: number): number {
+    if (viewportWidth < 640) {
+        return 2;
+    }
+
+    if (viewportWidth < 1024) {
+        return type === "products" ? 3 : 2;
+    }
+
+    return type === "products" ? 5 : 3;
+}
+
+function RowLabel({
+    icon: Icon,
+    title,
+    subtitle,
+    minHeight,
+}: {
+    icon: ComponentType<{ className?: string }>;
+    title: string;
+    subtitle?: string;
+    minHeight: string;
+}) {
+    return (
+        <div className={`hidden rounded-3xl border border-slate-200/80 bg-linear-to-br from-white to-slate-50 px-4 py-4 text-left shadow-[0_12px_30px_rgba(15,23,42,0.05)] md:flex md:flex-col md:justify-center ${minHeight}`}>
+            <div className="flex items-center gap-2 text-slate-500">
+                <div className="flex size-8 items-center justify-center rounded-2xl bg-slate-100 text-slate-500">
+                    <Icon className="size-4" />
+                </div>
+                <span className="text-[12px] font-semibold sm:text-[13px]">{title}</span>
+            </div>
+            {subtitle && (
+                <span className="mt-3 line-clamp-2 text-xs font-bold text-slate-700">{subtitle}</span>
+            )}
+        </div>
+    );
+}
+
+function MobileRowLabel({
+    icon: Icon,
+    title,
+    subtitle,
+}: {
+    icon: ComponentType<{ className?: string }>;
+    title: string;
+    subtitle?: string;
+}) {
+    return (
+        <div className="mb-3 flex items-center justify-between rounded-2xl border border-slate-200/80 bg-linear-to-r from-white to-slate-50 px-3.5 py-3 shadow-[0_10px_24px_rgba(15,23,42,0.04)] md:hidden">
+            <div className="flex items-center gap-2 text-slate-500">
+                <div className="flex size-7 items-center justify-center rounded-xl bg-slate-100 text-slate-500">
+                    <Icon className="size-4" />
+                </div>
+                <span className="text-[12px] font-semibold">{title}</span>
+            </div>
+            {subtitle && <span className="truncate text-[11px] font-bold text-slate-700">{subtitle}</span>}
+        </div>
+    );
+}
+
 // ─── Component ──────────────────────────────────────────────────────
 export function ShopPriceComparisonTable({
     type,
@@ -193,7 +258,15 @@ export function ShopPriceComparisonTable({
         initialCategories.length > 0 ? initialCategories[0] : ""
     );
     const [dropdownOpen, setDropdownOpen] = useState(false);
-    const dropdownRef = useRef<HTMLTableCellElement>(null);
+    const [startIndex, setStartIndex] = useState(0);
+    const [viewportWidth, setViewportWidth] = useState<number>(() => {
+        if (typeof window === "undefined") {
+            return 1280;
+        }
+
+        return window.innerWidth;
+    });
+    const dropdownRef = useRef<HTMLDivElement>(null);
 
     // Close dropdown on outside click
     useEffect(() => {
@@ -206,44 +279,60 @@ export function ShopPriceComparisonTable({
         return () => document.removeEventListener("mousedown", handler);
     }, []);
 
-    // ─── Shop Lists ─────────────────────────────────────────────────
-    const KNOWN_ECOMMERCE = ["mytek", "tunisianet", "spacenet", "technopro", "darty", "batam", "graiet", "jumbo", "zoom"];
-    const PARAPHARMACY = ["parafendri", "parashop", "pharmashop", "pharma-shop"];
+    useEffect(() => {
+        const handleResize = () => setViewportWidth(window.innerWidth);
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
 
-    const allPriceKeys = pricesData.map(s => s.name.toLowerCase());
-    const ECOMMERCE = type === "products"
-        ? [...new Set([...KNOWN_ECOMMERCE, ...allPriceKeys.filter(k => !PARAPHARMACY.includes(k) && k !== "oxtek")])]
-        : PARAPHARMACY;
+    const relevantShops = useMemo(() => {
+        const allPriceKeys = pricesData.map((shop) => shop.name.toLowerCase());
 
-    const relevantShops = type === "products" ? ECOMMERCE : PARAPHARMACY;
+        if (type === "products") {
+            return [...new Set([...KNOWN_ECOMMERCE, ...allPriceKeys.filter((key) => !PARAPHARMACY.includes(key) && key !== "oxtek")])];
+        }
+
+        return PARAPHARMACY;
+    }, [pricesData, type]);
 
     // ─── Overall averages (static for e-commerce, API for parapharmacy) ─
-    const shopOverallAverages: Record<string, number> = {};
-    if (type === "products") {
-        // Use static prices for e-commerce shops
-        for (const [key, price] of Object.entries(STATIC_ECOMMERCE_PRICES)) {
-            if (relevantShops.includes(key)) {
-                shopOverallAverages[key] = price;
+    const shopOverallAverages = useMemo(() => {
+        const averages: Record<string, number> = {};
+
+        if (type === "products") {
+            for (const [key, price] of Object.entries(STATIC_ECOMMERCE_PRICES)) {
+                if (relevantShops.includes(key)) {
+                    averages[key] = price;
+                }
             }
+        } else {
+            pricesData.forEach((shop) => {
+                const key = shop.name.toLowerCase();
+                if (relevantShops.includes(key)) {
+                    averages[key] = shop.average_price;
+                }
+            });
         }
-    } else {
-        pricesData.forEach((shop) => {
-            const key = shop.name.toLowerCase();
-            if (relevantShops.includes(key)) {
-                shopOverallAverages[key] = shop.average_price;
-            }
-        });
-    }
+
+        return averages;
+    }, [pricesData, relevantShops, type]);
 
     // ─── Sorted shops (cheapest first) ──────────────────────────────
     const sortedShops = useMemo(() => {
         return relevantShops
-            .filter(k => shopOverallAverages[k] > 0)
-            .map(name => ({ name, price: shopOverallAverages[name] || 0 }))
+            .filter((key) => shopOverallAverages[key] > 0)
+            .map((name) => ({ name, price: shopOverallAverages[name] || 0 }))
             .sort((a, b) => a.price - b.price);
     }, [relevantShops, shopOverallAverages]);
 
     const cheapestOverall = sortedShops[0]?.price || 0;
+    const visibleCount = getVisibleCount(type, viewportWidth);
+    const maxStartIndex = Math.max(0, sortedShops.length - visibleCount);
+    const safeStartIndex = Math.min(startIndex, maxStartIndex);
+    const visibleShops = useMemo(
+        () => sortedShops.slice(safeStartIndex, safeStartIndex + visibleCount),
+        [safeStartIndex, sortedShops, visibleCount]
+    );
 
     // ─── Category analytics with fake data for new shops ────────────
     const rawAnalytics = selectedCategory && allAnalyticsData[selectedCategory]
@@ -302,9 +391,171 @@ export function ShopPriceComparisonTable({
     // ─── Helper: shop display info ──────────────────────────────────
     const getShop = (key: string) => SHOP_CONFIG[key.toLowerCase()] || { image: "", display: key, accent: "#6B7280", textColor: "text-gray-500" };
 
+    const categoryShopMap = useMemo(() => {
+        return new Map(enrichedCategoryShops.map((shop) => [shop.shop.toLowerCase(), shop]));
+    }, [enrichedCategoryShops]);
+
+    const cheapestCategoryPrice = enrichedCategoryShops[0]?.avg_price || 0;
+    const showControls = sortedShops.length > visibleCount;
+    const visibleRangeLabel = sortedShops.length === 0
+        ? "0 / 0"
+        : `${safeStartIndex + 1}-${Math.min(sortedShops.length, safeStartIndex + visibleCount)} / ${sortedShops.length}`;
+
+    const renderLogoCard = (shopName: string) => {
+        const cfg = getShop(shopName);
+        const rank = sortedShops.findIndex((shop) => shop.name === shopName) + 1;
+
+        return (
+            <div className="flex justify-center">
+                <div className="relative group w-full">
+                    {rank === 1 && (
+                        <div className="absolute -right-2.5 -top-2.5 z-10">
+                            <div className="flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-linear-to-br from-amber-400 to-yellow-500 shadow-lg shadow-amber-300/50 sm:h-7 sm:w-7">
+                                <Crown className="size-3 text-white" />
+                            </div>
+                        </div>
+                    )}
+
+                    <div
+                        className={`flex min-h-23 w-full items-center justify-center rounded-3xl px-3 py-4 transition-all duration-300 ${
+                            rank === 1
+                                ? "border-2 border-amber-200 bg-linear-to-b from-amber-50 via-white to-yellow-50 shadow-[0_18px_35px_rgba(251,191,36,0.18)]"
+                                : "border border-slate-200/70 bg-linear-to-b from-white to-slate-50 hover:border-slate-300 hover:bg-white hover:shadow-[0_16px_30px_rgba(15,23,42,0.08)]"
+                        }`}
+                    >
+                        {cfg.image ? (
+                            <Image
+                                src={cfg.image}
+                                alt={cfg.display}
+                                width={130}
+                                height={65}
+                                className="max-h-12 w-auto max-w-full object-contain transition-transform duration-300 group-hover:scale-110 sm:max-h-16"
+                            />
+                        ) : (
+                            <span className={`text-center text-xs font-bold sm:text-sm ${cfg.textColor}`}>
+                                {cfg.display}
+                            </span>
+                        )}
+                    </div>
+
+                    <div className="mt-2 text-center">
+                        <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400 sm:text-[11px]">
+                            {cfg.display}
+                        </span>
+                    </div>
+                </div>
+            </div>
+        );
+    };
+
+    const renderOverallCard = (shopName: string) => {
+        const overallShop = sortedShops.find((shop) => shop.name === shopName);
+
+        if (!overallShop) {
+            return null;
+        }
+
+        const rank = sortedShops.findIndex((shop) => shop.name === shopName) + 1;
+        const diff = cheapestOverall > 0
+            ? ((overallShop.price - cheapestOverall) / cheapestOverall * 100)
+            : 0;
+        const config = RANK_CONFIG[rank];
+
+        return (
+            <div className="flex justify-center">
+                <div
+                    className={`relative flex min-h-30 w-full flex-col items-center rounded-3xl px-3 py-3 transition-all duration-300 ${
+                        config
+                            ? `${config.cardBg} border ${config.border} shadow-[0_18px_35px_rgba(15,23,42,0.08)] ${config.glow}`
+                            : "border border-slate-200/80 bg-linear-to-b from-white to-slate-50 hover:shadow-[0_14px_28px_rgba(15,23,42,0.08)]"
+                    }`}
+                >
+                    {rank === 1 && (
+                        <div className="absolute -top-2 left-1/2 -translate-x-1/2">
+                            <span className={`inline-flex items-center gap-0.5 whitespace-nowrap rounded-full px-2 py-0.5 text-[9px] font-black uppercase tracking-wider shadow-sm ${theme.pill}`}>
+                                <TrendingDown className="size-2.5" />
+                                Moins cher
+                            </span>
+                        </div>
+                    )}
+                    <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">
+                        Prix moyen
+                    </span>
+                    <span className={`mt-2 text-[16px] font-extrabold tracking-tight sm:text-[18px] ${config ? config.textColor : "text-slate-700"}`}>
+                        {overallShop.price.toFixed(2)}
+                    </span>
+                    <span className="mt-0.5 text-[10px] font-semibold text-slate-400">DT</span>
+                    {rank > 1 && diff > 0 && (
+                        <span className={`mt-3 rounded-full px-2.5 py-1 text-[10px] font-bold ${diff > 2 ? "bg-red-50 text-red-500" : "bg-slate-100 text-slate-500"}`}>
+                            +{diff.toFixed(1)}%
+                        </span>
+                    )}
+                </div>
+            </div>
+        );
+    };
+
+    const renderCategoryCard = (shopName: string) => {
+        const catShop = categoryShopMap.get(shopName.toLowerCase());
+
+        if (!catShop) {
+            return (
+                <div className="flex justify-center">
+                    <div className="flex min-h-33 w-full flex-col items-center justify-center rounded-3xl border border-dashed border-slate-200 bg-linear-to-b from-slate-50 to-white px-3 py-4 text-center">
+                        <span className="text-sm font-medium text-slate-300">—</span>
+                        <span className="mt-1 text-[10px] text-slate-300">N/A</span>
+                    </div>
+                </div>
+            );
+        }
+
+        const catRank = enrichedCategoryShops.findIndex((shop) => shop.shop.toLowerCase() === shopName.toLowerCase()) + 1;
+        const diff = cheapestCategoryPrice > 0
+            ? ((catShop.avg_price - cheapestCategoryPrice) / cheapestCategoryPrice * 100)
+            : 0;
+        const config = RANK_CONFIG[catRank];
+
+        return (
+            <div className="flex justify-center">
+                <div className="relative w-full pt-3">
+                    {catRank <= 3 && config && (
+                        <div className={`absolute left-1/2 top-0 z-10 flex h-7 w-7 -translate-x-1/2 items-center justify-center rounded-full border-2 border-white bg-linear-to-br ${config.gradient} text-[13px] shadow-lg sm:h-8 sm:w-8`}>
+                            {config.emoji}
+                        </div>
+                    )}
+                    <div
+                        className={`flex min-h-33 w-full flex-col items-center rounded-3xl px-3 py-3 transition-all duration-300 hover:shadow-lg ${
+                            config
+                                ? `${config.cardBg} border ${config.border} shadow-[0_18px_35px_rgba(15,23,42,0.08)] ${config.glow}`
+                                : "border border-slate-200/80 bg-linear-to-b from-white to-slate-50 hover:border-slate-300"
+                        }`}
+                    >
+                        <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">
+                            Catégorie
+                        </span>
+                        <span className={`mt-2 text-[16px] font-extrabold tracking-tight sm:text-[18px] ${config ? config.textColor : "text-slate-700"}`}>
+                            {catShop.avg_price.toFixed(2)}
+                        </span>
+                        <span className="mt-0.5 text-[10px] font-semibold text-slate-400">DT</span>
+                        <span className="mt-2 rounded-full bg-white/70 px-2.5 py-1 text-[9px] font-semibold text-slate-500 shadow-sm">
+                            {catShop.product_count} produits
+                        </span>
+                        {catRank > 1 && diff > 0 && (
+                            <span className={`mt-3 rounded-full px-2.5 py-1 text-[10px] font-bold ${
+                                diff > 5 ? "bg-red-50 text-red-500" : diff > 2 ? "bg-orange-50 text-orange-500" : "bg-slate-100 text-slate-500"
+                            }`}>
+                                +{diff.toFixed(1)}%
+                            </span>
+                        )}
+                    </div>
+                </div>
+            </div>
+        );
+    };
+
     return (
         <div className="w-full">
-            <div className={`rounded-2xl border ${theme.border} bg-white shadow-sm ${type === 'products' ? 'overflow-hidden' : 'overflow-visible'}`}>
+            <div className={`overflow-hidden rounded-2xl border ${theme.border} bg-white shadow-sm`}>
 
                 {/* ═══ Header ═══ */}
                 <div
@@ -322,264 +573,128 @@ export function ShopPriceComparisonTable({
                     </div>
                 </div>
 
-                {/* ═══ Table Layout — Vertical Columns per Shop ═══ */}
-                <div className={type === 'products' ? "overflow-x-auto scrollbar-thin scrollbar-thumb-slate-300 scrollbar-track-transparent" : "overflow-x-auto"}>
-                    <table className={type === 'products' ? "border-collapse" : "w-full border-collapse"} style={type === 'products' ? { minWidth: `${170 + sortedShops.length * 140}px` } : { tableLayout: 'fixed' as const }}>
-                        <colgroup>
-                            <col style={type === 'products' ? { width: '170px', minWidth: '170px' } : undefined} className={type !== 'products' ? "w-[140px] sm:w-[170px]" : undefined} />
-                            {sortedShops.map(shop => (
-                                <col key={shop.name} style={type === 'products' ? { width: '140px', minWidth: '130px' } : undefined} />
-                            ))}
-                        </colgroup>
+                <div className="p-4 sm:p-5 lg:p-6">
+                    <div className={`mb-5 flex flex-col gap-3 border-b pb-4 ${theme.divider} lg:flex-row lg:items-end lg:justify-between`}>
+                        <div ref={dropdownRef} className="relative w-full max-w-sm">
+                            <div className="mb-2 flex items-center gap-2">
+                                <BarChart3 className="size-4 text-slate-400" />
+                                <span className="text-[12px] font-semibold text-slate-600 sm:text-[13px]">Par catégorie</span>
+                            </div>
+                            <button
+                                onClick={() => setDropdownOpen((open) => !open)}
+                                className={`flex w-full items-center justify-between gap-2 rounded-2xl border-2 px-4 py-3 text-[12px] font-bold shadow-sm transition-all duration-200 ${
+                                    dropdownOpen
+                                        ? `${theme.lightBg} ${theme.text} border-current shadow-md ring-4 ${theme.ring}`
+                                        : "border-slate-200 bg-white text-slate-600 hover:border-slate-300 hover:shadow-sm"
+                                }`}
+                            >
+                                <span className="truncate">{selectedCategory || "Catégorie"}</span>
+                                <ChevronDown className={`size-3.5 shrink-0 transition-transform duration-300 ${dropdownOpen ? "rotate-180" : ""}`} />
+                            </button>
 
-                        <tbody>
-                            {/* ── Row 1: Shop Logos ── */}
-                            <tr className={`border-b ${theme.divider}`}>
-                                <td className={`px-4 sm:px-6 py-4 sm:py-5 align-middle ${type === 'products' ? 'sticky left-0 z-20 bg-white' : ''}`}>
-                                    <div className="flex items-center gap-2">
-                                        <Store className="size-4 text-slate-400" />
-                                        <span className="text-[12px] sm:text-[13px] font-semibold text-slate-600">Boutiques</span>
+                            {dropdownOpen && (
+                                <div className="absolute left-0 top-full z-50 mt-2 max-h-70 w-full overflow-y-auto rounded-2xl border border-slate-200 bg-white py-1.5 shadow-2xl ring-1 ring-black/5 animate-in slide-in-from-top-2 duration-200 sm:w-72">
+                                    <div className={`mx-1.5 mb-1 rounded-xl px-4 py-2 ${theme.lightBg}`}>
+                                        <span className={`text-[10px] font-bold uppercase tracking-wider ${theme.text}`}>
+                                            Sélectionner une catégorie
+                                        </span>
                                     </div>
-                                </td>
-                                {sortedShops.map((shop, idx) => {
-                                    const cfg = getShop(shop.name);
-                                    const rank = idx + 1;
-                                    return (
-                                        <td key={shop.name} className="px-2 sm:px-3 py-4 sm:py-5 align-middle">
-                                            <div className="flex justify-center">
-                                                <div className="relative group">
-                                                    {rank === 1 && (
-                                                        <div className="absolute -top-2.5 -right-2.5 z-10">
-                                                            <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-gradient-to-br from-amber-400 to-yellow-500 flex items-center justify-center shadow-lg shadow-amber-300/50 ring-2 ring-white">
-                                                                <Crown className="size-2.5 sm:size-3 text-white" />
-                                                            </div>
-                                                        </div>
-                                                    )}
-                                                    <div className={`
-                                                        flex items-center justify-center w-[100px] h-[50px] sm:w-[130px] sm:h-[60px] px-2 sm:px-3 rounded-xl sm:rounded-2xl
-                                                        transition-all duration-300 cursor-default
-                                                        ${rank === 1
-                                                            ? "bg-gradient-to-b from-amber-50/80 to-white border-2 border-amber-200 shadow-md shadow-amber-100/50"
-                                                            : "bg-slate-50/60 border border-slate-200/70 hover:bg-white hover:shadow-md hover:border-slate-300"
-                                                        }
-                                                    `}>
-                                                        {cfg.image ? (
-                                                            <img
-                                                                src={cfg.image}
-                                                                alt={cfg.display}
-                                                                className="max-h-[45px] max-w-[90px] sm:max-h-[65px] sm:max-w-[130px] w-auto object-contain transition-transform duration-300 group-hover:scale-110"
-                                                            />
-                                                        ) : (
-                                                            <span className={`font-bold text-xs sm:text-sm ${cfg.textColor}`}>
-                                                                {cfg.display}
-                                                            </span>
-                                                        )}
-                                                    </div>
-                                                </div>
+                                    {initialCategories.map((cat, idx) => (
+                                        <button
+                                            key={idx}
+                                            onClick={() => {
+                                                setSelectedCategory(cat);
+                                                setDropdownOpen(false);
+                                            }}
+                                            className={`mx-0 w-full rounded-lg px-4 py-2.5 text-left text-[12px] transition-all duration-150 ${
+                                                cat === selectedCategory
+                                                    ? `${theme.lightBg} ${theme.text} font-bold`
+                                                    : "font-medium text-slate-600 hover:bg-slate-50"
+                                            }`}
+                                        >
+                                            <div className="flex items-center gap-2.5">
+                                                {cat === selectedCategory && (
+                                                    <div className={`h-1.5 w-1.5 rounded-full ${theme.pill.split(" ")[0]}`} />
+                                                )}
+                                                <span>{cat}</span>
                                             </div>
-                                        </td>
-                                    );
-                                })}
-                            </tr>
+                                        </button>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
 
-                            {/* ── Row 2: Overall Average Prices ── */}
-                            <tr className={`border-b ${theme.divider}`}>
-                                <td className={`px-4 sm:px-6 py-4 sm:py-5 align-middle ${type === 'products' ? 'sticky left-0 z-20 bg-white' : ''}`}>
-                                    <div className="flex items-center gap-2">
-                                        <Tag className="size-4 text-slate-400" />
-                                        <span className="text-[12px] sm:text-[13px] font-semibold text-slate-600">Prix moyen global</span>
-                                    </div>
-                                </td>
-                                {sortedShops.map((shop, idx) => {
-                                    const rank = idx + 1;
-                                    const diff = cheapestOverall > 0
-                                        ? ((shop.price - cheapestOverall) / cheapestOverall * 100)
-                                        : 0;
-                                    const config = RANK_CONFIG[rank];
-
-                                    return (
-                                        <td key={shop.name} className="px-2 sm:px-3 py-4 sm:py-5 align-middle">
-                                            <div className="flex justify-center">
-                                                <div className={`
-                                                    relative flex flex-col items-center px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl min-w-[85px] sm:min-w-[100px]
-                                                    transition-all duration-300
-                                                    ${config
-                                                        ? `${config.cardBg} border ${config.border} shadow-md ${config.glow}`
-                                                        : "bg-white border border-slate-200/80 hover:shadow-sm"
-                                                    }
-                                                `}>
-                                                    {rank === 1 && (
-                                                        <div className="absolute -top-2 left-1/2 -translate-x-1/2">
-                                                            <span className={`inline-flex items-center gap-0.5 px-1.5 sm:px-2 py-0.5 rounded-full text-[8px] sm:text-[9px] font-black uppercase tracking-wider whitespace-nowrap ${theme.pill}`}>
-                                                                <TrendingDown className="size-2 sm:size-2.5" />
-                                                                Moins cher
-                                                            </span>
-                                                        </div>
-                                                    )}
-                                                    <span className={`text-[15px] sm:text-[17px] font-extrabold tracking-tight ${config ? config.textColor : "text-slate-700"}`}>
-                                                        {shop.price.toFixed(2)}
-                                                    </span>
-                                                    <span className="text-[9px] sm:text-[10px] text-slate-400 font-semibold mt-0.5">DT</span>
-                                                    {rank > 1 && diff > 0 && (
-                                                        <span className={`mt-1 sm:mt-1.5 text-[9px] sm:text-[10px] font-bold px-1.5 sm:px-2 py-0.5 rounded-full
-                                                            ${diff > 2 ? "bg-red-50 text-red-500" : "bg-slate-100 text-slate-500"}
-                                                        `}>
-                                                            +{diff.toFixed(1)}%
-                                                        </span>
-                                                    )}
-                                                </div>
-                                            </div>
-                                        </td>
-                                    );
-                                })}
-                            </tr>
-
-                            {/* ── Row 3: Category Price Comparison ── */}
-                            <tr>
-                                <td className={`px-4 sm:px-6 py-4 sm:py-5 align-top relative ${type === 'products' ? 'sticky left-0 z-20 bg-white' : ''}`} ref={dropdownRef}>
-                                    <div className="flex items-center gap-2 mb-3">
-                                        <BarChart3 className="size-4 text-slate-400" />
-                                        <span className="text-[12px] sm:text-[13px] font-semibold text-slate-600">Par catégorie</span>
-                                    </div>
+                        <div className="flex items-center justify-between gap-3 lg:justify-end">
+                            <span className="rounded-full bg-slate-100 px-3 py-1 text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+                                {visibleRangeLabel}
+                            </span>
+                            {showControls && (
+                                <div className="flex items-center gap-2">
                                     <button
-                                        onClick={() => setDropdownOpen(!dropdownOpen)}
-                                        className={`
-                                            flex items-center justify-between w-full gap-1.5 text-[12px] font-bold
-                                            px-3.5 py-2.5 rounded-xl border-2 transition-all duration-200
-                                            ${dropdownOpen
-                                                ? `${theme.lightBg} ${theme.text} border-current shadow-md ring-4 ${theme.ring}`
-                                                : "bg-white text-slate-600 border-slate-200 hover:border-slate-300 hover:shadow-sm"
-                                            }
-                                        `}
+                                        type="button"
+                                        aria-label="Voir les boutiques precedentes"
+                                        onClick={() => setStartIndex((current) => Math.max(0, current - 1))}
+                                        disabled={safeStartIndex === 0}
+                                        className="flex size-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 shadow-sm transition disabled:cursor-not-allowed disabled:opacity-35 enabled:hover:border-slate-300 enabled:hover:bg-slate-50 enabled:hover:text-slate-900"
                                     >
-                                        <span className="truncate max-w-[100px]">{selectedCategory || "Catégorie"}</span>
-                                        <ChevronDown className={`size-3.5 shrink-0 transition-transform duration-300 ${dropdownOpen ? "rotate-180" : ""}`} />
+                                        <ChevronLeft className="size-4" />
                                     </button>
+                                    <button
+                                        type="button"
+                                        aria-label="Voir les boutiques suivantes"
+                                        onClick={() => setStartIndex((current) => Math.min(maxStartIndex, current + 1))}
+                                        disabled={safeStartIndex >= maxStartIndex}
+                                        className="flex size-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-600 shadow-sm transition disabled:cursor-not-allowed disabled:opacity-35 enabled:hover:border-slate-300 enabled:hover:bg-slate-50 enabled:hover:text-slate-900"
+                                    >
+                                        <ChevronRight className="size-4" />
+                                    </button>
+                                </div>
+                            )}
+                        </div>
+                    </div>
 
-                                    {/* Dropdown */}
-                                    {dropdownOpen && (
-                                        <div className="absolute left-4 sm:left-6 sm:w-60 top-full mt-1 bg-white rounded-2xl shadow-2xl border border-slate-200 py-1.5 z-50 max-h-[280px] overflow-y-auto
-                                            ring-1 ring-black/5 animate-in slide-in-from-top-2 duration-200">
-                                            <div className={`px-4 py-2 ${theme.lightBg} mx-1.5 rounded-xl mb-1`}>
-                                                <span className={`text-[10px] font-bold uppercase tracking-wider ${theme.text}`}>
-                                                    Sélectionner une catégorie
-                                                </span>
-                                            </div>
-                                            {initialCategories.map((cat, idx) => (
-                                                <button
-                                                    key={idx}
-                                                    onClick={() => {
-                                                        setSelectedCategory(cat);
-                                                        setDropdownOpen(false);
-                                                    }}
-                                                    className={`
-                                                        w-full text-left text-[12px] px-4 py-2.5 mx-0 transition-all duration-150 rounded-lg
-                                                        ${cat === selectedCategory
-                                                            ? `${theme.lightBg} ${theme.text} font-bold`
-                                                            : "text-slate-600 hover:bg-slate-50 font-medium"
-                                                        }
-                                                    `}
-                                                >
-                                                    <div className="flex items-center gap-2.5">
-                                                        {cat === selectedCategory && (
-                                                            <div className={`w-1.5 h-1.5 rounded-full ${theme.pill.split(" ")[0]}`} />
-                                                        )}
-                                                        <span>{cat}</span>
-                                                    </div>
-                                                </button>
-                                            ))}
+                    <div className="grid gap-4 md:grid-cols-[150px_minmax(0,1fr)] xl:grid-cols-[170px_minmax(0,1fr)]">
+                        <div className="hidden gap-4 md:grid">
+                            <RowLabel icon={Store} title="Boutiques" minHeight="min-h-[108px]" />
+                            <RowLabel icon={Tag} title={type === "products" ? "Prix moyen global" : "Prix moyen"} minHeight="min-h-[118px]" />
+                            <RowLabel icon={BarChart3} title="Par catégorie" subtitle={selectedCategory || "Catégorie"} minHeight="min-h-[132px]" />
+                        </div>
+
+                        <div className="space-y-4">
+                            <div className={`rounded-3xl border ${theme.divider} bg-linear-to-b from-slate-50/70 to-white p-3 sm:p-4 shadow-[0_14px_34px_rgba(15,23,42,0.04)]`}>
+                                <MobileRowLabel icon={Store} title="Boutiques" />
+                                <div className="grid gap-3 sm:gap-4" style={{ gridTemplateColumns: `repeat(${visibleShops.length || 1}, minmax(0, 1fr))` }}>
+                                    {visibleShops.map((shop) => (
+                                        <div key={`logo-${shop.name}`} className="min-w-0">
+                                            {renderLogoCard(shop.name)}
                                         </div>
-                                    )}
-                                </td>
-                                {(() => {
-                                    if (enrichedCategoryShops.length === 0) {
-                                        return sortedShops.map((shop) => (
-                                            <td key={shop.name} className="px-2 sm:px-3 py-4 sm:py-5 align-middle">
-                                                <div className="flex justify-center">
-                                                    <div className="flex flex-col items-center px-3 sm:px-4 py-3 sm:py-4 rounded-xl sm:rounded-2xl bg-slate-50/50 border border-dashed border-slate-200 min-w-[85px] sm:min-w-[100px]">
-                                                        <span className="text-sm text-slate-300 font-medium">—</span>
-                                                        <span className="text-[9px] text-slate-300 mt-1">N/A</span>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        ));
-                                    }
+                                    ))}
+                                </div>
+                            </div>
 
-                                    const cheapestCatPrice = enrichedCategoryShops[0]?.avg_price || 0;
+                            <div className={`rounded-3xl border ${theme.divider} bg-linear-to-b from-slate-50/70 to-white p-3 sm:p-4 shadow-[0_14px_34px_rgba(15,23,42,0.04)]`}>
+                                <MobileRowLabel icon={Tag} title={type === "products" ? "Prix moyen global" : "Prix moyen"} />
+                                <div className="grid gap-3 sm:gap-4" style={{ gridTemplateColumns: `repeat(${visibleShops.length || 1}, minmax(0, 1fr))` }}>
+                                    {visibleShops.map((shop) => (
+                                        <div key={`overall-${shop.name}`} className="min-w-0">
+                                            {renderOverallCard(shop.name)}
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
 
-                                    return sortedShops.map((overallShop) => {
-                                        const catShop = enrichedCategoryShops.find(
-                                            s => s.shop.toLowerCase() === overallShop.name.toLowerCase()
-                                        );
-
-                                        if (!catShop) {
-                                            return (
-                                                <td key={overallShop.name} className="px-2 sm:px-3 py-4 sm:py-5 align-middle">
-                                                    <div className="flex justify-center">
-                                                        <div className="flex flex-col items-center px-3 sm:px-4 py-3 sm:py-4 rounded-xl sm:rounded-2xl bg-slate-50/50 border border-dashed border-slate-200 min-w-[85px] sm:min-w-[100px]">
-                                                            <span className="text-sm text-slate-300 font-medium">—</span>
-                                                            <span className="text-[9px] text-slate-300 mt-1">N/A</span>
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            );
-                                        }
-
-                                        const catRank = enrichedCategoryShops.indexOf(catShop) + 1;
-                                        const diff = cheapestCatPrice > 0
-                                            ? ((catShop.avg_price - cheapestCatPrice) / cheapestCatPrice * 100)
-                                            : 0;
-                                        const config = RANK_CONFIG[catRank];
-
-                                        return (
-                                            <td key={overallShop.name} className="px-2 sm:px-3 py-4 sm:py-5 align-middle">
-                                                <div className="flex justify-center relative pt-3">
-                                                    {/* Medal badge */}
-                                                    {catRank <= 3 && config && (
-                                                        <div className={`
-                                                            absolute top-0 left-1/2 -translate-x-1/2 z-10
-                                                            w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-gradient-to-br ${config.gradient}
-                                                            flex items-center justify-center text-[11px] sm:text-[13px]
-                                                            shadow-lg border-2 border-white
-                                                        `}>
-                                                            {config.emoji}
-                                                        </div>
-                                                    )}
-                                                    <div className={`
-                                                        flex flex-col items-center px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl sm:rounded-2xl min-w-[85px] sm:min-w-[100px]
-                                                        transition-all duration-300 hover:shadow-lg
-                                                        ${config
-                                                            ? `${config.cardBg} border ${config.border} shadow-md ${config.glow}`
-                                                            : "bg-white border border-slate-200/80 hover:border-slate-300"
-                                                        }
-                                                    `}>
-                                                        <span className={`text-[15px] sm:text-[17px] font-extrabold tracking-tight ${config ? config.textColor : "text-slate-700"}`}>
-                                                            {catShop.avg_price.toFixed(2)}
-                                                        </span>
-                                                        <span className="text-[9px] sm:text-[10px] text-slate-400 font-semibold mt-0.5">DT</span>
-
-                                                        {/* Product count */}
-                                                        <span className="text-[8px] sm:text-[9px] text-slate-400 font-medium mt-1">
-                                                            {catShop.product_count} produits
-                                                        </span>
-
-                                                        {/* Percent badge */}
-                                                        {catRank > 1 && diff > 0 && (
-                                                            <span className={`mt-1 sm:mt-1.5 text-[9px] sm:text-[10px] font-bold px-1.5 sm:px-2 py-0.5 rounded-full
-                                                                ${diff > 5 ? "bg-red-50 text-red-500" : diff > 2 ? "bg-orange-50 text-orange-500" : "bg-slate-100 text-slate-500"}
-                                                            `}>
-                                                                +{diff.toFixed(1)}%
-                                                            </span>
-                                                        )}
-                                                    </div>
-                                                </div>
-                                            </td>
-                                        );
-                                    });
-                                })()}
-                            </tr>
-                        </tbody>
-                    </table>
+                            <div className={`rounded-3xl border ${theme.divider} bg-linear-to-b from-slate-50/70 to-white p-3 sm:p-4 shadow-[0_14px_34px_rgba(15,23,42,0.04)]`}>
+                                <MobileRowLabel icon={BarChart3} title="Par catégorie" subtitle={selectedCategory || "Catégorie"} />
+                                <div className="grid gap-3 sm:gap-4" style={{ gridTemplateColumns: `repeat(${visibleShops.length || 1}, minmax(0, 1fr))` }}>
+                                    {visibleShops.map((shop) => (
+                                        <div key={`category-${shop.name}`} className="min-w-0">
+                                            {renderCategoryCard(shop.name)}
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
             </div>

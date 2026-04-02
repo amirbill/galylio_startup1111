@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useEffect, useRef, useState } from 'react';
-import { Newspaper, BookOpen, TrendingUp, AlertCircle, Tag, Clock, ChevronRight, Sparkles, ArrowRight, Star, ShoppingBag } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { TrendingUp, AlertCircle, Tag, ChevronRight, Sparkles, Star, ShoppingBag } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { API_URL } from '@/lib/api';
@@ -118,22 +118,36 @@ function InfoCard({ item }: { item: typeof sectionLinks[0] }) {
   );
 }
 
+function getSeedValue(product: RandomProduct): number {
+  return `${product.id}-${product.name}`
+    .split('')
+    .reduce((total, char) => total + char.charCodeAt(0), 0);
+}
+
+function getProductRating(product: RandomProduct): number {
+  if (product.rating) {
+    return product.rating;
+  }
+
+  const seed = getSeedValue(product);
+  return 4.5 + (seed % 5) / 10;
+}
+
+function getProductReviews(product: RandomProduct): number {
+  if (product.reviews) {
+    return product.reviews;
+  }
+
+  const seed = getSeedValue(product);
+  return 50 + (seed % 200);
+}
+
 function ProductCard({ product }: { product: RandomProduct }) {
   const href = product.type === 'para'
     ? `/para/${product.id}`
     : `/products/${product.id}`;
-
-  const [rating, setRating] = useState(product.rating || 4.5);
-  const [reviews, setReviews] = useState(product.reviews || 0);
-
-  useEffect(() => {
-    if (!product.rating) {
-      setRating(4.5 + Math.random() * 0.5);
-    }
-    if (!product.reviews) {
-      setReviews(Math.floor(Math.random() * 200) + 50);
-    }
-  }, [product.rating, product.reviews]);
+  const rating = getProductRating(product);
+  const reviews = getProductReviews(product);
 
   return (
     <Link
@@ -225,11 +239,14 @@ interface SideBannerProps {
 
 export function SideBanner({ side, initialProducts }: SideBannerProps) {
   const isLeft = side === 'left';
+  const sideStyle = isLeft
+    ? { left: 'max(32px, calc((100vw - 1600px) / 2 + 32px))' }
+    : { right: 'max(32px, calc((100vw - 1600px) / 2 + 32px))' };
 
-  const bannerRef = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
   const [products, setProducts] = useState<RandomProduct[]>(initialProducts || []);
   const [loadingProducts, setLoadingProducts] = useState(!initialProducts && !isLeft);
+  const displayedProducts = initialProducts && initialProducts.length > 0 ? initialProducts : products;
 
   useEffect(() => {
     const timer = setTimeout(() => setIsVisible(true), 150);
@@ -275,15 +292,15 @@ export function SideBanner({ side, initialProducts }: SideBannerProps) {
       };
       fetchProducts();
     }
-  }, [isLeft]);
+  }, [initialProducts, isLeft]);
 
   return (
     <aside
-      ref={bannerRef}
+      style={sideStyle}
       className={`
         hidden md:block
-        sticky top-24 self-start
-        w-full max-h-[calc(100vh-120px)]
+        fixed top-24 z-30
+        w-36 xl:w-48 2xl:w-56 max-h-[calc(100vh-120px)]
         transition-all duration-700 ease-out
         ${isVisible
           ? 'opacity-100 translate-x-0'
@@ -310,7 +327,7 @@ export function SideBanner({ side, initialProducts }: SideBannerProps) {
             ? sectionLinks.map((item) => <InfoCard key={item.id} item={item} />)
             : loadingProducts
               ? Array.from({ length: 3 }).map((_, i) => <ProductSkeleton key={i} />)
-              : products.map((p) => <ProductCard key={p.id} product={p} />)
+              : displayedProducts.map((p) => <ProductCard key={p.id} product={p} />)
           }
         </div>
 
