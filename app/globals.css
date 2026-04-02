@@ -206,3 +206,20 @@
 .animate-run {
   animation: run 4s ease-in-out infinite;
 }
+
+@keyframes redWhiteAlert {
+  0%, 100% {
+    background-color: #FF0000 !important;
+    color: white !important;
+    border-color: #FF0000 !important;
+  }
+  50% {
+    background-color: white !important;
+    color: #FF0000 !important;
+    border-color: #FF0000 !important;
+  }
+}
+
+.animate-red-white {
+  animation: redWhiteAlert 1s ease-in-out infinite;
+}

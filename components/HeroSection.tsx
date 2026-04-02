@@ -34,7 +34,8 @@ export function HeroSection() {
         <div className="space-y-6 sm:space-y-8">
           <div className="space-y-3 sm:space-y-4">
             <h1 className="text-3xl sm:text-5xl md:text-6xl font-black text-slate-900 tracking-tight leading-[1.1]">
-              1er Comparateur de prix <span className="bg-clip-text text-transparent bg-linear-to-r from-blue-600 via-indigo-600 to-purple-600">intelligent</span>
+              <img src="/images/1.png" alt="1er" className="inline-block h-[0.8em] sm:h-[0.9em] align-baseline mr-2 mb-1 sm:mb-2" />
+              Comparateur de prix <span className="bg-clip-text text-transparent bg-linear-to-r from-blue-600 via-indigo-600 to-purple-600">intelligent</span>
             </h1>
             <p className="max-w-2xl mx-auto text-lg sm:text-xl md:text-2xl font-bold text-slate-700 leading-relaxed">
               Les prix, en toute transparence et claireté.

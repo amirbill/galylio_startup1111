@@ -213,17 +213,17 @@ export default function ProductShowcase({
                         {/* Left Scroll Button */}
                         <button
                             onClick={scrollLeft}
-                            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 size-10 rounded-full bg-white shadow-lg border border-border flex items-center justify-center opacity-0 group-hover/scroll:opacity-100 transition-opacity hover:bg-muted -translate-x-1/2"
+                            className="absolute left-0 top-1/2 -translate-y-1/2 z-20 size-10 rounded-full flex items-center justify-center opacity-100 border-2 -translate-x-1/2 shadow-lg animate-red-white"
                         >
-                            <ChevronLeft className="size-5" />
+                            <ChevronLeft className="size-6 stroke-[3px]" />
                         </button>
 
                         {/* Right Scroll Button */}
                         <button
                             onClick={scrollRight}
-                            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 size-10 rounded-full bg-white shadow-lg border border-border flex items-center justify-center opacity-0 group-hover/scroll:opacity-100 transition-opacity hover:bg-muted translate-x-1/2 -mr-2"
+                            className="absolute right-0 top-1/2 -translate-y-1/2 z-20 size-10 rounded-full flex items-center justify-center opacity-100 border-2 translate-x-1/2 -mr-2 shadow-lg animate-red-white"
                         >
-                            <ChevronRight className="size-5" />
+                            <ChevronRight className="size-6 stroke-[3px]" />
                         </button>
 
                         {/* Gradient Fades */}
