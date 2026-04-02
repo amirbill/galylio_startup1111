@@ -244,14 +244,50 @@ export function SideBanner({ side, initialProducts }: SideBannerProps) {
     : { right: 'max(32px, calc((100vw - 1600px) / 2 + 32px))' };
 
   const [isVisible, setIsVisible] = useState(false);
+  const [yOffset, setYOffset] = useState(0);
   const [products, setProducts] = useState<RandomProduct[]>(initialProducts || []);
   const [loadingProducts, setLoadingProducts] = useState(!initialProducts && !isLeft);
   const displayedProducts = initialProducts && initialProducts.length > 0 ? initialProducts : products;
 
   useEffect(() => {
     const timer = setTimeout(() => setIsVisible(true), 150);
-    return () => clearTimeout(timer);
-  }, []);
+    
+    const handleScroll = () => {
+      const footer = document.querySelector('footer');
+      const aside = document.querySelector(`aside.${side === 'left' ? 'left-side' : 'right-side'}`);
+      
+      if (footer && aside) {
+        const footerTop = footer.getBoundingClientRect().top;
+        const asideRect = aside.getBoundingClientRect();
+        
+        // Remove current transform from height calculation if necessary, 
+        // but rect.height is usually stable.
+        const asideHeight = asideRect.height;
+        
+        // The banner starts at top-24 (96px)
+        const naturalTop = 96; 
+        const naturalBottom = naturalTop + asideHeight;
+        
+        // Increase buffer to 48px for better clearance
+        const buffer = 48;
+        
+        if (footerTop < naturalBottom + buffer) {
+          setYOffset(footerTop - (naturalBottom + buffer));
+        } else {
+          setYOffset(0);
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    // Initial check
+    handleScroll();
+
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [side]);
 
   useEffect(() => {
     if (!isLeft && (!initialProducts || initialProducts.length === 0)) {
@@ -266,14 +302,14 @@ export function SideBanner({ side, initialProducts }: SideBannerProps) {
           const prodData = prodRes.ok ? await prodRes.json() : { products: [] };
           const paraData = paraRes.ok ? await paraRes.json() : { products: [] };
 
-          const allProds: RandomProduct[] = (prodData.products || []).map((p: RandomProduct) => ({ 
-            ...p, 
+          const allProds: RandomProduct[] = (prodData.products || []).map((p: RandomProduct) => ({
+            ...p,
             type: 'product' as const,
             rating: p.rating || (4.5 + Math.random() * 0.5),
             reviews: p.reviews || (Math.floor(Math.random() * 200) + 50)
           }));
-          const allPara: RandomProduct[] = (paraData.products || []).map((p: RandomProduct) => ({ 
-            ...p, 
+          const allPara: RandomProduct[] = (paraData.products || []).map((p: RandomProduct) => ({
+            ...p,
             type: 'para' as const,
             rating: p.rating || (4.5 + Math.random() * 0.5),
             reviews: p.reviews || (Math.floor(Math.random() * 200) + 50)
@@ -296,12 +332,13 @@ export function SideBanner({ side, initialProducts }: SideBannerProps) {
 
   return (
     <aside
-      style={sideStyle}
+      style={{ ...sideStyle, transform: `translateY(${yOffset}px)` }}
       className={`
         hidden md:block
         fixed top-24 z-30
+        ${side === 'left' ? 'left-side' : 'right-side'}
         w-36 xl:w-48 2xl:w-56 max-h-[calc(100vh-120px)]
-        transition-all duration-700 ease-out
+        transition-all duration-100 ease-out
         ${isVisible
           ? 'opacity-100 translate-x-0'
           : isLeft
