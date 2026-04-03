@@ -1,11 +1,12 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import Script from "next/script";
 import "./globals.css";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { BagProvider } from "@/contexts/BagContext";
 import { GoogleProvider } from "@/components/providers/GoogleProvider";
 import { Analytics } from "@vercel/analytics/next";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
+import GoogleAnalyticsPageViews from "@/components/GoogleAnalyticsPageViews";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,7 +19,6 @@ const geistMono = Geist_Mono({
 });
 
 const BASE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://1111.tn";
-const GOOGLE_ANALYTICS_ID = "G-MFY6T38CBD";
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
@@ -106,19 +106,6 @@ export default async function RootLayout({
   return (
     <html lang="fr" dir="ltr" suppressHydrationWarning>
       <head>
-        <link rel="canonical" href={BASE_URL} />
-        <Script
-          src={`https://www.googletagmanager.com/gtag/js?id=${GOOGLE_ANALYTICS_ID}`}
-          strategy="afterInteractive"
-        />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', '${GOOGLE_ANALYTICS_ID}');
-          `}
-        </Script>
         <script
           suppressHydrationWarning
           type="application/ld+json"
@@ -143,6 +130,8 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         suppressHydrationWarning
       >
+        <GoogleAnalytics />
+        <GoogleAnalyticsPageViews />
         <GoogleProvider>
           <AuthProvider initialUser={user}>
             <BagProvider>
