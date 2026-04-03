@@ -4,7 +4,7 @@ import "./globals.css";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { BagProvider } from "@/contexts/BagContext";
 import { GoogleProvider } from "@/components/providers/GoogleProvider";
-import { Analytics } from "@vercel/analytics/next";
+//import { Analytics } from "@vercel/analytics/next";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import GoogleAnalyticsPageViews from "@/components/GoogleAnalyticsPageViews";
 import FacebookPixel from "@/components/FacebookPixel";
@@ -151,7 +151,7 @@ export default async function RootLayout({
           <AuthProvider initialUser={user}>
             <BagProvider>
               {children}
-              <Analytics />
+              {/* <Analytics /> */}
               <Chatbot />
             </BagProvider>
           </AuthProvider>
