@@ -7,6 +7,8 @@ import { GoogleProvider } from "@/components/providers/GoogleProvider";
 import { Analytics } from "@vercel/analytics/next";
 import GoogleAnalytics from "@/components/GoogleAnalytics";
 import GoogleAnalyticsPageViews from "@/components/GoogleAnalyticsPageViews";
+import FacebookPixel from "@/components/FacebookPixel";
+import FacebookPixelPageViews from "@/components/FacebookPixelPageViews";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -132,6 +134,19 @@ export default async function RootLayout({
       >
         <GoogleAnalytics />
         <GoogleAnalyticsPageViews />
+        <FacebookPixel />
+        <FacebookPixelPageViews />
+
+        <noscript>
+          <img
+            height="1"
+            width="1"
+            style={{ display: "none" }}
+            src={`https://www.facebook.com/tr?id=${process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID}&ev=PageView&noscript=1`}
+            alt=""
+          />
+        </noscript>
+
         <GoogleProvider>
           <AuthProvider initialUser={user}>
             <BagProvider>
