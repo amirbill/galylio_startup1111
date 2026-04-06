@@ -18,15 +18,15 @@ export default function Header({ initialUser }: HeaderProps) {
     const [isOpen, setIsOpen] = useState(false)
     const [retailCategories, setRetailCategories] = useState<string[]>([])
     const [paraCategories, setParaCategories] = useState<string[]>([])
-    
+
     // Desktop dropdown states
     const [isRetailOpen, setIsRetailOpen] = useState(false)
     const [isParaOpen, setIsParaOpen] = useState(false)
-    
+
     // Mobile accordion states
     const [isMobileRetailOpen, setIsMobileRetailOpen] = useState(true)
     const [isMobileParaOpen, setIsMobileParaOpen] = useState(false)
-    
+
     const { user: contextUser } = useAuth()
     const { itemCount, isBagOpen, openBag, closeBag } = useBag()
 
@@ -40,12 +40,12 @@ export default function Header({ initialUser }: HeaderProps) {
                     fetch(`${API_URL}/products/top-categories`),
                     fetch(`${API_URL}/para/categories?type=top_category`)
                 ])
-                
+
                 if (prodRes.status === 'fulfilled' && prodRes.value.ok) {
                     const prodData = await prodRes.value.json()
                     setRetailCategories(Array.from(new Set(prodData)).sort() as string[])
                 }
-                
+
                 if (paraRes.status === 'fulfilled' && paraRes.value.ok) {
                     const paraData = await paraRes.value.json()
                     setParaCategories(Array.from(new Set(paraData)).sort() as string[])
@@ -67,7 +67,7 @@ export default function Header({ initialUser }: HeaderProps) {
             <header className="w-full bg-white/80 backdrop-blur-xl border-b border-slate-200/80 sticky top-0 z-50 transition-all duration-300">
                 {/* Promo Banner */}
                 <div className="w-full bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-center py-1.5">
-                    <p className="text-[12px] font-medium tracking-wide">✨ Économisez jusqu&apos;à 40% sur nos produits premium</p>
+                    <p className="text-[12px] font-medium tracking-wide"></p>
                 </div>
 
                 {/* Main Header */}
@@ -98,7 +98,7 @@ export default function Header({ initialUser }: HeaderProps) {
                                     Supermarché
                                     <ChevronDown size={14} className={`transition-transform duration-300 ${isRetailOpen ? 'rotate-180' : ''}`} />
                                 </button>
-                                
+
                                 {isRetailOpen && retailCategories.length > 0 && (
                                     <div className="absolute top-full left-1/2 -translate-x-1/2 mt-3 bg-white/95 backdrop-blur-2xl rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-slate-100 p-6 z-50 w-[480px] animate-in fade-in slide-in-from-top-4 duration-300">
                                         <div className="absolute -top-4 left-0 right-0 h-4 bg-transparent"></div>
@@ -135,7 +135,7 @@ export default function Header({ initialUser }: HeaderProps) {
                                     Parapharmacie
                                     <ChevronDown size={14} className={`transition-transform duration-300 ${isParaOpen ? 'rotate-180' : ''}`} />
                                 </button>
-                                
+
                                 {isParaOpen && paraCategories.length > 0 && (
                                     <div className="absolute top-full left-1/2 -translate-x-1/2 mt-3 bg-white/95 backdrop-blur-2xl rounded-2xl shadow-[0_8px_30px_rgb(0,0,0,0.06)] border border-slate-100 p-6 z-50 min-w-[320px] max-w-[600px] animate-in fade-in slide-in-from-top-4 duration-300">
                                         <div className="absolute -top-4 left-0 right-0 h-4 bg-transparent"></div>
@@ -160,10 +160,10 @@ export default function Header({ initialUser }: HeaderProps) {
                                     </div>
                                 )}
                             </div>
-                            
+
                             {/* Divider */}
                             <span className="w-px h-5 bg-slate-200 mx-2"></span>
-                            
+
                             {staticNavItems.map((item) => (
                                 <Link
                                     key={item.label}
@@ -229,11 +229,11 @@ export default function Header({ initialUser }: HeaderProps) {
                     {/* Mobile Navigation */}
                     {isOpen && (
                         <div className="lg:hidden border-t border-slate-200 py-6 animate-in slide-in-from-top-2 duration-300 h-[calc(100vh-4rem)] overflow-y-auto">
-                            
+
                             {/* Retails Categories section */}
                             {retailCategories.length > 0 && (
                                 <div className="mb-6">
-                                    <button 
+                                    <button
                                         onClick={() => setIsMobileRetailOpen(!isMobileRetailOpen)}
                                         className="w-full flex items-center justify-between px-4 mb-2"
                                     >
@@ -243,7 +243,7 @@ export default function Header({ initialUser }: HeaderProps) {
                                         </p>
                                         <ChevronDown size={14} className={`text-slate-400 transition-transform ${isMobileRetailOpen ? 'rotate-180' : ''}`} />
                                     </button>
-                                    
+
                                     {isMobileRetailOpen && (
                                         <div className="grid grid-cols-1 gap-1 px-3 mt-3">
                                             {retailCategories.map((cat) => (
@@ -265,7 +265,7 @@ export default function Header({ initialUser }: HeaderProps) {
                             {/* Para Categories section */}
                             {paraCategories.length > 0 && (
                                 <div className="mb-6">
-                                    <button 
+                                    <button
                                         onClick={() => setIsMobileParaOpen(!isMobileParaOpen)}
                                         className="w-full flex items-center justify-between px-4 mb-2"
                                     >
@@ -275,7 +275,7 @@ export default function Header({ initialUser }: HeaderProps) {
                                         </p>
                                         <ChevronDown size={14} className={`text-slate-400 transition-transform ${isMobileParaOpen ? 'rotate-180' : ''}`} />
                                     </button>
-                                    
+
                                     {isMobileParaOpen && (
                                         <div className="grid grid-cols-1 gap-1 px-3 mt-3">
                                             {paraCategories.map((cat) => (
@@ -293,7 +293,7 @@ export default function Header({ initialUser }: HeaderProps) {
                                     )}
                                 </div>
                             )}
-                            
+
                             {/* Static Nav Items */}
                             <div className="space-y-1 px-3 mb-6 pt-4 border-t border-slate-100">
                                 {staticNavItems.map((item) => (

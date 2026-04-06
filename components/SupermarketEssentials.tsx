@@ -247,9 +247,7 @@ export function SupermarketEssentials() {
                         >
                             <div className="flex min-w-0 items-center gap-2">
                                 <span className={`size-2 rounded-full ${storeColors[sp.store]}`} />
-                                <span className="truncate text-[11px] font-medium text-muted-foreground sm:text-xs">
-                                    {sp.store}
-                                </span>
+                                
                             </div>
                             <span className={`shrink-0 text-[11px] font-bold sm:text-xs ${idx === 0 && sp.available ? "text-green-600" : "text-foreground"
                                 } ${!sp.available ? "line-through text-muted-foreground" : ""}`}>
