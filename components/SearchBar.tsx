@@ -48,16 +48,20 @@ export function SearchBar({
 
     const resolveSearchUrl = (endpoint: string, searchQuery: string, resultLimit: number) => {
         const queryString = `q=${encodeURIComponent(searchQuery)}&limit=${resultLimit}`
+        const apiBase = API_BASE_URL.replace(/\/+$/, "")
+        const normalizedEndpoint = endpoint.startsWith("/api/v1/")
+            ? endpoint.replace(/^\/api\/v1/, "")
+            : endpoint
 
         if (endpoint.startsWith("http://") || endpoint.startsWith("https://")) {
             return `${endpoint}?${queryString}`
         }
 
         if (endpoint.startsWith("/api/v1/")) {
-            return `${API_BASE_URL.replace(/\/+$/, "")}${endpoint}?${queryString}`
+            return `${apiBase}${normalizedEndpoint}?${queryString}`
         }
 
-        return `${API_BASE_URL.replace(/\/+$/, "")}/${endpoint.replace(/^\/+/, "")}?${queryString}`
+        return `${apiBase}/${normalizedEndpoint.replace(/^\/+/, "")}?${queryString}`
     }
 
     const getSourceFromEndpoint = (endpoint: string): "retail" | "para" => {
