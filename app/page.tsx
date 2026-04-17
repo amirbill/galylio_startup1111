@@ -249,7 +249,10 @@ export default async function Home() {
   const bannerProducts = [...shuffledBannerProds, ...shuffledBannerPara];
 
   return (
-    <div className="flex flex-col min-h-screen bg-white font-[family-name:var(--font-geist-sans)] overflow-x-hidden">
+    <div
+      className="flex flex-col min-h-screen bg-white font-[family-name:var(--font-geist-sans)] overflow-x-hidden"
+      suppressHydrationWarning
+    >
       <Header />
       <main className="flex-grow flex flex-col gap-8">
         {/* Hero section with side banners */}

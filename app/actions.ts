@@ -58,19 +58,20 @@ export async function searchProductsAction(query: string, limit: number = 5, sho
         const retailData = retailRes.ok ? await retailRes.json() : [];
         const paraData = paraRes.ok ? await paraRes.json() : [];
 
-        // Add source to each result
-        const retailResults = retailData.map((r: any) => ({ ...r, source: "retail" as const }));
-        const paraResults = paraData.map((r: any) => ({ ...r, source: "para" as const }));
+        const retailResults = retailData.map((result: any) => ({
+            ...result,
+            source: "retail" as const,
+            relevance: typeof result.relevance === "number" ? result.relevance : 0,
+        }));
+        const paraResults = paraData.map((result: any) => ({
+            ...result,
+            source: "para" as const,
+            relevance: typeof result.relevance === "number" ? result.relevance : 0,
+        }));
 
-        // Interleave results
-        const combined = [];
-        const maxLen = Math.max(retailResults.length, paraResults.length);
-        for (let i = 0; i < maxLen; i++) {
-            if (retailResults[i]) combined.push(retailResults[i]);
-            if (paraResults[i]) combined.push(paraResults[i]);
-        }
-
-        return combined.slice(0, 8);
+        return [...retailResults, ...paraResults]
+            .sort((left, right) => (right.relevance || 0) - (left.relevance || 0))
+            .slice(0, limit);
     } catch (error) {
         console.error("[Server Action] Error searching products:", error);
         return [];

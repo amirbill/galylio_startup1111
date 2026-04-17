@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef, useCallback } from "react"
 import { Search, X, Loader2 } from "lucide-react"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
-import { searchProductsAction } from "@/app/actions"
+import { API_BASE_URL } from "@/lib/api"
 
 interface SearchResult {
     id: string
@@ -14,6 +14,7 @@ interface SearchResult {
     image: string
     inStock: boolean
     source?: "retail" | "para"
+    relevance?: number
 }
 
 interface SearchBarProps {
@@ -42,7 +43,49 @@ export function SearchBar({
     const [selectedIndex, setSelectedIndex] = useState(-1)
     const inputRef = useRef<HTMLInputElement>(null)
     const dropdownRef = useRef<HTMLDivElement>(null)
+    const requestIdRef = useRef(0)
     const router = useRouter()
+
+    const resolveSearchUrl = (endpoint: string, searchQuery: string, resultLimit: number) => {
+        const queryString = `q=${encodeURIComponent(searchQuery)}&limit=${resultLimit}`
+
+        if (endpoint.startsWith("http://") || endpoint.startsWith("https://")) {
+            return `${endpoint}?${queryString}`
+        }
+
+        if (endpoint.startsWith("/api/v1/")) {
+            return `${API_BASE_URL.replace(/\/+$/, "")}${endpoint}?${queryString}`
+        }
+
+        return `${API_BASE_URL.replace(/\/+$/, "")}/${endpoint.replace(/^\/+/, "")}?${queryString}`
+    }
+
+    const getSourceFromEndpoint = (endpoint: string): "retail" | "para" => {
+        return endpoint.includes("/para/") ? "para" : "retail"
+    }
+
+    const getCompanionEndpoint = (endpoint: string): string => {
+        return endpoint.includes("/para/") ? "/api/v1/products/search" : "/api/v1/para/search"
+    }
+
+    const fetchEndpointResults = async (endpoint: string, searchQuery: string, resultLimit: number) => {
+        const response = await fetch(resolveSearchUrl(endpoint, searchQuery, resultLimit), {
+            cache: "no-store",
+        })
+
+        if (!response.ok) {
+            return []
+        }
+
+        const data = await response.json()
+        const source = getSourceFromEndpoint(endpoint)
+
+        return (Array.isArray(data) ? data : []).map((result: SearchResult) => ({
+            ...result,
+            source: result.source || source,
+            relevance: typeof result.relevance === "number" ? result.relevance : 0,
+        }))
+    }
 
     // Debounced search
     useEffect(() => {
@@ -53,21 +96,40 @@ export function SearchBar({
         }
 
         const timer = setTimeout(async () => {
+            const requestId = ++requestIdRef.current
             setIsLoading(true)
             try {
                 const limit = variant === "premium" ? 8 : 5
-                const combined = await searchProductsAction(query, limit);
-                setResults(combined);
-                setShowDropdown(true);
+
+                const companionEndpoint = getCompanionEndpoint(searchEndpoint)
+                const [primaryResults, companionResults] = await Promise.all([
+                    fetchEndpointResults(searchEndpoint, query, limit),
+                    searchBoth ? fetchEndpointResults(companionEndpoint, query, limit) : Promise.resolve([]),
+                ])
+
+                const resultsToShow = searchBoth
+                    ? [...primaryResults, ...companionResults]
+                    : primaryResults
+
+                const rankedResults = resultsToShow
+                    .sort((left, right) => (right.relevance || 0) - (left.relevance || 0))
+                    .slice(0, searchBoth ? 2 * limit : limit)
+
+                if (requestId === requestIdRef.current) {
+                    setResults(rankedResults)
+                    setShowDropdown(true)
+                }
             } catch (error) {
                 console.error("Search error:", error)
             } finally {
-                setIsLoading(false)
+                if (requestId === requestIdRef.current) {
+                    setIsLoading(false)
+                }
             }
         }, 300)
 
         return () => clearTimeout(timer)
-    }, [query, searchBoth, variant])
+    }, [query, searchBoth, variant, searchEndpoint])
 
     // Close dropdown when clicking outside
     useEffect(() => {

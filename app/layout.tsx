@@ -107,7 +107,47 @@ export default async function RootLayout({
 
   return (
     <html lang="fr" dir="ltr" suppressHydrationWarning>
-      <head>
+      <head suppressHydrationWarning>
+        <script
+          suppressHydrationWarning
+          dangerouslySetInnerHTML={{
+            __html: `(() => {
+              const stripBisSkinChecked = (root) => {
+                if (!root || !root.querySelectorAll) return;
+                root.querySelectorAll('[bis_skin_checked]').forEach((element) => {
+                  element.removeAttribute('bis_skin_checked');
+                });
+              };
+
+              stripBisSkinChecked(document);
+
+              const observer = new MutationObserver((mutations) => {
+                for (const mutation of mutations) {
+                  if (mutation.type === 'attributes') {
+                    const target = mutation.target;
+                    if (target && target.removeAttribute) {
+                      target.removeAttribute('bis_skin_checked');
+                    }
+                    continue;
+                  }
+
+                  mutation.addedNodes.forEach((node) => {
+                    if (node && node.nodeType === Node.ELEMENT_NODE) {
+                      stripBisSkinChecked(node);
+                    }
+                  });
+                }
+              });
+
+              observer.observe(document.documentElement, {
+                subtree: true,
+                childList: true,
+                attributes: true,
+                attributeFilter: ['bis_skin_checked'],
+              });
+            })();`,
+          }}
+        />
         <script
           suppressHydrationWarning
           type="application/ld+json"

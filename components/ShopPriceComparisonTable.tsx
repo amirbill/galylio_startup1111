@@ -245,13 +245,7 @@ export function ShopPriceComparisonTable({
     );
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const [startIndex, setStartIndex] = useState(0);
-    const [viewportWidth, setViewportWidth] = useState<number>(() => {
-        if (typeof window === "undefined") {
-            return 1280;
-        }
-
-        return window.innerWidth;
-    });
+    const [viewportWidth, setViewportWidth] = useState<number>(1280);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
     // Close dropdown on outside click
