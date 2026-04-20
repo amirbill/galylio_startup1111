@@ -27,7 +27,7 @@ export default function Footer() {
                             </Link>
                             <p className="mt-4 text-sm text-slate-600 leading-relaxed">
                                 <strong className="text-red-600">1111.tn</strong> - La première plateforme tunisienne de comparaison de prix.
-                                Comparez les prix de l&apos;électronique, électroménager et parapharmacie parmi les meilleures boutiques en Tunisie.
+                                Comparez les prix de l&apos;électronique, électroménager et parapharmacie parmi les meilleures boutiques de toute la Tunisie.
                             </p>
 
                             {/* Stats */}

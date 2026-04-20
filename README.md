@@ -11,6 +11,65 @@ This is a [Next.js](https://nextjs.org) e-commerce price comparison application 
 - 📱 Responsive design
 - 🎨 Modern UI with Tailwind CSS
 
+## Search Flow
+
+The search system is split into three parts:
+
+1. The UI search bar lives in [components/SearchBar.tsx](components/SearchBar.tsx).
+2. The search bar sends requests to the backend API using `NEXT_PUBLIC_API_URL` from [lib/api.ts](lib/api.ts).
+3. The backend search routes live in the Python app:
+	 - Retail search: `/api/v1/products/search`
+	 - Parapharmacy search: `/api/v1/para/search`
+
+### How it works
+
+- The user types at least 2 characters.
+- The search bar waits 300 ms before sending the request.
+- By default, it queries one endpoint:
+	- `searchEndpoint="/api/v1/products/search"` for retail
+	- `searchEndpoint="/api/v1/para/search"` for parapharmacy
+- If `searchBoth` is enabled, it queries both endpoints in parallel.
+- Results are sorted by `relevance` before being shown.
+- Clicking a result opens the matching product page.
+
+### Ranking rules
+
+The backend search is relevance-based, not just regex-based.
+
+- Exact SKU matches rank highest.
+- Exact product name matches rank above partial matches.
+- Prefix matches and token matches are boosted.
+- Brand and category matches also contribute to the score.
+- Accents are normalized, so searches like `creme` can match `Crème`.
+
+### Request example
+
+Retail search example:
+
+```text
+GET https://back-27em.onrender.com/api/v1/products/search?q=pc%20p&limit=8
+```
+
+Parapharmacy search example:
+
+```text
+GET https://back-27em.onrender.com/api/v1/para/search?q=creme&limit=8
+```
+
+### Important deployment note
+
+Do not prepend `/api/v1` twice in the frontend. The app already resolves the endpoint against the backend base URL, so the final deployed request must look like:
+
+```text
+https://back-27em.onrender.com/api/v1/products/search
+```
+
+not:
+
+```text
+https://back-27em.onrender.com/api/v1/api/v1/products/search
+```
+
 ## Tech Stack
 
 - **Framework**: Next.js 16
